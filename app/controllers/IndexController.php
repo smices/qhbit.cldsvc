@@ -7,22 +7,6 @@ class IndexController extends ControllerBase
     public function initialize()
     {
         parent::initialize();
-
-/*        $detect = new MobileDetect();
-        if ($detect->isMobile() || $detect->isTablet()){
-            //转到手机网站
-            return $this->dispatcher->forward(array(
-                "controller" => "t",
-                "action" => "index"
-            ));
-
-        }else{
-            //转到PC网站
-            return $this->dispatcher->forward(array(
-                "controller" => "w",
-                "action" => "index"
-            ));
-        }*/
     }//end init
 
     /**
@@ -30,7 +14,10 @@ class IndexController extends ControllerBase
      */
     public function indexAction()
     {
-        $this->view->title = _("Welcome!");
+        $this->view->disable();
+        echo "转向hao.360网站...";
+        //$this->response->redirect("http://hao.360.cn");
+
     }//end
 
 }//end
