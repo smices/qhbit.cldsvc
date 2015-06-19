@@ -1,0 +1,25 @@
+<div class="row">
+
+    <?=$this->getContent()?>
+
+    <div class="panel panel-danger">
+
+        <div class="panel-heading text-center">
+            <strong class="text-error"><?=_('HTTP UNDEFINED ERROR')?></strong>
+
+            <div class="pull-left">
+                <button class="btn btn-default btn-xs" onclick="history.go(-1)">
+                    <span class="glyphicon glyphicon-circle-arrow-left"></span>&nbsp;<?=_('Back')?>
+                </button>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <div class="alert alert-error text-center">
+                <?=_('HTTP UNDEFINED ERROR Contents')?>
+            </div>
+        </div>
+
+    </div>
+
+</div>
