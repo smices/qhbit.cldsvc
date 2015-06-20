@@ -11,7 +11,7 @@
 ┌────────────────────────────────────────────────────────────┐
 │ 接口帮助信息获取 (本文档)
 └────────────────────────────────────────────────────────────┘
-[OPTIONS][PUBILC] http://ctr.datacld.com/
+[OPTIONS][PUBILC] http://ctr.datacld.com/api
 
 
 ┌────────────────────────────────────────────────────────────┐
@@ -35,7 +35,7 @@
 ┌────────────────────────────────────────────────────────────┐
 │ 基于本地的更新升级
 └────────────────────────────────────────────────────────────┘
-[GET][PUBILC] http://ctr.datacld.com/?update&cl={string:[请求升级的客户端代号]}&version={int:[当前来查询的客户端的版本号]}
+[GET][PUBILC] http://ctr.datacld.com/api/update?cl={string:[请求升级的客户端代号]}&version={int:[当前来查询的客户端的版本号]}
 Respose:
 {
     ""
@@ -47,7 +47,7 @@ Respose:
 │    每种类型数据分开上报, 每日上报一次, 如果当日的数据没有上报完成,
 │    则抛弃上报
 └────────────────────────────────────────────────────────────┘
-[POST][PROTECT] http://ctr.datacld.com/?report&client={string:[请求升级的客户端代号]}version={int:[当前来查询的客户端的版本号]}
+[POST][PROTECT] http://ctr.datacld.com/api/report?client={string:[请求升级的客户端代号]}version={int:[当前来查询的客户端的版本号]}
     [POST]参数(参数名前带*号的为必须要的字段, #为可选):
         * data={string:crypted}  **加密的数据包
         * hash={string:md5}  **加密前的JSON字串全Md5 Hash
@@ -66,14 +66,14 @@ Respose:
 │ 云控规则表处理
 └────────────────────────────────────────────────────────────┘
 ** 获取 规则表
-   [GET][PROTECT] http://ctr.datacld.com/?software
+   [GET][PROTECT] http://ctr.datacld.com/api/software
 
 
 ┌────────────────────────────────────────────────────────────┐
 │ 云控规则表处理
 └────────────────────────────────────────────────────────────┘
 ** 获取 规则表
-   [GET][PROTECT] http://ctr.datacld.com/?profile&token={登陆令牌}
+   [GET][PROTECT] http://ctr.datacld.com/api/profile?token={登陆令牌}
     Response:
     data:{
         {
@@ -89,7 +89,7 @@ Respose:
     }
 
 ** 提交 用户测试数据
-   [POST][PROTECT] http://ctr.datacld.com/?token={登陆令牌}
+   [POST][PROTECT] http://ctr.datacld.com/api/reporting?token={登陆令牌}
         [POST]参数(参数名前带*号的为必须要的字段, #为可选):
             * uid={int:*}  **用户ID
             * hardware={int:[0/1/2/3/4/5/6/7/8/9/10/11/12]}  **硬件类型 0:不明确,1:missq
