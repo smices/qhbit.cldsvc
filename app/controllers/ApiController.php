@@ -39,7 +39,7 @@ class ApiController extends ControllerBase
         $cfg = new Phalcon\Config\Adapter\Ini(realpath(_DYP_DIR_CFG .'/software.ini'));
         if($cfg){
             if(0 == $cfv || (int) $cfv < (int) $cfg->config->version){
-                unset($cfg->config);
+                //unset($cfg->config);
                 Resp::outJsonMsg(0, $cfg->toArray());
             }else{
                 Resp::outJsonMsg(9, 'NO UPDATE');
@@ -61,7 +61,7 @@ class ApiController extends ControllerBase
         $cfg = new Phalcon\Config\Adapter\Ini(realpath(_DYP_DIR_CFG .'/upgrade.ini'));
         if($cfg){
             if(0 == $cfv || (int) $cfv < (int) $cfg->config->version){
-                unset($cfg->config);
+                //unset($cfg->config);
                 Resp::outJsonMsg(0, $cfg->toArray());
             }else{
                 Resp::outJsonMsg(9, 'NO UPDATE');
