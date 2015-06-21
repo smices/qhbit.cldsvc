@@ -32,13 +32,13 @@ class ApiController extends ControllerBase
     public function softwareAction(){
         $cfv = $this->request->getQuery('cfv', 'int', 0); //配置文件版本
 
-        if(!is_file(realpath(_DYP_DIR_CFG .'/software.ini'))) {
+        if(!is_file(realpath(_DYP_DIR_CFG .'/ServiceControl/_software.php'))) {
             Resp::outJsonMsg(1, 'LIST NOT FIND', $this->request);
         }
 
-        $cfg = new Phalcon\Config\Adapter\Ini(realpath(_DYP_DIR_CFG .'/software.ini'));
+        $cfg = new Phalcon\Config\Adapter\Php(realpath(_DYP_DIR_CFG .'/ServiceControl/_software.php'));
         if($cfg){
-            if(0 == $cfv || (int) $cfv < (int) $cfg->config->version){
+            if(0 == $cfv || (int) $cfv < (int) $cfg->version){
                 //unset($cfg->config);
                 Resp::outJsonMsg(0, $cfg->toArray());
             }else{
@@ -55,12 +55,12 @@ class ApiController extends ControllerBase
     public function upgradeAction(){
         $cfv = $this->request->getQuery('cfv', 'int', 0); //配置文件版本
 
-        if(!is_file(realpath(_DYP_DIR_CFG .'/upgrade.ini'))) {
+        if(!is_file(realpath(_DYP_DIR_CFG .'/ServiceControl/_upgrade.php'))) {
             Resp::outJsonMsg(1, 'LIST NOT FIND', $this->request);
         }
-        $cfg = new Phalcon\Config\Adapter\Ini(realpath(_DYP_DIR_CFG .'/upgrade.ini'));
+        $cfg = new Phalcon\Config\Adapter\Php(realpath(_DYP_DIR_CFG .'/ServiceControl/_upgrade.php'));
         if($cfg){
-            if(0 == $cfv || (int) $cfv < (int) $cfg->config->version){
+            if(0 == $cfv || (int) $cfv < (int) $cfg->version){
                 //unset($cfg->config);
                 Resp::outJsonMsg(0, $cfg->toArray());
             }else{
