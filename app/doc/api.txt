@@ -46,7 +46,18 @@
         # cfv={int:[20150629]}  ** 客户端当前配置文件的版本, 版本号以年份来表示(当没有本参数时,传最新数据)
         使用范例:http://ctr.datacld.com/api/upgrade?cfv=20150629
     [RESPONSE]:
-        请参考实际配置文件
+        分段说明:
+            [xbCoreDrv] 常用文件名
+            UpdateMode=install 当为install时表示要安装或更新到这个版本, 当为uninstall时, 表示这个包, 要执行自我消除
+            LastVersion=1.0.0 最新版本的版本号
+            LastVersionCode=1122 最新版本的版本代码,更新主要以这个Int号为准
+            ReleaseTime=2015/06/20 最新版本发布时间
+            LowCompatible=5.1 (5.1) 最低兼容版本, 比如只兼容到win7, xp系统来更新, 将不会执行更新
+            Arch=32+64   [32|64|32+64] 标识系统架构, 32+64表示都支持,其他表示指定
+            FileName= 文件名
+            FileSize= 文件大小
+            FileHash= 文件md5值
+            Download= 文件下载地址
 
 
 ┌────────────────────────────────────────────────────────────┐
