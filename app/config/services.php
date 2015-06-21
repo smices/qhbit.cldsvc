@@ -85,7 +85,7 @@ $di->set('db', function() use ($config) {
 $di->set('modelsMetadata', function() {
     return new MetaDataAdapter();
 });
-
+/*
 $di->set('session', function() {
     $session = new Phalcon\Session\Adapter\Files();
     if($session->isStarted() == FALSE){
@@ -93,7 +93,7 @@ $di->set('session', function() {
     }
     return $session;
 });
-
+*/
 
 /**
  * member MongoDB
@@ -108,6 +108,7 @@ $di->set('mongo', function() {
 /**
  * member the flash service with custom CSS classes
  */
+/*
 $di->set('flash', function(){
     $flash = new \Phalcon\Flash\Direct(array(
         'error'   => 'alert alert-error text-center',
@@ -115,12 +116,13 @@ $di->set('flash', function(){
         'notice'  => 'alert alert-info text-center',
     ));
     return $flash;
-});
+});*/
 
 
 /**
  * member the logger
  */
+/*
 $di->set('logger', function () use ($config) {
     if ('database' == strtolower($config->logger->adapter)) {
         $connection = new \Phalcon\Db\Adapter\Pdo\Mysql(array(
@@ -142,11 +144,12 @@ $di->set('logger', function () use ($config) {
     }
 
     return $logger;
-});
+});*/
 
 /**
  * member the crypt
  */
+
 $di->set('crypt', function() {
     $crypt = new Crypt();
     $crypt->setKey("SZDYKJYXGS2DIYEGROUPOFCHINA");

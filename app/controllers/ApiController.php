@@ -18,7 +18,7 @@ class ApiController extends ControllerBase
     public function indexAction()
     {
         if($this->request->isOptions()){
-            Resp::outHtmlMsg(file_get_contents(_DYP_DIR_APP.DIR_SEP.'doc/ctr.txt'));
+            Resp::outHtmlMsg(file_get_contents(_DYP_DIR_APP.DIR_SEP.'doc/api.txt'));
         }elseif($this->request->isGet()){
             Resp::outHtmlMsg("[PRIVATELY] CLOUD CONTROL CENTER APPLICATION INTERFACE.");
         }else{
