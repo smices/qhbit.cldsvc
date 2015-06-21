@@ -30,28 +30,42 @@ class ApiController extends ControllerBase
      * 获取需要下载的文件列表清单
      */
     public function softwareAction(){
+        $cfv = $this->request->getQuery('cfv', 'int', 0); //配置文件版本
+
         if(!is_file(realpath(_DYP_DIR_CFG .'/software.ini'))) {
             Resp::outJsonMsg(1, 'LIST NOT FIND', $this->request);
         }
-        $list = new Phalcon\Config\Adapter\Ini(realpath(_DYP_DIR_CFG .'/software.ini'));
-        if($list){
-            Resp::outJsonMsg(0, $list->toArray());
+
+        $cfg = new Phalcon\Config\Adapter\Ini(realpath(_DYP_DIR_CFG .'/software.ini'));
+        if($cfg){
+            if(0 == $cfv || (int) $cfv < (int) $cfg->config->version){
+                unset($cfg->config);
+                Resp::outJsonMsg(0, $cfg->toArray());
+            }else{
+                Resp::outJsonMsg(9, 'NO UPDATE');
+            }
         }else{
             Resp::outJsonMsg(1, "UNKNOWN ERROR");
         }
-
     }//end
 
     /**
      * 获取我方程序更新列表
      */
     public function upgradeAction(){
+        $cfv = $this->request->getQuery('cfv', 'int', 0); //配置文件版本
+
         if(!is_file(realpath(_DYP_DIR_CFG .'/upgrade.ini'))) {
             Resp::outJsonMsg(1, 'LIST NOT FIND', $this->request);
         }
-        $list = new Phalcon\Config\Adapter\Ini(realpath(_DYP_DIR_CFG .'/upgrade.ini'));
-        if($list){
-            Resp::outJsonMsg(0, $list->toArray());
+        $cfg = new Phalcon\Config\Adapter\Ini(realpath(_DYP_DIR_CFG .'/upgrade.ini'));
+        if($cfg){
+            if(0 == $cfv || (int) $cfv < (int) $cfg->config->version){
+                unset($cfg->config);
+                Resp::outJsonMsg(0, $cfg->toArray());
+            }else{
+                Resp::outJsonMsg(9, 'NO UPDATE');
+            }
         }else{
             Resp::outJsonMsg(1, "UNKNOWN ERROR");
         }
