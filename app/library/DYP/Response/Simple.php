@@ -7,14 +7,14 @@ class Simple{
     const HTML = 'text/html;charset=utf-8';
 
     static public function message($code, $msg){
-        return array("code"=>trim($code), "msg"=>$msg);
+        return array("code"=>$code, "msg"=>$msg);
     }//end
 
     static public function jsonMsg($code, $msg, $request=null){
         if($request == null || !$request->hasQuery('callback')){
-            return json_encode(self::message($code, $msg), JSON_NUMERIC_CHECK);
+            return json_encode(self::message($code, $msg), JSON_UNESCAPED_UNICODE);
         }else{
-            return $request->getQuery("callback") ."(". json_encode(self::message($code, $msg), JSON_NUMERIC_CHECK) . ");";
+            return $request->getQuery("callback") ."(". json_encode(self::message($code, $msg), JSON_UNESCAPED_UNICODE) . ");";
         }
     }//end
 
