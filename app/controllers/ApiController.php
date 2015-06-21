@@ -20,7 +20,7 @@ class ApiController extends ControllerBase
         if($this->request->isOptions()){
             Resp::outHtmlMsg(file_get_contents(_DYP_DIR_APP.DIR_SEP.'doc/ctr.txt'));
         }elseif($this->request->isGet()){
-            Resp::outHtmlMsg("<h1>欢迎使用小白智能云控系统!<span>&nbsp;".date("Y/m/d H:i")."</span></h1>");
+            Resp::outHtmlMsg("[PRIVATELY] CLOUD CONTROL CENTER APPLICATION INTERFACE.");
         }else{
             Resp::outJsonMsg(1, 'TYPE ERROR', $this->request);
         }
