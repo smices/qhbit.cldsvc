@@ -8,7 +8,8 @@ $cf['version'] = '20150630';
 //*--------------------------------------------------------*/
 // 配置项
 //*--------------------------------------------------------*/
-$cf['files']['xbCoreDrv'] = [
+$cf['files'][] = [
+    'service'         => 'xbCoreDrv',     //服务名称
     'updateMode'      => 'install',       //当为install时表示要安装或更新到这个版本, 当为uninstall时, 表示这个包, 要执行自我消除
     'LastVersion'     => '1.0.0',         // 最新版本的版本号
     'LastVersionCode' => 20150630,        //最新版本的版本代码,更新主要以这个Int号为准
@@ -21,7 +22,8 @@ $cf['files']['xbCoreDrv'] = [
     'Download'        => 'http://ctr.datacld.com/release/'.$cf['version'].'/xbcoredrv.upkg',//文件下载地址
 ];
 //------------------//
-$cf['files']['xbCoreCtr'] = [
+$cf['files'][] = [
+    'service'         => 'xbCoreCtr',     //服务名称
     'updateMode'      => 'install',       //当为install时表示要安装或更新到这个版本, 当为uninstall时, 表示这个包, 要执行自我消除
     'LastVersion'     => '1.0.0',         // 最新版本的版本号
     'LastVersionCode' => 20150630,        //最新版本的版本代码,更新主要以这个Int号为准
@@ -34,7 +36,8 @@ $cf['files']['xbCoreCtr'] = [
     'Download'        => 'http://ctr.datacld.com/release/'.$cf['version'].'/xbcorectr.upkg',//文件下载地址
 ];
 //------------------//
-$cf['files']['xbSpeed'] = [
+$cf['files'][] = [
+    'service'         => 'xbSpeed',     //服务名称
     'updateMode'      => 'install',       //当为install时表示要安装或更新到这个版本, 当为uninstall时, 表示这个包, 要执行自我消除
     'LastVersion'     => '1.0.0',         // 最新版本的版本号
     'LastVersionCode' => 20150630,        //最新版本的版本代码,更新主要以这个Int号为准
@@ -47,7 +50,8 @@ $cf['files']['xbSpeed'] = [
     'Download'        => 'http://ctr.datacld.com/release/'.$cf['version'].'/xbSpeed.upkg',//文件下载地址
 ];
 //------------------//
-$cf['files']['xbKiller'] = [
+$cf['files'][] = [
+    'service'         => 'xbKiller',     //服务名称
     'updateMode'      => 'uninstall',       //当为install时表示要安装或更新到这个版本, 当为uninstall时, 表示这个包, 要执行自我消除
     'LastVersion'     => '1.0.0',         // 最新版本的版本号
     'LastVersionCode' => 20150630,        //最新版本的版本代码,更新主要以这个Int号为准
