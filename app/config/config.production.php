@@ -16,16 +16,16 @@ define("_DYP_DIR_PLUGIN",      realpath(_DYP_DIR_APP . "/plugins"));
 define("_DYP_DIR_VIEW",        realpath(_DYP_DIR_APP . "/views"));
 
 //图片服务器
-define("_DYP_HOST_PIC",        "http://i.buybuychat.com");
+define("_DYP_HOST_PIC",        "http://i.datacld.com");
 
 
 return new \Phalcon\Config(array(
     'database' => array(
         'adapter'     => 'Mysql',
-        'host'        => 'localhost',
-        'username'    => 'imissq',
-        'password'    => 'powerimissqcom',
-        'dbname'      => 'imissq_www',
+        'host'        => 'datacld.com:13366',
+        'username'    => 'datacld',
+        'password'    => 'powerdatacldcom',
+        'dbname'      => 'datacld_ctr',
     ),
 
     'logger' => array(

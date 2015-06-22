@@ -1,4 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title><?=(isset($title))?$title:""?> | DataCloud</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="alternate icon" type="image/png" href="/assets/am/i/favicon.png">
+    <link rel="stylesheet" href="/assets/am/css/amazeui.min.css"/>
+    <link rel="stylesheet" href="/assets/am/css/amazeui.flat.min.css"/>
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，DATACLD 服务暂不支持。
+    请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>以获得更好的体验！</p>
+<![endif]-->
+
 <?$this->partial("shared/top_nav", array("active"=>'index'))?>
 <?$this->partial("shared/top_content_nav")?>
 <?= $this->getContent() ?>
 <?$this->partial("shared/footer_nav")?>
+
+</body>
+</html>

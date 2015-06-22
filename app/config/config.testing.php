@@ -14,18 +14,17 @@ define("_DYP_DIR_LIB",         realpath(_DYP_DIR_APP . "/library"));
 define("_DYP_DIR_MODEL",       realpath(_DYP_DIR_APP . "/models"));
 define("_DYP_DIR_PLUGIN",      realpath(_DYP_DIR_APP . "/plugins"));
 define("_DYP_DIR_VIEW",        realpath(_DYP_DIR_APP . "/views"));
-
 //图片服务器
-define("_DYP_HOST_PIC",        "http://192.168.0.200:8088");
+define("_DYP_HOST_PIC",        "http://i.datacld.com");
 
 
 return new \Phalcon\Config(array(
     'database' => array(
         'adapter'     => 'Mysql',
-        'host'        => 'localhost',
-        'username'    => 'missq',
-        'password'    => 'powermissqcom',
-        'dbname'      => 'missq_www',
+        'host'        => 'datacld.com:13366',
+        'username'    => 'datacld',
+        'password'    => 'powerdatacldcom',
+        'dbname'      => 'datacld_ctr',
     ),
 
     'logger' => array(
