@@ -1,0 +1,219 @@
+<? $title = "管理首页" ?>
+<? //=$this->tag->stylesheetLink("assets/am/css/admin.css");?>
+<? //=$this->tag->javascriptInclude("javascript/jquery.min.js");?>
+
+
+
+<!-- content start -->
+<div class="admin-content">
+
+    <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">Home</strong> /
+            <small>Summary</small>
+        </div>
+    </div>
+
+    <ul class="am-avg-sm-1 am-avg-md-5 am-margin am-padding am-text-center admin-content-list ">
+        <li><a href="#" class="am-text-primary"><span class="am-icon-btn am-primary am-icon-group"></span><br/>User Total<br/><strong><?=number_format(2456798/10000,2)?></strong>万</a>
+        </li>
+        <li><a href="#" class="am-text-success"><span
+                    class="am-icon-btn am-success am-icon-user-plus"></span><br/>New User<br/><strong><?=number_format(rand(30000, 1000000))?></strong></a></li>
+        <li><a href="#" class="am-text-secondary"><span class="am-icon-btn am-secondary am-icon-user-md"></span><br/>Online User<br/><strong><?=number_format(rand(30000, 1000000))?></strong></a>
+        </li>
+        <li><a href="#" class="am-text-danger"><span
+                    class="am-icon-btn am-danger am-icon-area-chart"></span><br/>History Visitors<br/><strong><?=number_format(rand(30000, 1000000))?></strong></a></li>
+        <li><a href="#" class="am-text-warning"><span
+                    class="am-icon-btn am-warning am-icon-clock-o"></span><br/>Visitors<br/><strong><?=number_format(rand(30000, 1000000))?></strong></a></li>
+    </ul>
+
+
+    <div class="am-g">
+        <div class="am-u-md-6">
+
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-1'}">Download Statistics<span
+                        class="am-icon-chevron-down am-fr"></span></div>
+                <div id="collapse-panel-1" class="am-in">
+                    <table class="am-table am-table-bd am-table-bdrs am-table-striped am-table-hover">
+                        <tbody>
+                        <tr>
+                            <th class="am-text-center">#</th>
+                            <th>Browser</th>
+                            <th>Visitors</th>
+                        </tr>
+                        <tr>
+                            <td class="am-text-center"><img src="assets/i/examples/admin-chrome.png" alt=""></td>
+                            <td>Google Chrome</td>
+                            <td>3,005</td>
+                        </tr>
+                        <tr>
+                            <td class="am-text-center"><img src="assets/i/examples/admin-firefox.png" alt=""></td>
+                            <td>Mozilla Firefox</td>
+                            <td>2,505</td>
+                        </tr>
+                        <tr>
+                            <td class="am-text-center"><img src="assets/i/examples/admin-ie.png" alt=""></td>
+                            <td>Internet Explorer</td>
+                            <td>1,405</td>
+                        </tr>
+                        <tr>
+                            <td class="am-text-center"><img src="assets/i/examples/admin-opera.png" alt=""></td>
+                            <td>Opera</td>
+                            <td>4,005</td>
+                        </tr>
+                        <tr>
+                            <td class="am-text-center"><img src="assets/i/examples/admin-safari.png" alt=""></td>
+                            <td>Safari</td>
+                            <td>505</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
+            <div class="am-panel am-panel-warning">
+                <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-2'}">Browser Statistics<span
+                        class="am-icon-chevron-down am-fr"></span></div>
+                <div id="collapse-panel-2" class="am-in">
+                    <table class="am-table am-table-bd am-table-bdrs am-table-striped am-table-hover">
+                        <tbody>
+                        <tr>
+                            <th class="am-text-center">#</th>
+                            <th>Browser</th>
+                            <th>Visitors</th>
+                        </tr>
+                        <tr>
+                            <td class="am-text-center"><img src="assets/i/examples/admin-chrome.png" alt=""></td>
+                            <td>Google Chrome</td>
+                            <td>3,005</td>
+                        </tr>
+                        <tr>
+                            <td class="am-text-center"><img src="assets/i/examples/admin-firefox.png" alt=""></td>
+                            <td>Mozilla Firefox</td>
+                            <td>2,505</td>
+                        </tr>
+                        <tr>
+                            <td class="am-text-center"><img src="assets/i/examples/admin-ie.png" alt=""></td>
+                            <td>Internet Explorer</td>
+                            <td>1,405</td>
+                        </tr>
+                        <tr>
+                            <td class="am-text-center"><img src="assets/i/examples/admin-opera.png" alt=""></td>
+                            <td>Opera</td>
+                            <td>4,005</td>
+                        </tr>
+                        <tr>
+                            <td class="am-text-center"><img src="assets/i/examples/admin-safari.png" alt=""></td>
+                            <td>Safari</td>
+                            <td>505</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <div class="am-u-md-6">
+
+
+
+            <div class="am-panel am-panel-secondary">
+                <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-3'}">Hardware Statistics<span
+                        class="am-icon-chevron-down am-fr"></span></div>
+                <div id="collapse-panel-3" class="am-in">
+                    <table class="am-table am-table-bd am-table-bdrs am-table-striped am-table-hover">
+                        <tbody>
+                        <tr>
+                            <th class="am-text-center">#</th>
+                            <th>Browser</th>
+                            <th>Visitors</th>
+                        </tr>
+                        <tr>
+                            <td class="am-text-center"><img src="assets/i/examples/admin-chrome.png" alt=""></td>
+                            <td>Google Chrome</td>
+                            <td>3,005</td>
+                        </tr>
+                        <tr>
+                            <td class="am-text-center"><img src="assets/i/examples/admin-firefox.png" alt=""></td>
+                            <td>Mozilla Firefox</td>
+                            <td>2,505</td>
+                        </tr>
+                        <tr>
+                            <td class="am-text-center"><img src="assets/i/examples/admin-ie.png" alt=""></td>
+                            <td>Internet Explorer</td>
+                            <td>1,405</td>
+                        </tr>
+                        <tr>
+                            <td class="am-text-center"><img src="assets/i/examples/admin-opera.png" alt=""></td>
+                            <td>Opera</td>
+                            <td>4,005</td>
+                        </tr>
+                        <tr>
+                            <td class="am-text-center"><img src="assets/i/examples/admin-safari.png" alt=""></td>
+                            <td>Safari</td>
+                            <td>505</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
+
+            <div class="am-panel am-panel-success">
+                <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-4'}">Software Top Statistics<span
+                        class="am-icon-chevron-down am-fr"></span></div>
+                <div id="collapse-panel-4" class="am-in">
+                    <table class="am-table am-table-bd am-table-bdrs am-table-striped am-table-hover">
+                        <tbody>
+                        <tr>
+                            <th class="am-text-center">#</th>
+                            <th>Browser</th>
+                            <th>Visitors</th>
+                        </tr>
+                        <tr>
+                            <td class="am-text-center"><img src="assets/i/examples/admin-chrome.png" alt=""></td>
+                            <td>Google Chrome</td>
+                            <td>3,005</td>
+                        </tr>
+                        <tr>
+                            <td class="am-text-center"><img src="assets/i/examples/admin-firefox.png" alt=""></td>
+                            <td>Mozilla Firefox</td>
+                            <td>2,505</td>
+                        </tr>
+                        <tr>
+                            <td class="am-text-center"><img src="assets/i/examples/admin-ie.png" alt=""></td>
+                            <td>Internet Explorer</td>
+                            <td>1,405</td>
+                        </tr>
+                        <tr>
+                            <td class="am-text-center"><img src="assets/i/examples/admin-opera.png" alt=""></td>
+                            <td>Opera</td>
+                            <td>4,005</td>
+                        </tr>
+                        <tr>
+                            <td class="am-text-center"><img src="assets/i/examples/admin-safari.png" alt=""></td>
+                            <td>Safari</td>
+                            <td>505</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+
+    </div>
+
+</div>
+<!-- content end -->

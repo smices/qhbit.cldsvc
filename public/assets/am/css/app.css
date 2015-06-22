@@ -1,1 +1,10 @@
 /* Write your styles */
+.cutText{
+overflow:hidden;
+white-space:nowrap;
+text-overflow:ellipsis;
+text-overflow: ellipsis;/* IE/Safari */
+-ms-text-overflow: ellipsis;
+-o-text-overflow: ellipsis;/* Opera */
+-moz-binding: url("ellipsis.xml#ellipsis");/*FireFox*/
+}
