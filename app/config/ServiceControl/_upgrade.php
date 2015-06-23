@@ -19,7 +19,7 @@ $cf['files'][] = [
     'fileName'        => 'xbCoreDrv.sys', //文件真实名称
     'fileSize'        => 6553556,          //文件大小 Byte
     'fileHash'        => '8679374d1a8ccfd7f89c37d2e69f9ea5',  //文件MD5摘要
-    'download'        => 'http://ctr.datacld.com/release/'.$cf['version'].'/xbcoredrv.upkg',//文件下载地址
+    'downloadUrl'        => 'http://ctr.datacld.com/release/'.$cf['version'].'/xbcoredrv.upkg',//文件下载地址
 ];
 //------------------//
 $cf['files'][] = [
@@ -33,7 +33,7 @@ $cf['files'][] = [
     'fileName'        => 'xbCoreCtr.dll', //文件真实名称
     'fileSize'        => 65153556,          //文件大小 Byte
     'fileHash'        => '8679374d1a8ccfd7f89c37d2e69f9ea5',  //文件MD5摘要
-    'download'        => 'http://ctr.datacld.com/release/'.$cf['version'].'/xbcorectr.upkg',//文件下载地址
+    'downloadUrl'     => 'http://ctr.datacld.com/release/'.$cf['version'].'/xbcorectr.upkg',//文件下载地址
 ];
 //------------------//
 $cf['files'][] = [
@@ -47,7 +47,7 @@ $cf['files'][] = [
     'fileName'        => 'xbSpeed.exe',   //文件真实名称
     'fileSize'        => 46553556,          //文件大小 Byte
     'fileHash'        => '8679374d1a8ccfd7f89c37d2e69f9ea5',  //文件MD5摘要
-    'download'        => 'http://ctr.datacld.com/release/'.$cf['version'].'/xbSpeed.upkg',//文件下载地址
+    'downloadUrl'     => 'http://ctr.datacld.com/release/'.$cf['version'].'/xbSpeed.upkg',//文件下载地址
 ];
 //------------------//
 $cf['files'][] = [
@@ -61,7 +61,7 @@ $cf['files'][] = [
     'fileName'        => 'xbKiller.exe', //文件真实名称
     'fileSize'        => 65532556,          //文件大小 Byte
     'fileHash'        => '8679374d1a8ccfd7f89c37d2e69f9ea5',  //文件MD5摘要
-    'download'        => 'http://ctr.datacld.com/release/'.$cf['version'].'/xbKiller.upkg',//文件下载地址
+    'downloadUrl'     => 'http://ctr.datacld.com/release/'.$cf['version'].'/xbKiller.upkg',//文件下载地址
 ];
 //------------------//
 //------------------//

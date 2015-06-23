@@ -11,26 +11,30 @@
     </div>
 
     <div class="am-g am-margin-bottom-xs">
+
         <div class="am-u-sm-12 am-u-md-6">
             <div class="am-btn-toolbar">
-                <div class="am-btn-group am-btn-group-xs">
-                    <button type="button" class="am-btn am-btn-default"><span class="am-icon-plus"></span> New</button>
-                    <button type="button" class="am-btn am-btn-default"><span class="am-icon-save"></span> Save</button>
-                    <button type="button" class="am-btn am-btn-default"><span class="am-icon-trash-o"></span> Remove
+                <div class="am-btn-group am-btn-group-xs  am-align-right">
+                    <button type="button" class="am-btn am-btn-primary am-round"><span class="am-icon-plus"></span> New
+                    </button>
+                    <button type="button" class="am-btn am-btn-success"><span class="am-icon-save"></span> Save</button>
+                    <button type="button" class="am-btn am-btn-warning am-round"><span class="am-icon-trash-o"></span>
+                        Remove
                     </button>
                 </div>
             </div>
         </div>
 
         <div class="am-u-sm-12 am-u-md-6 am-text-right">
-            <span class="am-badge am-round am-badge-danger am-text-sm">
-                Version: <strong><?=$list->version?></strong>
-            </span>
-            &nbsp;&nbsp;
-            <span class="am-badge am-round am-badge-warning am-text-sm">
+            <span class="am-badge am-round am-badge-warning am-text-xs">
                 Total: <strong><?=sizeof($list->files)?></strong>
             </span>
+            &nbsp;&nbsp;
+            <span class="am-badge am-round am-badge-danger am-text-xs">
+                Version: <strong><?=$list->version?></strong>
+            </span>
         </div>
+
 
     </div>
 
@@ -43,46 +47,44 @@
                     <tr>
                         <th class="table-check am-text-center"><input type="checkbox" onclick="SelectAll()"/></th>
                         <th class="table-id am-text-center">ID</th>
-                        <th class="table-title am-text-center">Name</th>
-                        <th class="table-type am-text-center">package</th>
-                        <th class="table-date am-text-center am-hide-sm-only">File Size</th>
-                        <th class="table-date am-text-center am-hide-sm-only">Hash</th>
-                        <th class="table-date am-text-center am-hide-sm-only">Release Time</th>
-                        <th class="table-date am-text-center am-hide-sm-only">Download Url</th>
-                        <th class="table-set">Operation</th>
+                        <? foreach($list->files[0] as $key => $p): ?>
+                            <th class="am-text-center">
+                                <?=ucfirst($key)?>
+                            </th>
+                        <? endforeach ?>
+                        <th class="table-set am-text-center">Operation</th>
                     </tr>
                     </thead>
                     <tbody>
-
                     <? foreach($list->files as $key => $p): ?>
                         <tr>
                             <td class="am-text-center"><input type="checkbox" name="record" value="<?=$key?>"/></td>
                             <td class="am-text-center"><?=$key?></td>
-                            <td class="am-text-center"><a href="javascript:void(0);"><?=$p->name?></a></td>
-                            <td class="am-text-center"><a href="javascript:void(0);"><?=$p->package?></a></td>
-                            <td class="am-text-center"><?=sizeFmt($p->fileSize)?></td>
-                            <td class="am-text-center"><?=$p->hash?></td>
-                            <td class="am-text-center am-hide-sm-only"><?=$p->releaseTime?></td>
-                            <td class="am-text-center am-hide-sm-only"><a href="<?=$p->fetchUrl?>" target="_blank">Download</a>
-                            </td>
+                            <? foreach($p as $key => $v): ?>
+                                <td class="am-text-center">
+                                    <? if(strstr(strtolower($key), 'size')): ?>
+                                        <?=sizeFmt($v)?>
+                                    <? elseif(strstr(strtolower($key), 'downloadurl')): ?>
+                                        <a href="<?=$v?>" target="_blank"
+                                           class="am-btn am-btn-xs am-btn-secondary">Download</a>
+                                    <? else: ?>
+                                        <?=$v?>
+                                    <? endif ?>
+                                </td>
+                            <? endforeach ?>
                             <td class="am-text-center">
-                                <div class="am-btn-toolbar">
+                                <div class="am-btn-toolbar am-text-center">
                                     <div class="am-btn-group am-btn-group-xs">
-                                        <button class="am-btn am-btn-default am-btn-xs am-text-secondary"><span
-                                                class="am-icon-pencil-square-o"></span> Edit
-                                        </button>
-                                        <button
-                                            class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"><span
-                                                class="am-icon-trash-o"></span> Remove
-                                        </button>
+                                        <button class="am-btn am-btn-primary am-radius"><span class="am-icon-pencil"></span></button>
+                                        <button class="am-btn am-btn-danger am-radius"><span class="am-icon-remove"></span></button>
                                     </div>
                                 </div>
                             </td>
                         </tr>
                     <? endforeach ?>
-
                     </tbody>
                 </table>
+
             </form>
         </div>
 
@@ -106,3 +108,4 @@
         }
     }
 </script>
+

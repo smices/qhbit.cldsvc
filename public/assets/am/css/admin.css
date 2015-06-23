@@ -1,6 +1,15 @@
 /**
  * admin.css
  */
+.cutText{
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    text-overflow: ellipsis;/* IE/Safari */
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;/* Opera */
+    -moz-binding: url("ellipsis.xml#ellipsis");/*FireFox*/
+}
 
 ul {
   margin-top: 0;
@@ -265,7 +274,6 @@ ul {
 }
 
 .table-main button {
-  background: #fff;
 }
 
 .table-check {
