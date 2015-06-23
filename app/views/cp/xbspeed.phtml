@@ -69,6 +69,9 @@
                                     <? elseif(strstr(strtolower($key), 'downloadurl')): ?>
                                         <a href="<?=$v?>" target="_blank"
                                            class="am-btn am-btn-xs am-btn-secondary">Download</a>
+                                        <? elseif(strstr(strtolower($key), 'tdconfigurl')): ?>
+                                        <a href="<?=$v?>" target="_blank"
+                                           class="am-btn am-btn-xs am-btn-secondary">Download</a>
                                     <? else: ?>
                                         <?=$v?>
                                     <? endif ?>
