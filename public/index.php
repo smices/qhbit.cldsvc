@@ -19,6 +19,9 @@ if (is_file('../app/config/production')){putenv('DYRUNMODE=production');
 $__DYRUNMODE__ = getenv('DYRUNMODE');
 $GLOBALS['__DYRUNMODE__'] = $__DYRUNMODE__;
 
+
+
+
 if($GLOBALS['__DYRUNMODE__'] == 'development' || $GLOBALS['__DYRUNMODE__'] == 'testing'){
     require realpath('../app/library/kint/Kint.class.php');
 
@@ -26,7 +29,6 @@ if($GLOBALS['__DYRUNMODE__'] == 'development' || $GLOBALS['__DYRUNMODE__'] == 't
         $unit=array('byte','K','M','G','T','P');
         return @round($size/pow(1024,($i=floor(log($size,1024)))),2).$unit[$i];
     }
-
     function runTimerStop(){
         $consumeTime = round((microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']) * 1000, 1);
         return 'Env:' . $GLOBALS['__DYRUNMODE__'] .

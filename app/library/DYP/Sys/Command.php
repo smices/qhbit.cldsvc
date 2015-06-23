@@ -46,6 +46,16 @@ class Command{
         return $realip;
     }//endfunc
 
+    /**
+     * 格式化 数据大小 为最容易理解的称呼
+     * @param $size
+     *
+     * @return string
+     */
+    static public function fmtDataSize ($size){
+        $unit=array('byte','K','M','G','T','P');
+        return @round($size/pow(1024,($i=floor(log($size,1024)))),2).$unit[$i];
+    }//end
 
 
 }//end

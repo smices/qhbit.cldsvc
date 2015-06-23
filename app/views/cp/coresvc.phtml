@@ -62,7 +62,7 @@
                             <? foreach($p as $key => $v): ?>
                                 <td class="am-text-center">
                                     <? if(strstr(strtolower($key), 'size')): ?>
-                                        <?=sizeFmt($v)?>
+                                        <?=DYP\Sys\Command::fmtDataSize($v)?>
                                     <? elseif(strstr(strtolower($key), 'downloadurl')): ?>
                                         <a href="<?=$v?>" target="_blank"
                                            class="am-btn am-btn-xs am-btn-secondary">Download</a>
