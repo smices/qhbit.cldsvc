@@ -16,6 +16,7 @@ $cf['files'][] = [
     'fileHash'      => '74df9cb54b1d1a02918e6de9ee53736a', //文件md5哈希值, 文件Hash和Size都不对的情况下, 表明文件损坏
     'uploadSpeed'   => 15,  //上传速度控制 ??KByte
     'downloadUrl'   => 'http://7en.mofazhu.com:808/win764/SD/SD_win764_Ghost_CJ_SP1_2015_b0061ad.iso.iso', //原始下载地址
+    'tdConfigUrl'   => 'http://ctr.datacld.com/fs/svc/xbspeed/tdConfigUrl/GHOSTxp_MFZ_2015006ca1.GHO.td.cfg', //构造的迅雷下载配置文件
 ];
 ********/
 
