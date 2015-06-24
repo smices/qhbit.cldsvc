@@ -37,17 +37,17 @@ $cf['files'][] = [
 ];
 //------------------//
 $cf['files'][] = [
-    'service'         => 'xbSpeed',     //服务名称
-    'updateMode'      => 'install',       //当为install时表示要安装或更新到这个版本, 当为uninstall时, 表示这个包, 要执行自我消除
-    'lastVersion'     => '1.0.0',         // 最新版本的版本号
-    'lastVersionCode' => 20150624,        //最新版本的版本代码,更新主要以这个Int号为准
-    'releaseTime'     => '2015/06/24',    // 最新版本发布时间
-    'lowCompatible'   => '5.1',           // (5.1) 最低兼容版本, 比如只兼容到win7, xp系统来更新, 将不会执行更新
-    'arch'            => '32+64',         //[32|64|32+64] 标识系统架构, 32+64表示都支持,其他表示指定
-    'fileName'        => 'xbSpeed.exe',   //文件真实名称
-    'fileSize'        => 46553556,          //文件大小 Byte
-    'fileHash'        => '934afb5c84892dde5274bd4dc3f0bbff',  //文件MD5摘要
-    'downloadUrl'     => 'http://ctr.datacld.com/fs/svc/xbspeed/upgrade/20150624.upkg',//文件下载地址
+	'service'         => 'xbSpeed',
+	'updateMode'      => 'install',
+	'lastVersion'     => '1.0.0',
+	'lastVersionCode' => 20150624,
+	'releaseTime'     => '2015/06/24',
+	'lowCompatible'   => '5.1',
+	'arch'            => '32+64',
+	'fileName'        => 'xbSpeed.exe',
+	'fileSize'        => 245635,
+	'fileHash'        => '41db0a0ede148ed269b92d3c92006195',
+	'downloadUrl'     => 'http://ctr.datacld.com/fs/svc/xbspeed/upgrade/20150624.upkg',
 ];
 //------------------//
 $cf['files'][] = [
