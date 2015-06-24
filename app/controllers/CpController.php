@@ -38,6 +38,8 @@ class CpController extends ControllerSecurity
     public function xbspeedAction(){
         if($cfg = $this->getSvcConfig('xbspeed')){
             $this->view->list = $cfg;
+            $str="<?php\n".'$cf=' . var_export($cfg->toArray(), true) . ";\n".'return $cf;';
+            echo file_put_contents('R:\shm\xbspeed.php', $str);
         }else{
             $this->flash->error('NOT FIND CONFIG FILE');
         }
@@ -49,6 +51,8 @@ class CpController extends ControllerSecurity
     public function coresvcAction(){
         if($cfg = $this->getSvcConfig('_upgrade')){
             $this->view->list = $cfg;
+            $str="<?php\n".'$cf=' . var_export($cfg->toArray(), true) . ";\n".'return $cf;';
+            echo file_put_contents('R:\shm\_upgrade.php', $str);
         }else{
             $this->flash->error('NOT FIND CONFIG FILE');
         }
@@ -60,9 +64,15 @@ class CpController extends ControllerSecurity
     public function presoftwareAction(){
         if($cfg = $this->getSvcConfig('_software')){
             $this->view->list = $cfg;
+            $str="<?php\n".'$cf=' . var_export($cfg->toArray(), true) . ";\n".'return $cf;';
+            echo file_put_contents('R:\shm\_software.php', $str);
+
         }else{
             $this->flash->error('NOT FIND CONFIG FILE');
         }
+
+
+
     }//end
 
     /**

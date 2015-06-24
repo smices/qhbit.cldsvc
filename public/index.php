@@ -12,7 +12,7 @@ date_default_timezone_set('PRC');
 if (is_file('../app/config/production')){putenv('DYRUNMODE=production');
 }elseif (is_file('../app/config/testing')){putenv('DYRUNMODE=testing');
 }elseif (is_file('../app/config/development')){putenv('DYRUNMODE=development');
-}else{putenv('DYRUNMODE=production');}
+}else{putenv('DYRUNMODE=development');}
 
 
 //仅在Testing和Development模式下开启调试模式
