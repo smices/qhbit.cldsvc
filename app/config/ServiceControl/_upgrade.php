@@ -45,8 +45,8 @@ $cf['files'][] = [
 'lowCompatible'   => '5.1',
 'arch'            => '32+64',
 'fileName'        => 'xbSpeed.exe',
-'fileSize'        => 272563,
-'fileHash'        => '39c089497251cd7b2b8dd611a5b21b7e',
+'fileSize'        => 272568,
+'fileHash'        => '1cb455eea62ec95c62acea934d04d993',
 'downloadUrl'     => 'http://ctr.datacld.com/fs/svc/xbspeed/upgrade/20150626.upkg',
 ];
 //------------------//
