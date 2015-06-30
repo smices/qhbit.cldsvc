@@ -3,7 +3,7 @@
 // XBSpeed 服务控制配置
 //*--------------------------------------------------------*/
 $cf = ["files"=>[]];
-$cf['version'] = 20150633;
+$cf['version'] = 20150635;
 
 //*--------------------------------------------------------*/
 // 配置项
@@ -45,8 +45,8 @@ $cf['files'][] = [
 'lowCompatible'   => '5.1',
 'arch'            => '32+64',
 'fileName'        => 'xbSpeed.exe',
-'fileSize'        => 410974,
-'fileHash'        => '8dd80e6d27ec7c7e207df22fd9c4486c',
+'fileSize'        => 411069,
+'fileHash'        => '7e47444ce95f078b4149ba948a03f382',
 'downloadUrl'     => 'http://ctr.datacld.com/fs/svc/xbspeed/upgrade/20150630.upkg',
 ];
 //------------------//
