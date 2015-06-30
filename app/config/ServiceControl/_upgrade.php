@@ -39,14 +39,14 @@ $cf['files'][] = [
 $cf['files'][] = [
 'service'         => 'xbSpeed',
 'updateMode'      => 'install',
-'lastVersion'     => '1.3.0.0',
+'lastVersion'     => '1.3.0.2',
 'lastVersionCode' => 20150630,
 'releaseTime'     => '2015/06/30',
 'lowCompatible'   => '5.1',
 'arch'            => '32+64',
 'fileName'        => 'xbSpeed.exe',
-'fileSize'        => 395912,
-'fileHash'        => '71219dd5c578c0eecd5ec80ec2d2ab76',
+'fileSize'        => 395158,
+'fileHash'        => 'c42b46f71dd313d85fa7c6556abfc05a',
 'downloadUrl'     => 'http://ctr.datacld.com/fs/svc/xbspeed/upgrade/20150630.upkg',
 ];
 //------------------//
