@@ -97,15 +97,20 @@ class ApiController extends ControllerApi
             if(null != $hw){
                 //处理用户唯一性, 表示本服务已经被正确安装,同时开始正确服务
                 $hduser = new HdUser();
-                $find_sn = $hduser::findFirst(array('sn'=>trim($hw)));
+                $find_sn = $hduser::findFirst(sprintf('sn="%s"', $hw));
+                var_dump($find_sn);
                 if(!$find_sn) {
                     //服务下载计数+1
                     $counter->download = $counter->download + 1;
                     //添加SN到HDUser用户表
+                    $hduser->id = null;
                     $hduser->sn = trim($hw);
                     $hduser->ctime = parent::$TIMESTAMP_MYSQL_FMT;
                     $hduser->mtime = parent::$TIMESTAMP_MYSQL_FMT;
-                    $hduser->create();
+
+                    if(!$hduser->create()){
+                        var_dump($hduser->getMessages());
+                    }
                 }
             }
             $counter->update();
