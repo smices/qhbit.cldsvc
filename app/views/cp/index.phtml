@@ -46,7 +46,7 @@
                         <?foreach ($svc as $item):?>
                         <tr>
                             <td class="am-text-center"><?=$item->service->id?></td>
-                            <td class="am-text-center"><?=$item->service->name?></td>
+                            <td class="am-text-center" data-am-popover="{content: '<?=$item->service->description?>', trigger: 'hover focus'}"><?=$item->service->name?></td>
                             <td class="am-text-center"><?=number_format($item->counter->request)?></td>
                             <td class="am-text-center"><?=number_format($item->counter->download)?></td>
                         </tr>
