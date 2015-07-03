@@ -75,39 +75,5 @@ class ControllerSecurityAPI extends ControllerBase
 
     }//endfunc
 
-    /**
-     * Translate Injection
-     *
-     * @param      $file
-     * @param null $node
-     *
-     * @return NativeArray
-     */
-    protected function _getTranslation($file, $node=null)
-    {
-        //Ask browser what is the best language
-        $language = strtolower(substr($this->request->getBestLanguage(),0, 2));
-
-        //Check if we have a translation file for that lang
-        if (file_exists(_DYP_DIR_APP . "/messages/" . $language . DIR_SEP . $file . ".php"))
-        {
-            require _DYP_DIR_APP . "/messages/" . $language . DIR_SEP . $file . ".php";
-        } else {
-            // fallback to some default
-            require _DYP_DIR_APP . "/messages/en". DIR_SEP . $file . ".php";
-        }
-        $messages = $$file;
-        //Return a translation object
-        if(null == $node){
-            return new \Phalcon\Translate\Adapter\NativeArray(array(
-                "content" => $messages
-            ));
-        }else{
-            return new \Phalcon\Translate\Adapter\NativeArray(array(
-                "content" => $messages[$node]
-            ));
-        }
-
-    }//endfunc
 
 }//end class

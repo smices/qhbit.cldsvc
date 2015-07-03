@@ -3,7 +3,7 @@ use Phalcon\Security,
     DYP\Sys\Command AS CMD,
     DYP\Response\Simple as Resp;
 
-class ApiController extends ControllerBase
+class ApiController extends ControllerApi
 {
 
     public function initialize()
@@ -79,7 +79,7 @@ class ApiController extends ControllerBase
     public function ctrAction(){
         $svc = $this->request->getQuery('svc', 'string', null); //服务名称
         $cfv = $this->request->getQuery('cfv', 'int', 0); //配置文件版本
-
+        $hw  = $this->request->getQuery('hw', 'string', null); //系统所有盘的硬件Serial Number
 
         if($svc == null){
             Resp::outJsonMsg(1, 'PARAM LOST');
@@ -90,8 +90,24 @@ class ApiController extends ControllerBase
             Resp::outJsonMsg(1, 'SERVICE NOT FIND');
         }
         $counter = Counter::findFirst($service->id);
+
         if($counter){
+
             $counter->request =$counter->request +1;
+            if(null != $hw){
+                //处理用户唯一性, 表示本服务已经被正确安装,同时开始正确服务
+                $hduser = new HdUser();
+                $find_sn = $hduser::findFirst(array('sn'=>trim($hw)));
+                if(!$find_sn) {
+                    //服务下载计数+1
+                    $counter->download = $counter->download + 1;
+                    //添加SN到HDUser用户表
+                    $hduser->sn = trim($hw);
+                    $hduser->ctime = parent::$TIMESTAMP_MYSQL_FMT;
+                    $hduser->mtime = parent::$TIMESTAMP_MYSQL_FMT;
+                    $hduser->create();
+                }
+            }
             $counter->update();
         }
 

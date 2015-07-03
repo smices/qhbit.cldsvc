@@ -30,6 +30,11 @@ class CpController extends ControllerSecurity
     public function indexAction()
     {
 
+        //$phql = "SELECT Service.* FROM Service INNER JOIN Counter ON Service.id = Counter.svc";
+        $svc_sql = "SELECT Service.*, Counter.* FROM Service INNER JOIN Counter ON Service.id = Counter.svc";
+        $svc_rs = $this->modelsManager->executeQuery($svc_sql);
+        $this->view->svc = $svc_rs;
+
     }//end
 
     /**

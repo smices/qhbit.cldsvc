@@ -31,41 +31,26 @@
         <div class="am-u-md-6">
 
             <div class="am-panel am-panel-default">
-                <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-1'}">Download Statistics<span
+                <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-1'}">Service Statistics<span
                         class="am-icon-chevron-down am-fr"></span></div>
                 <div id="collapse-panel-1" class="am-in">
                     <table class="am-table am-table-bd am-table-bdrs am-table-striped am-table-hover">
                         <tbody>
+
                         <tr>
                             <th class="am-text-center">#</th>
-                            <th>Browser</th>
-                            <th>Visitors</th>
+                            <th class="am-text-center">Service</th>
+                            <th class="am-text-center">Request</th>
+                            <th class="am-text-center">Installed</th>
                         </tr>
+                        <?foreach ($svc as $item):?>
                         <tr>
-                            <td class="am-text-center"><img src="/assets/i/cp/chrome.png" alt=""></td>
-                            <td>Google Chrome</td>
-                            <td>3,005</td>
+                            <td class="am-text-center"><?=$item->service->id?></td>
+                            <td class="am-text-center"><?=$item->service->name?></td>
+                            <td class="am-text-center"><?=number_format($item->counter->request)?></td>
+                            <td class="am-text-center"><?=number_format($item->counter->download)?></td>
                         </tr>
-                        <tr>
-                            <td class="am-text-center"><img src="/assets/i/cp/firefox.png" alt=""></td>
-                            <td>Mozilla Firefox</td>
-                            <td>2,505</td>
-                        </tr>
-                        <tr>
-                            <td class="am-text-center"><img src="/assets/i/cp/ie.png" alt=""></td>
-                            <td>Internet Explorer</td>
-                            <td>1,405</td>
-                        </tr>
-                        <tr>
-                            <td class="am-text-center"><img src="/assets/i/cp/opera.png" alt=""></td>
-                            <td>Opera</td>
-                            <td>4,005</td>
-                        </tr>
-                        <tr>
-                            <td class="am-text-center"><img src="/assets/i/cp/safari.png" alt=""></td>
-                            <td>Safari</td>
-                            <td>505</td>
-                        </tr>
+                        <?endforeach?>
                         </tbody>
                     </table>
                 </div>
