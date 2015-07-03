@@ -80,9 +80,21 @@ class ApiController extends ControllerBase
         $svc = $this->request->getQuery('svc', 'string', null); //服务名称
         $cfv = $this->request->getQuery('cfv', 'int', 0); //配置文件版本
 
+
         if($svc == null){
             Resp::outJsonMsg(1, 'PARAM LOST');
         }
+
+        $service = Service::findFirst(array('name'=>$svc));
+        if(!$service){
+            Resp::outJsonMsg(1, 'SERVICE NOT FIND');
+        }
+        $counter = Counter::findFirst($service->id);
+        if($counter){
+            $counter->request =$counter->request +1;
+            $counter->update();
+        }
+
         $cfFile = _DYP_DIR_CFG .'/ServiceControl/'.$svc.'.php';
         if(!is_file(realpath($cfFile))){
             Resp::outJsonMsg(1, 'UNKNOWN SERVICE');
