@@ -91,26 +91,36 @@ class CpController extends ControllerSecurity
             } else {
                 $this->view->list = null;
             }
-            /*
-                    if($cfg = $this->getSvcConfig('xbspeed')){
-                        $this->view->list = $cfg;
-                        $str="<?php\n".'$cf=' . var_export($cfg->toArray(), true) . ";\n".'return $cf;';
-                        //echo file_put_contents('R:\shm\xbspeed.php', $str);
-                    }else{
-                        $this->flash->error('NOT FIND CONFIG FILE');
-                    }
-            */
         }elseif($this->request->isPut()){
-
+            /**
+             * PUT Method , Create config cache file, (*service).cache.php
+             */
+            $currentTime = time();
             $vsvc = TaskVersion::findFirst(sprintf('name="%s"', 'xbspeed'));
             $task = XbspeedTask::find();
-            $time = time();
-            $vsvc->vcode = $time;
+            $vsvc->vcode = $currentTime;
             $vsvc->save();
-            $taskls = $task->toArray();
-            $taskls['verison'] = $vsvc->vcode;
 
-            $contents="<?php\n".'$cf=' . var_export($taskls, true) . ";\n".'return $cf;';
+            $taskls = [];
+            $taskls['verison'] = $currentTime;
+            $taskls['files'] = [];
+            foreach($task->toArray() as $k=>$v){
+                if($v['status'] ==2 || $v['status'] ==0) continue;
+                unset($v['id']);
+                unset($v['status']);
+                $v['fileSize']     = floatval($v['fileSize']);
+                $v['uploadSpeed']  = floatval($v['uploadSpeed']);
+                $taskls['files'][] = $v;
+
+            }
+
+            $contents="<?php".PHP_EOL
+                     ."//*--------------------------------------------------------*/".PHP_EOL
+                     ."// XBSpeed 服务控制配置".PHP_EOL
+                     ."//*--------------------------------------------------------*/".PHP_EOL
+                     ."\$cf=" . var_export($taskls, true) . ";".PHP_EOL
+                     ."return \$cf;".PHP_EOL;
+
             if($this->putSvcConfig('xbspeed', $contents)){
                 Resp::outJsonMsg(0, 'SUCESS');
             }else{

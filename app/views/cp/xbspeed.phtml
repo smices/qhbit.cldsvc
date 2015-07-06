@@ -18,10 +18,10 @@
             <div class="am-btn-toolbar">
                 <div class="am-btn-group am-btn-group-xs  am-align-right">
                     <button type="button" class="am-btn am-btn-secondary am-round"><span class="am-icon-plus"></span> New</button>
-                    <button type="button" class="am-btn am-btn-primary"><span class="am-icon-save"></span> Save</button>
                     <button type="button" class="am-btn am-btn-danger am-round"><span class="am-icon-trash-o"></span> Remove</button>
                 </div>
-                <button type="button" id="release" class="am-btn am-btn-xs am-btn-success am-round"><span class="am-icon-play"></span> Release</button>
+                <button type="button" id="release" class="am-btn am-btn-xs am-btn-success am-round"><span class="am-icon-cloud-upload"></span> Release</button>
+                <button type="button" id="reloadPage" style="display: none;" onclick="window.location.reload()" class="am-btn am-btn-xs am-btn-warning am-round"><span class="am-icon-retweet"></span> Reload</button>
             </div>
         </div>
 
@@ -110,16 +110,22 @@
 $("#release").click(function(){
     layer.confirm('Are you sure?', {icon: 3}, function(index){
         layer.close(index);
+        $("#release span").removeClass("am-icon-cloud-upload").addClass("am-icon-spinner am-icon-pulse");
+
         $.ajax({
             url: '<?=$_SERVER['REQUEST_URI']?>',
             type: 'PUT',
-            async:false,
+            //async:false,
             cache:false,
             success: function(response) {
+                $("#release span").removeClass("am-icon-spinner am-icon-pulse").addClass("am-icon-cloud-upload");
                 if(response.code == 0) {
-                    alert("OK:"+response.msg);
+                    $("#release").attr("disabled", true).hide();
+                    $("#reloadPage").show();
+                    layer.msg(response.msg);
+                    layer.tips('Upload Successfully, Please Refresh This Page!', '#reloadPage',{tips: [1, '#f37b1d'],time: 400000});
                 }else{
-                    alert(response.msg);
+                    layer.alert(response.msg, {icon: 11});
                 }
             }
         }, 'JSON');
