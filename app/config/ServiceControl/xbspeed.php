@@ -23,24 +23,24 @@ $cf['files'][] = [
 //------------------//
 
 $cf['files'][] = [
-    'fileName'      => 'GHOSTxp_MFZ_20150x07ca.iso',
-    'storage'       => 'MFZGhost',
-    'fileSize'      => 1191047168,
-    'fileHash'      => '7031fdcd302fc45a03fd7c727654a173',
+    'fileName'      => 'Win8.1_X64_MFZ_CJ_0701.iso',
+    'storage'       => '',
+    'fileSize'      => 4003452928,
+    'fileHash'      => 'd56a52cc71f493a15dcb6f6f1d00f998',
     'uploadSpeed'   => 15,
-    'downloadUrl'   => 'http://down.mofazhu.com/mofazhu/xp/GHOSTxp_MFZ_20150x07ca.iso',
-    'tdConfigUrl'   => 'http://ctr.datacld.com/fs/svc/xbspeed/tdConfigUrl/GHOSTxp_MFZ_20150x07ca.iso.td.cfg',
+    'downloadUrl'   => '',
+    'tdConfigUrl'   => 'http://ctr.datacld.com/fs/svc/xbspeed/tdConfigUrl/Win8.1_X64_MFZ_CJ_0701.iso.td.cfg',
 ];
 //------------------//
 
 $cf['files'][] = [
-    'fileName'      => 'win8.1_x64_MFZ_0525_ok.ISO',
-    'storage'       => 'MFZGhost',
-    'fileSize'      => 4318781440,
-    'fileHash'      => '2db461d8a79dd7514c0aa9ca93351360',
+    'fileName'      => 'Win8.1_X64_XB__0701.iso',
+    'storage'       => '',
+    'fileSize'      => 4241733632,
+    'fileHash'      => 'fc2c2c9cc206cc250f27a6d61accc987',
     'uploadSpeed'   => 15,
-    'downloadUrl'   => 'http://down.mofazhu.com/mofazhu/win8/win8.1_x64_MFZ_0525_ok.ISO',
-    'tdConfigUrl'   => 'http://ctr.datacld.com/fs/svc/xbspeed/tdConfigUrl/win8.1_x64_MFZ_0525_ok.ISO.td.cfg',
+    'downloadUrl'   => '',
+    'tdConfigUrl'   => 'http://ctr.datacld.com/fs/svc/xbspeed/tdConfigUrl/Win8.1_X64_XB__0701.iso.td.cfg',
 ];
 //------------------//
 
@@ -48,60 +48,73 @@ $cf['files'][] = [
 //------------------//
 
 $cf['files'][] = [
-    'fileName'      => 'Win7_x64_MFZ_2015b0701ad.iso',
-    'storage'       => 'MFZGhost',
-    'fileSize'      => 4206891008,
-    'fileHash'      => 'd91de70421cd46a478a7dc221220c607',
+    'fileName'      => 'Win8.1_X64_XB_CJ_0701.iso',
+    'storage'       => '',
+    'fileSize'      => 4003657728,
+    'fileHash'      => '22bdc2683ebe770234b91b3576588ef7',
     'uploadSpeed'   => 15,
-    'downloadUrl'   => 'http://down.mofazhu.com/mofazhu/win7/Win7_x64_MFZ_2015b0701ad.iso',
-    'tdConfigUrl'   => 'http://ctr.datacld.com/fs/svc/xbspeed/tdConfigUrl/Win7_x64_MFZ_2015b0701ad.iso.td.cfg',
+    'downloadUrl'   => '',
+    'tdConfigUrl'   => 'http://ctr.datacld.com/fs/svc/xbspeed/tdConfigUrl/Win8.1_X64_XB_CJ_0701.iso.td.cfg',
 ];
 //------------------//
 
 $cf['files'][] = [
-    'fileName'      => 'Win7_x86_MFZ_2015b0701ad.iso',
-    'storage'       => 'MFZGhost',
-    'fileSize'      => 3201595392,
-    'fileHash'      => '2a02517e301943977636fc47c8f41f75',
+    'fileName'      => 'Win8.1_X64_ZJ_CJ_0701.iso',
+    'storage'       => '',
+    'fileSize'      => 4003880960,
+    'fileHash'      => 'd99eab5e8b4d60453608faf1f491475d',
     'uploadSpeed'   => 15,
-    'downloadUrl'   => 'http://down.mofazhu.com/mofazhu/win7/Win7_x86_MFZ_2015b0701ad.iso',
-    'tdConfigUrl'   => 'http://ctr.datacld.com/fs/svc/xbspeed/tdConfigUrl/Win7_x86_MFZ_2015b0701ad.iso.td.cfg',
+    'downloadUrl'   => '',
+    'tdConfigUrl'   => 'http://ctr.datacld.com/fs/svc/xbspeed/tdConfigUrl/Win8.1_X64_ZJ_CJ_0701.iso.td.cfg',
 ];
 //------------------//
 
 $cf['files'][] = [
-    'fileName'      => 'SD_windowszj_8.1_32_CJ06.iso',
-    'storage'       => 'ZJGhost',
-    'fileSize'      => 3158290432,
-    'fileHash'      => '0b6c676c798910d6b5275632db492ca3',
+    'fileName'      => 'Win8.1_X86_ZJ_CJ_0701.iso',
+    'storage'       => '',
+    'fileSize'      => 3303636992,
+    'fileHash'      => 'ce8a7ee054ec86ee8d0ea0dabb0b2417',
     'uploadSpeed'   => 15,
-    'downloadUrl'   => 'http://down.windowszj.com/zj/win832/SD_windowszj_8.1_32_CJ06.iso',
-    'tdConfigUrl'   => 'http://ctr.datacld.com/fs/svc/xbspeed/tdConfigUrl/SD_windowszj_8.1_32_CJ06.iso.td.cfg',
+    'downloadUrl'   => '',
+    'tdConfigUrl'   => 'http://ctr.datacld.com/fs/svc/xbspeed/tdConfigUrl/Win8.1_X86_ZJ_CJ_0701.iso.td.cfg',
 ];
 //------------------//
 
 //------------------//
 
 $cf['files'][] = [
-    'fileName'      => 'SD_windowszj_8.1_64_CJ06.iso.iso',
-    'storage'       => 'ZJGhost',
-    'fileSize'      => 3994546176,
-    'fileHash'      => 'd8182bb312a45b9c80dc7946883a3725',
+    'fileName'      => 'Win8.1_X32_MFZ_CJ_0701.iso',
+    'storage'       => '',
+    'fileSize'      => 3303208960,
+    'fileHash'      => '32aaf662723a2a8ae6f6100069a8dd37',
     'uploadSpeed'   => 15,
-    'downloadUrl'   => 'http://down.windowszj.com/zj/win864/SD_windowszj_8.1_64_CJ06.iso.iso',
-    'tdConfigUrl'   => 'http://ctr.datacld.com/fs/svc/xbspeed/tdConfigUrl/SD_windowszj_8.1_64_CJ06.iso.iso.td.cfg',
+    'downloadUrl'   => '',
+    'tdConfigUrl'   => 'http://ctr.datacld.com/fs/svc/xbspeed/tdConfigUrl/Win8.1_X32_MFZ_CJ_0701.iso.td.cfg',
 ];
 //------------------//
 
 $cf['files'][] = [
-    'fileName'      => 'SD_win786Ghost_CJ_SP1_2015_b0061ad4.iso',
-    'storage'       => 'ZJGhost',
-    'fileSize'      => 3079409664,
-    'fileHash'      => '6a0a0801b56a4fe9a425a13e7b7ac94e',
+    'fileName'      => 'Win8.1_X32_XB_0701.iso',
+    'storage'       => '',
+    'fileSize'      => 3411976192,
+    'fileHash'      => '5a9de9d0a1308852573740d3d67fe90b',
     'uploadSpeed'   => 15,
-    'downloadUrl'   => 'http://down.windowszj.com/zj/win732/SD_win786Ghost_CJ_SP1_2015_b0061ad4.iso',
-    'tdConfigUrl'   => 'http://ctr.datacld.com/fs/svc/xbspeed/tdConfigUrl/SD_win786Ghost_CJ_SP1_2015_b0061ad4.iso.td.cfg',
+    'downloadUrl'   => '',
+    'tdConfigUrl'   => 'http://ctr.datacld.com/fs/svc/xbspeed/tdConfigUrl/Win8.1_X32_XB_0701.iso.td.cfg',
 ];
+//------------------//
+$cf['files'][] = [
+    'fileName'      => 'Win8.1_X32_XB_CJ_0701.iso',
+    'storage'       => '',
+    'fileSize'      => 3303403520,
+    'fileHash'      => 'cea45f93018b0766048910138607d869',
+    'uploadSpeed'   => 15,
+    'downloadUrl'   => '',
+    'tdConfigUrl'   => 'http://ctr.datacld.com/fs/svc/xbspeed/tdConfigUrl/Win8.1_X32_XB_CJ_0701.iso.td.cfg',
+];
+//------------------//
+
+
 //------------------//
 //------------------//
 
