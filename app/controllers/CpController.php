@@ -102,7 +102,7 @@ class CpController extends ControllerSecurity
             $vsvc->save();
 
             $taskls = [];
-            $taskls['verison'] = $currentTime;
+            $taskls['version'] = $currentTime;
             $taskls['files'] = [];
             foreach($task->toArray() as $k=>$v){
                 if($v['status'] ==2 || $v['status'] ==0) continue;
