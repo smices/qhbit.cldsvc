@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 //*--------------------------------------------------------*/
 // XBSpeed 服务控制配置
 //*--------------------------------------------------------*/
@@ -24,22 +24,22 @@ $cf['files'][] = [
 
 $cf['files'][] = [
     'fileName'      => 'Win8.1_X64_MFZ_CJ_0701.iso',
-    'storage'       => '',
+    'storage'       => 'MFZGhost',
     'fileSize'      => 4003452928,
     'fileHash'      => 'd56a52cc71f493a15dcb6f6f1d00f998',
     'uploadSpeed'   => 15,
-    'downloadUrl'   => '',
+    'downloadUrl'   => 'http://7en.mofazhu.com:808/win8/Win8.1_X64_MFZ_CJ_0701.iso',
     'tdConfigUrl'   => 'http://ctr.datacld.com/fs/svc/xbspeed/tdConfigUrl/Win8.1_X64_MFZ_CJ_0701.iso.td.cfg',
 ];
 //------------------//
 
 $cf['files'][] = [
     'fileName'      => 'Win8.1_X64_XB__0701.iso',
-    'storage'       => '',
+    'storage'       => 'XBGhost',
     'fileSize'      => 4241733632,
     'fileHash'      => 'fc2c2c9cc206cc250f27a6d61accc987',
     'uploadSpeed'   => 15,
-    'downloadUrl'   => '',
+    'downloadUrl'   => 'http://7en.mofazhu.com:808/win8/Win8.1_X64_XB__0701.iso',
     'tdConfigUrl'   => 'http://ctr.datacld.com/fs/svc/xbspeed/tdConfigUrl/Win8.1_X64_XB__0701.iso.td.cfg',
 ];
 //------------------//
@@ -49,33 +49,33 @@ $cf['files'][] = [
 
 $cf['files'][] = [
     'fileName'      => 'Win8.1_X64_XB_CJ_0701.iso',
-    'storage'       => '',
+    'storage'       => 'XBGhost',
     'fileSize'      => 4003657728,
     'fileHash'      => '22bdc2683ebe770234b91b3576588ef7',
     'uploadSpeed'   => 15,
-    'downloadUrl'   => '',
+    'downloadUrl'   => 'http://7en.mofazhu.com:808/win8/Win8.1_X64_XB_CJ_0701.iso',
     'tdConfigUrl'   => 'http://ctr.datacld.com/fs/svc/xbspeed/tdConfigUrl/Win8.1_X64_XB_CJ_0701.iso.td.cfg',
 ];
 //------------------//
 
 $cf['files'][] = [
     'fileName'      => 'Win8.1_X64_ZJ_CJ_0701.iso',
-    'storage'       => '',
+    'storage'       => 'ZJGhost',
     'fileSize'      => 4003880960,
     'fileHash'      => 'd99eab5e8b4d60453608faf1f491475d',
     'uploadSpeed'   => 15,
-    'downloadUrl'   => '',
+    'downloadUrl'   => 'http://7en.mofazhu.com:808/win8/Win8.1_X64_ZJ_CJ_0701.iso',
     'tdConfigUrl'   => 'http://ctr.datacld.com/fs/svc/xbspeed/tdConfigUrl/Win8.1_X64_ZJ_CJ_0701.iso.td.cfg',
 ];
 //------------------//
 
 $cf['files'][] = [
     'fileName'      => 'Win8.1_X86_ZJ_CJ_0701.iso',
-    'storage'       => '',
+    'storage'       => 'ZJGhost',
     'fileSize'      => 3303636992,
     'fileHash'      => 'ce8a7ee054ec86ee8d0ea0dabb0b2417',
     'uploadSpeed'   => 15,
-    'downloadUrl'   => '',
+    'downloadUrl'   => 'http://7en.mofazhu.com:808/win8/Win8.1_X86_ZJ_CJ_0701.iso',
     'tdConfigUrl'   => 'http://ctr.datacld.com/fs/svc/xbspeed/tdConfigUrl/Win8.1_X86_ZJ_CJ_0701.iso.td.cfg',
 ];
 //------------------//
@@ -84,32 +84,32 @@ $cf['files'][] = [
 
 $cf['files'][] = [
     'fileName'      => 'Win8.1_X32_MFZ_CJ_0701.iso',
-    'storage'       => '',
+    'storage'       => 'MFZGhost',
     'fileSize'      => 3303208960,
     'fileHash'      => '32aaf662723a2a8ae6f6100069a8dd37',
     'uploadSpeed'   => 15,
-    'downloadUrl'   => '',
+    'downloadUrl'   => 'http://7en.mofazhu.com:808/win8/Win8.1_X32_MFZ_CJ_0701.iso',
     'tdConfigUrl'   => 'http://ctr.datacld.com/fs/svc/xbspeed/tdConfigUrl/Win8.1_X32_MFZ_CJ_0701.iso.td.cfg',
 ];
 //------------------//
 
 $cf['files'][] = [
     'fileName'      => 'Win8.1_X32_XB_0701.iso',
-    'storage'       => '',
+    'storage'       => 'XBGhost',
     'fileSize'      => 3411976192,
     'fileHash'      => '5a9de9d0a1308852573740d3d67fe90b',
     'uploadSpeed'   => 15,
-    'downloadUrl'   => '',
+    'downloadUrl'   => 'http://7en.mofazhu.com:808/win8/Win8.1_X32_XB_0701.iso',
     'tdConfigUrl'   => 'http://ctr.datacld.com/fs/svc/xbspeed/tdConfigUrl/Win8.1_X32_XB_0701.iso.td.cfg',
 ];
 //------------------//
 $cf['files'][] = [
     'fileName'      => 'Win8.1_X32_XB_CJ_0701.iso',
-    'storage'       => '',
+    'storage'       => 'XBGhost',
     'fileSize'      => 3303403520,
     'fileHash'      => 'cea45f93018b0766048910138607d869',
     'uploadSpeed'   => 15,
-    'downloadUrl'   => '',
+    'downloadUrl'   => 'http://7en.mofazhu.com:808/win8/Win8.1_X32_XB_CJ_0701.iso',
     'tdConfigUrl'   => 'http://ctr.datacld.com/fs/svc/xbspeed/tdConfigUrl/Win8.1_X32_XB_CJ_0701.iso.td.cfg',
 ];
 //------------------//
