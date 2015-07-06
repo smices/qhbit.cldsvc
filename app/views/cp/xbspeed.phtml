@@ -21,17 +21,17 @@
                     <button type="button" class="am-btn am-btn-primary"><span class="am-icon-save"></span> Save</button>
                     <button type="button" class="am-btn am-btn-danger am-round"><span class="am-icon-trash-o"></span> Remove</button>
                 </div>
-                <button type="button" class="am-btn am-btn-xs am-btn-success am-round"><span class="am-icon-play"></span> Release</button>
+                <button type="button" id="release" class="am-btn am-btn-xs am-btn-success am-round"><span class="am-icon-play"></span> Release</button>
             </div>
         </div>
 
         <div class="am-u-sm-12 am-u-md-6 am-text-right">
             <span class="am-badge am-round am-badge-warning am-text-xs">
-                Total: <strong><?=sizeof($list->files)?></strong>
+                Total: <strong><?=sizeof($task)?></strong>
             </span>
             &nbsp;&nbsp;
             <span class="am-badge am-round am-badge-danger am-text-xs">
-                Version: <strong><?=$list->version?></strong>
+                Version: <strong><?=date("Y-m-d H:i:s", $vsvc->vcode)?></strong>
             </span>
         </div>
 
@@ -46,20 +46,18 @@
                     <thead>
                     <tr>
                         <th class="table-check am-text-center"><input type="checkbox" onclick="SelectAll()"/></th>
-                        <th class="table-id am-text-center">ID</th>
-                        <? foreach($list->files[0] as $key => $p): ?>
+                        <? foreach($task->getFirst() as $k => $v): ?>
                             <th class="am-text-center">
-                                <?=ucfirst($key)?>
+                                <?=strtoupper($k)?>
                             </th>
                         <? endforeach ?>
-                        <th class="table-set am-text-center">Operation</th>
+                        <th class="table-set am-text-center">OPERATION</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <? foreach($list->files as $key => $p): ?>
+                    <? foreach($task as $key => $p): ?>
                         <tr>
-                            <td class="am-text-center"><input type="checkbox" name="record" value="<?=$key?>"/></td>
-                            <td class="am-text-center"><?=$key?></td>
+                            <td class="am-text-center"><input type="checkbox" name="record" value="<?=$p->id?>"/></td>
                             <? foreach($p as $key => $v): ?>
                                 <td class="am-text-center">
                                     <?if(strstr(strtolower($key), 'size')): ?>
@@ -94,19 +92,38 @@
 <!-- content end -->
 
 <script>
-    function SelectAll(EleId) {
-        var checkit = true;
-        ele = document.getElementsByName(EleId);
+    checkit = true;
+    function SelectAll() {
+        el = document.getElementsByName("record");
         if (checkit) {
-            for (i = 0; i < ele.length; i++)
-                ele.item(i).checked = true;
+            for (i = 0; i < el.length; i++)
+                el.item(i).checked = true;
             checkit = false;
         }
         else {
-            for (i = 0; i < ele.length; i++)
-                ele.item(i).checked = false;
+            for (i = 0; i < el.length; i++)
+                el.item(i).checked = false;
             checkit = true;
         }
     }
-</script>
 
+$("#release").click(function(){
+    layer.confirm('Are you sure?', {icon: 3}, function(index){
+        layer.close(index);
+        $.ajax({
+            url: '<?=$_SERVER['REQUEST_URI']?>',
+            type: 'PUT',
+            async:false,
+            cache:false,
+            success: function(response) {
+                if(response.code == 0) {
+                    alert("OK:"+response.msg);
+                }else{
+                    alert(response.msg);
+                }
+            }
+        }, 'JSON');
+    });
+
+});//end
+</script>

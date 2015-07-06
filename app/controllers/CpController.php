@@ -1,4 +1,6 @@
 <?php
+use DYP\Response\Simple as Resp;
+
 class CpController extends ControllerSecurity
 {
 
@@ -25,6 +27,22 @@ class CpController extends ControllerSecurity
     }//end
 
     /**
+     * 写入配置文件Cache
+     * @param $svcName
+     *
+     * @return bool
+     */
+    public function putSvcConfig($svcName, $contents)
+    {
+        $cfFile = _DYP_DIR_CFG . '/ServiceControl/' . $svcName . '.cache.php';
+        if(file_put_contents($cfFile, $contents)){
+            return true;
+        }else{
+            return false;
+        }
+    }//end
+
+    /**
      * Index
      */
     public function indexAction()
@@ -41,12 +59,64 @@ class CpController extends ControllerSecurity
      * xbSpeed Service
      */
     public function xbspeedAction(){
+        /**
+         * 汇入旧的文件配置表
+         */
+        /*
+        $task = new XbspeedTask();
         if($cfg = $this->getSvcConfig('xbspeed')){
-            $this->view->list = $cfg;
-            $str="<?php\n".'$cf=' . var_export($cfg->toArray(), true) . ";\n".'return $cf;';
-            //echo file_put_contents('R:\shm\xbspeed.php', $str);
-        }else{
-            $this->flash->error('NOT FIND CONFIG FILE');
+            foreach($cfg->files as $k=>$v){
+                $task = new XbspeedTask();
+                $task->id=null;
+                $task->fileName=$v->fileName;
+                $task->storage=$v->storage;
+                $task->fileSize=$v->fileSize;
+                $task->fileHash=$v->fileHash;
+                $task->uploadSpeed=$v->uploadSpeed;
+                $task->downloadUrl=$v->downloadUrl;
+                $task->tdConfigUrl=$v->tdConfigUrl;
+                $task->create();
+                $task = null;
+            }
+        }
+        die;
+        */
+
+        if($this->request->isGet()) {
+            $vsvc = TaskVersion::findFirst(sprintf('name="%s"', 'xbspeed'));
+            $task = XbspeedTask::find();
+            if ($task) {
+                $this->view->task = $task;
+                $this->view->vsvc = $vsvc;
+            } else {
+                $this->view->list = null;
+            }
+            /*
+                    if($cfg = $this->getSvcConfig('xbspeed')){
+                        $this->view->list = $cfg;
+                        $str="<?php\n".'$cf=' . var_export($cfg->toArray(), true) . ";\n".'return $cf;';
+                        //echo file_put_contents('R:\shm\xbspeed.php', $str);
+                    }else{
+                        $this->flash->error('NOT FIND CONFIG FILE');
+                    }
+            */
+        }elseif($this->request->isPut()){
+
+            $vsvc = TaskVersion::findFirst(sprintf('name="%s"', 'xbspeed'));
+            $task = XbspeedTask::find();
+            $time = time();
+            $vsvc->vcode = $time;
+            $vsvc->save();
+            $taskls = $task->toArray();
+            $taskls['verison'] = $vsvc->vcode;
+
+            $contents="<?php\n".'$cf=' . var_export($taskls, true) . ";\n".'return $cf;';
+            if($this->putSvcConfig('xbspeed', $contents)){
+                Resp::outJsonMsg(0, 'SUCESS');
+            }else{
+                Resp::outJsonMsg(1, 'WRITE CACHE FAILURE');
+            }
+
         }
     }//end
 
