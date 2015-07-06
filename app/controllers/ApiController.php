@@ -115,12 +115,21 @@ class ApiController extends ControllerApi
         }
 
         $cfFile = _DYP_DIR_CFG .'/ServiceControl/'.$svc.'.php';
-        if(!is_file(realpath($cfFile))){
+        $cfCacheFile = _DYP_DIR_CFG .'/ServiceControl/'.$svc.'.cache.php';
+
+        if(!is_file(realpath($cfCacheFile)) && !is_file(realpath($cfFile))){
             Resp::outJsonMsg(1, 'UNKNOWN SERVICE');
         }
-        $cfg = new Phalcon\Config\Adapter\Php(realpath($cfFile));
+        if(is_file(realpath($cfCacheFile))){
+            $cfg = new Phalcon\Config\Adapter\Php(realpath($cfCacheFile));
+            $cfg->source = substr(basename($cfCacheFile), 0, -4);
+        }else{
+            $cfg = new Phalcon\Config\Adapter\Php(realpath($cfFile));
+            $cfg->source = substr(basename($cfFile), 0, -4);
+        }
 
         if(0 == $cfv || (int) $cfv < (int) $cfg->version){
+
             Resp::outJsonMsg(0, $cfg->toArray());
         }else{
             Resp::outJsonMsg(9, 'NO UPDATE');
