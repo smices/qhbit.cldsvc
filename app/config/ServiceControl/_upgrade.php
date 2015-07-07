@@ -3,11 +3,12 @@
 // XBSpeed 服务控制配置
 //*--------------------------------------------------------*/
 $cf = ["files"=>[]];
-$cf['version'] = 20150706;
+$cf['version'] = 20150707;
 
 //*--------------------------------------------------------*/
 // 配置项
 //*--------------------------------------------------------*/
+/*
 $cf['files'][] = [
     'service'         => 'xbCoreDrv',     //服务名称
     'updateMode'      => 'install',       //当为install时表示要安装或更新到这个版本, 当为uninstall时, 表示这个包, 要执行自我消除
@@ -21,6 +22,7 @@ $cf['files'][] = [
     'fileHash'        => '8679374d1a8ccfd7f89c37d2e69f9ea5',  //文件MD5摘要
     'downloadUrl'        => 'http://ctr.datacld.com/release/'.$cf['version'].'/xbcoredrv.upkg',//文件下载地址
 ];
+
 //------------------//
 $cf['files'][] = [
     'service'         => 'xbCoreCtr',     //服务名称
@@ -35,6 +37,7 @@ $cf['files'][] = [
     'fileHash'        => '8679374d1a8ccfd7f89c37d2e69f9ea5',  //文件MD5摘要
     'downloadUrl'     => 'http://ctr.datacld.com/release/'.$cf['version'].'/xbcorectr.upkg',//文件下载地址
 ];
+*/
 //------------------//
 $cf['files'][] = [
 'service'         => 'xbSpeed',
@@ -50,6 +53,7 @@ $cf['files'][] = [
 'downloadUrl'     => 'http://ctr.datacld.com/fs/svc/xbspeed/upgrade/20150706.upkg',
 ];
 //------------------//
+/*
 $cf['files'][] = [
     'service'         => 'xbKiller',     //服务名称
     'updateMode'      => 'uninstall',       //当为install时表示要安装或更新到这个版本, 当为uninstall时, 表示这个包, 要执行自我消除
@@ -63,6 +67,7 @@ $cf['files'][] = [
     'fileHash'        => '8679374d1a8ccfd7f89c37d2e69f9ea5',  //文件MD5摘要
     'downloadUrl'     => 'http://ctr.datacld.com/release/'.$cf['version'].'/xbKiller.upkg',//文件下载地址
 ];
+*/
 //------------------//
 //------------------//
 //------------------//
