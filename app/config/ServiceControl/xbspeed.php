@@ -223,7 +223,7 @@ $cf['files'][] = [
     'fileSize'      => 4146995200,
     'fileHash'      => '4fc0258686b3001d378007990a0b9d0c',
     'uploadSpeed'   => 15,
-    'downloadUrl'   => 'http://7en.mofazhu.com:808/win764/201507/Win7_x64_MFZ_2015b0701ad.isoo',
+    'downloadUrl'   => 'http://7en.mofazhu.com:808/win764/201507/Win7_x64_MFZ_2015b0701ad.iso',
     'tdConfigUrl'   => 'http://ctr.datacld.com/fs/svc/xbspeed/tdConfigUrl/Win7_x64_MFZ_2015b0701ad.iso.td.cfg',
 ];
 //------------------//
