@@ -82,16 +82,8 @@ class CpController extends ControllerSecurity
         die;
         */
 
-        if($this->request->isGet()) {
-            $vsvc = TaskVersion::findFirst(sprintf('name="%s"', 'xbspeed'));
-            $task = XbspeedTask::find();
-            if ($task) {
-                $this->view->task = $task;
-                $this->view->vsvc = $vsvc;
-            } else {
-                $this->view->list = null;
-            }
-        }elseif($this->request->isPut()){
+        if($this->request->isPut()){
+            $this->view->disable();
             /**
              * PUT Method , Create config cache file, (*service).cache.php
              */
@@ -126,8 +118,33 @@ class CpController extends ControllerSecurity
             }else{
                 Resp::outJsonMsg(1, 'WRITE CACHE FAILURE');
             }
+        }elseif($this->request->isPost()){
+            $this->view->disable();
+            /**
+             * Post method, Create a new record.
+             */
 
+
+        }elseif($this->request->isDelete()){
+            $this->view->disable();
+            /**
+             * Delete method, disabled record(s)
+             */
+
+        }else{
+            /**
+             * Get method or other method , show operation page.
+             */
+            $vsvc = TaskVersion::findFirst(sprintf('name="%s"', 'xbspeed'));
+            $task = XbspeedTask::find();
+            if ($task) {
+                $this->view->task = $task;
+                $this->view->vsvc = $vsvc;
+            } else {
+                $this->view->list = null;
+            }
         }
+
     }//end
 
     /**
