@@ -244,4 +244,21 @@ class CpController extends ControllerSecurity
     public function softmgrAction(){
 
     }
+
+    /**
+     * 检查远程文件是否存在
+     */
+    public function rfexistsAction(){
+        $file = $this->request->getQuery('file', 'string');
+        if(empty($file)) Resp::outJsonMsg(1, 'FILE ERROR');
+        $resp = get_headers($file,1);
+        if(preg_match('/200/',$resp[0])){
+            Resp::outJsonMsg(0, '200', $this->request);
+        }elseif(preg_match('/503/',$resp[0])){
+            Resp::outJsonMsg(0, '503', $this->request);
+        }else{
+            Resp::outJsonMsg(1, join(",", $resp), $this->request);
+        }
+    }//end
+
 }//end
