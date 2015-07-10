@@ -104,7 +104,7 @@
         </div>
         <div class="am-popup-bd">
 
-            <form class="am-form am-form-horizontal" name="create" id="frm_create" data-am-validator>
+            <form class="am-form am-form-horizontal" name="create" onsubmit="return false;" id="frm_create" data-am-validator>
                 <div class="am-form-group am-form-group-sm">
                     <div class="am-u-sm-9 am-u-sm-offset-3">
                         <div class="am-alert am-alert-warning am-text-center">
@@ -117,6 +117,7 @@
                     <label for="field_fileName" class="am-u-sm-3 am-form-label label">文件名称</label>
                     <div class="am-u-sm-9">
                         <input type="input" name="field_fileName" id="field_fileName" class="am-form-field am-radius"
+                               value="abc.iso"
                                placeholder="请输入 文件名称" pattern="([iso|ISO])$" required />
                     </div>
                 </div>
@@ -131,6 +132,7 @@
                     <label for="field_fileSize" class="am-u-sm-3 am-form-label">文件大小</label>
                     <div class="am-u-sm-9">
                         <input type="number" name="field_fileSize" id="field_fileSize" class="am-form-field am-radius"
+                               value="123456"
                                placeholder="请输入 文件大小 数字值" required />
                     </div>
                 </div>
@@ -139,6 +141,7 @@
                     <label for="field_fileHash" class="am-u-sm-3 am-form-label">文件MD5值</label>
                     <div class="am-u-sm-9">
                         <input type="input" name="field_fileHash" id="field_fileHash" class="am-form-field am-radius"
+                               value="<?=md5(uniqid())?>"
                                placeholder="请输入 文件MD5值 32位长度" minlength="32" maxlength="32" required />
                     </div>
                 </div>
@@ -175,7 +178,7 @@
 
                 <div class="am-form-group am-form-group-sm">
                     <div class="am-u-sm-6 am-u-sm-offset-3">
-                        <button type="submit" class="am-btn am-btn-primary am-btn-block am-round">Create</button>
+                        <button type="submit" id="submitCreate" class="am-btn am-btn-primary am-btn-block am-round">Create</button>
                     </div>
                 </div>
             </form>
@@ -280,12 +283,14 @@ $(function(){
             $tooltip.hide();
         }
     });
-console.log(validator.isFormValid());
 
-    if (validator.isFormValid()) {
-        //alert('PASS');
-        return false;
-    }
+    $('#submitCreate').click(function (){
+        $.when($form.validator('isFormValid')).then(function() {
+            // 验证成功的逻辑
+            console.log($form.serialize());
+            return false;
+        });
+    });
 
 });
 
