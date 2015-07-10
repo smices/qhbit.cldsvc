@@ -14,16 +14,31 @@
     </div>
 
     <ul class="am-avg-sm-1 am-avg-md-5 am-margin am-padding am-text-center admin-content-list ">
-        <li><a href="#" class="am-text-primary"><span class="am-icon-btn am-primary am-icon-group"></span><br/>User Total<br/><strong><?=number_format(2456798/10000,2)?></strong>万</a>
+        <li><a href="#" class="am-text-primary">
+                <span class="am-icon-btn am-primary am-icon-group"></span><br/>User Total<br/>
+                <strong><?=number_format($userTotal)?></strong></a>
         </li>
-        <li><a href="#" class="am-text-success"><span
-                    class="am-icon-btn am-success am-icon-user-plus"></span><br/>New User<br/><strong><?=number_format(rand(30000, 1000000))?></strong></a></li>
-        <li><a href="#" class="am-text-secondary"><span class="am-icon-btn am-secondary am-icon-user-md"></span><br/>Online User<br/><strong><?=number_format(rand(30000, 1000000))?></strong></a>
+
+        <li><a href="#" class="am-text-success">
+                <span class="am-icon-btn am-success am-icon-user-plus"></span><br/>New User<br/>
+                <strong><?=number_format($todayUserTotal)?></strong></a>
         </li>
-        <li><a href="#" class="am-text-danger"><span
-                    class="am-icon-btn am-danger am-icon-area-chart"></span><br/>History Visitors<br/><strong><?=number_format(rand(30000, 1000000))?></strong></a></li>
-        <li><a href="#" class="am-text-warning"><span
-                    class="am-icon-btn am-warning am-icon-clock-o"></span><br/>Visitors<br/><strong><?=number_format(rand(30000, 1000000))?></strong></a></li>
+
+        <li><a href="#" class="am-text-secondary">
+                <span class="am-icon-btn am-secondary am-icon-user-md"></span><br/>Online User<br/>
+                <strong><?=number_format(rand(30000, 1000000))?></strong></a>
+        </li>
+
+        <li><a href="#" class="am-text-danger">
+                <span class="am-icon-btn am-danger am-icon-area-chart"></span><br/>History Visitors<br/>
+                <strong><?=number_format(rand(30000, 1000000))?></strong></a>
+        </li>
+
+        <li><a href="#" class="am-text-warning">
+                <span class="am-icon-btn am-warning am-icon-clock-o"></span><br/>Visitors<br/>
+                <strong><?=number_format(rand(30000, 1000000))?></strong></a>
+        </li>
+
     </ul>
 
 

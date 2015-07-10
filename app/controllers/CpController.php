@@ -48,10 +48,22 @@ class CpController extends ControllerSecurity
     public function indexAction()
     {
 
+		//Service Total
         //$phql = "SELECT Service.* FROM Service INNER JOIN Counter ON Service.id = Counter.svc";
         $svc_sql = "SELECT Service.*, Counter.* FROM Service INNER JOIN Counter ON Service.id = Counter.svc";
         $svc_rs = $this->modelsManager->executeQuery($svc_sql);
         $this->view->svc = $svc_rs;
+
+		//HD User Total
+        $this->view->userTotal      = HdUser::count();
+        $this->view->todayUserTotal = HdUser::count("to_days(ctime)=to_days(now())");//今天
+        /*
+        $this->view->yesterdayTotal = HdUser::count("TO_DAYS(NOW()) – TO_DAYS(ctime) = 1");//昨天
+        $this->view->weekTotal      = HdUser::count("DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(ctime)");//昨天
+        $this->view->thDayTotal     = HdUser::count("DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(ctime)");//近30天
+        $this->view->MonthDayTotal  = HdUser::count("DATE_FORMAT(ctime, '%Y%m' = DATE_FORMAT(CURDATE(), '%Y%m')");//本月
+        //dd($this->view->todayTotal);
+        */
 
     }//end
 
