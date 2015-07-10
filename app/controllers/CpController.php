@@ -65,6 +65,27 @@ class CpController extends ControllerSecurity
         //dd($this->view->todayTotal);
         */
 
+        $this->view->TotalUnique = $this->view->HistoryVisitors = $this->view->OnlineUser = 'Unknown';
+
+        if(strtolower(PHP_OS) == 'linux'){
+            $awstatsFile = "/DYFS/storage/awstats/awstats".date("mY").".ctr.datacld.com.txt";
+        }else{//for test
+            $awstatsFile = "D:/usr/local/Apache64/temp/awstats".date("mY").".ctr.datacld.com.txt";
+        }
+
+        if(is_file($awstatsFile)){
+            $str = file_get_contents($awstatsFile);
+            $s=strpos($str,'BEGIN_GENERAL');
+            if ($s) $str=substr($str,$s);
+            $e=strpos($str,'END_GENERAL');//寻找位置
+            if ($e) $str=substr($str,0, $e);//删除后面
+            $awlist = explode("\n", $str);
+            $startWith = function ($str, $needle) {return strpos($str, $needle) === 0;};
+            foreach($awlist as $v){
+                if($startWith($v, 'TotalUnique')) $this->view->TotalUnique = trim(str_replace("TotalUnique","", $v));
+            }
+        }
+
     }//end
 
     /**
