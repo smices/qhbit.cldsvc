@@ -7,7 +7,7 @@ define("_DYP_APPVER",          _DYP_APPVER_JOURNAL.'.'._DYP_APPVER_REVISE);
 $loader = new \Phalcon\Loader();
 
 $loader->registerNamespaces(array(
-//    'Phalcon' => $config->application->libraryDir . '/Phalcon/',
+    //'Phalcon' => $config->application->libraryDir . '/Phalcon/',
     'DYP'     => $config->application->libraryDir . '/DYP/'
 ));
 
@@ -19,3 +19,4 @@ $loader->registerDirs(
         $config->application->pluginsDir
     )
 )->register();
+

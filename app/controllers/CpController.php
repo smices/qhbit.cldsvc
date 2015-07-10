@@ -1,5 +1,6 @@
 <?php
-use DYP\Response\Simple as Resp;
+use DYP\Response\Simple as Resp,
+    DYP\Sys\FileCache as Fc;
 
 class CpController extends ControllerSecurity
 {
@@ -156,7 +157,30 @@ class CpController extends ControllerSecurity
             /**
              * Post method, Create a new record.
              */
+            $task = new XbspeedTask();
+            $task->id = null;
+            $task->fileName = $this->request->getPost('field_fileName', 'string', null);
+            $task->storage = $this->request->getPost('field_storage', 'string', null);
+            $task->fileSize = $this->request->getPost('field_fileSize', 'int');
+            $task->fileHash = $this->request->getPost('field_fileHash', 'string');
+            $task->uploadSpeed = $this->request->getPost('field_uploadSpeed', 'int');
+            $task->downloadUrl = $this->request->getPost('field_downloadUrl', 'string');
+            $task->tdConfigUrl = 'http://ctr.datacld.com/fs/svc/xbspeed/tdConfigUrl/' . $task->fileName . '.td.cfg';
+            $task->status = 1;
+            if(empty($task->fileName) || empty($task->fileSize) || strlen($task->fileHash) != 32 ||
+                empty($task->uploadSpeed) || empty($task->downloadUrl)){
+                Resp::outJsonMsg(1, 'FIELD EMTPY', $this->request);
+            }
+            if($task->create()){
+                Resp::outJsonMsg(0, 'SUCCESS', $this->request);
+            }else{
+                $err = array();
+                foreach ($task->getMessages() as $message) {
+                    $err[] = $message;
+                }
+                Resp::outJsonMsg(1, join(",", $err), $this->request);
 
+            }
 
         }elseif($this->request->isDelete()){
             $this->view->disable();
@@ -217,4 +241,7 @@ class CpController extends ControllerSecurity
 
     }//end
 
+    public function softmgrAction(){
+
+    }
 }//end

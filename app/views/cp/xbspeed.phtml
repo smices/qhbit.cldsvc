@@ -117,7 +117,6 @@
                     <label for="field_fileName" class="am-u-sm-3 am-form-label label">文件名称</label>
                     <div class="am-u-sm-9">
                         <input type="input" name="field_fileName" id="field_fileName" class="am-form-field am-radius"
-                               value="abc.iso"
                                placeholder="请输入 文件名称" pattern="([iso|ISO])$" required />
                     </div>
                 </div>
@@ -132,7 +131,6 @@
                     <label for="field_fileSize" class="am-u-sm-3 am-form-label">文件大小</label>
                     <div class="am-u-sm-9">
                         <input type="number" name="field_fileSize" id="field_fileSize" class="am-form-field am-radius"
-                               value="123456"
                                placeholder="请输入 文件大小 数字值" required />
                     </div>
                 </div>
@@ -141,7 +139,6 @@
                     <label for="field_fileHash" class="am-u-sm-3 am-form-label">文件MD5值</label>
                     <div class="am-u-sm-9">
                         <input type="input" name="field_fileHash" id="field_fileHash" class="am-form-field am-radius"
-                               value="<?=md5(uniqid())?>"
                                placeholder="请输入 文件MD5值 32位长度" minlength="32" maxlength="32" required />
                     </div>
                 </div>
@@ -284,42 +281,35 @@ $(function(){
         }
     });
 
-    $('#submitCreate').click(function (){
+    $('#submitCreate').click(function (e){
         $.when($form.validator('isFormValid')).then(function() {
             // 验证成功的逻辑
-            console.log($form.serialize());
+            $.ajax({
+                url: '<?=$_SERVER['REQUEST_URI']?>',
+                type: 'POST',
+                data: $form.serialize(),
+                cache: false,
+                success: function (response) {
+                    $("#release span").removeClass("am-icon-spinner am-icon-pulse").addClass("am-icon-cloud-upload");
+                    if (response.code == 0) {
+                        $("#release").attr("disabled", true).hide();
+                        $("#reloadPage").show();
+                        layer.msg(response.msg);
+                        layer.tips('Upload Successfully, Please Refresh This Page!', '#reloadPage', {
+                            tips: [1, '#f37b1d'],
+                            time: 400000
+                        });
+                        window.location.reload();
+                    } else {
+                        layer.alert(response.msg, {icon: 11});
+                    }
+                }
+            }, 'JSON');
+            //console.log($form.serialize());
             return false;
         });
     });
 
 });
 
-/*
-$('#frm_create').submit(function(e){
-    e.preventDefault();
-    chk = $("#frm_create").Validform();
-    if(chk) {
-        $.ajax({
-            url: '<?=$_SERVER['REQUEST_URI']?>',
-            type: 'POST',
-            data: $(this).serialize(),
-            cache: false,
-            success: function (response) {
-                $("#release span").removeClass("am-icon-spinner am-icon-pulse").addClass("am-icon-cloud-upload");
-                if (response.code == 0) {
-                    $("#release").attr("disabled", true).hide();
-                    $("#reloadPage").show();
-                    layer.msg(response.msg);
-                    layer.tips('Upload Successfully, Please Refresh This Page!', '#reloadPage', {
-                        tips: [1, '#f37b1d'],
-                        time: 400000
-                    });
-                } else {
-                    layer.alert(response.msg, {icon: 11});
-                }
-            }
-        }, 'JSON');
-    }
-});
-*/
 </script>
