@@ -22,6 +22,18 @@ class Service extends \Phalcon\Mvc\Model
      *
      * @var string
      */
+    public $version;
+
+    /**
+     *
+     * @var integer
+     */
+    public $version_code;
+
+    /**
+     *
+     * @var string
+     */
     public $description;
 
     /**

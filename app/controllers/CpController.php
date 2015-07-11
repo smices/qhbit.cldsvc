@@ -137,21 +137,30 @@ class CpController extends ControllerSecurity
                 $v['fileSize']     = floatval($v['fileSize']);
                 $v['uploadSpeed']  = floatval($v['uploadSpeed']);
                 $taskls['files'][] = $v;
-
             }
 
-            $contents="<?php".PHP_EOL
-                     ."//*--------------------------------------------------------*/".PHP_EOL
-                     ."// XBSpeed 服务控制配置".PHP_EOL
-                     ."//*--------------------------------------------------------*/".PHP_EOL
-                     ."\$cf=" . var_export($taskls, true) . ";".PHP_EOL
-                     ."return \$cf;".PHP_EOL;
-
-            if($this->putSvcConfig('xbspeed', $contents)){
-                Resp::outJsonMsg(0, 'SUCESS');
+            //序列化, 写入内容
+            $strSerial = igbinary_serialize($taskls);
+            //Gen cache file by json format
+            $igbFile = _DYP_DIR_CFG .'/release_ctr/svc_xbspeed.igb';
+            if(file_put_contents($igbFile, $strSerial)){
+                Resp::outJsonMsg(0, 'SUCCESS', $this->request);
             }else{
-                Resp::outJsonMsg(1, 'WRITE CACHE FAILURE');
+                Resp::outJsonMsg(1, 'WRITE CACHE FAILURE', $this->request);
             }
+
+//            $contents="<?php".PHP_EOL
+//                     ."//*--------------------------------------------------------*/".PHP_EOL
+//                     ."// XBSpeed 服务控制配置".PHP_EOL
+//                     ."//*--------------------------------------------------------*/".PHP_EOL
+//                     ."\$cf=" . var_export($taskls, true) . ";".PHP_EOL
+//                     ."return \$cf;".PHP_EOL;
+//            if($this->putSvcConfig('xbspeed', $contents)){
+//                Resp::outJsonMsg(0, 'SUCESS', $this->request);
+//            }else{
+//                Resp::outJsonMsg(1, 'WRITE CACHE FAILURE', $this->request);
+//            }
+
         }elseif($this->request->isPost()){
             $this->view->disable();
             /**
@@ -208,12 +217,51 @@ class CpController extends ControllerSecurity
      * 核心服务管理
      */
     public function coresvcAction(){
-        if($cfg = $this->getSvcConfig('_upgrade')){
-            $this->view->list = $cfg;
-            $str="<?php\n".'$cf=' . var_export($cfg->toArray(), true) . ";\n".'return $cf;';
-            //echo file_put_contents('R:\shm\_upgrade.php', $str);
-        }else{
-            $this->flash->error('NOT FIND CONFIG FILE');
+        if($this->request->isGet()){
+            /**
+             * Get method or other method , show operation page.
+             */
+            $vsvc = TaskVersion::findFirst(sprintf('name="%s"', 'upgrade'));
+            $task = Upgrade::find();
+            if ($task) {
+                $this->view->task = $task;
+                $this->view->vsvc = $vsvc;
+            } else {
+                $this->view->list = null;
+            }
+        }elseif($this->request->isPut()){
+            /**
+             * 生成发行文件, 供API调用
+             */
+            $this->view->disable();
+            $channel = $this->request->getQuery('channel', 'string', 'production');
+
+            $task = Upgrade::find();
+            $list = array();
+            $list['version'] = self::$TIMESTAMP_NOW;
+            $list['files'] = array();
+            foreach($task->toArray() as $k=>$v){
+                //if($v['status'] ==2 || $v['status'] ==0) continue;
+                unset($v['id']);
+                unset($v['channel']);
+                //unset($v['status']);
+                $v['lastVersionCode'] = floatval($v['lastVersionCode']);
+                $v['fileSize']     = floatval($v['fileSize']);
+                $list['files'][] = $v;
+            }
+            //刷新版本
+            $vsvc = TaskVersion::findFirst(sprintf('name="%s"', 'upgrade'));
+            $vsvc->vcode = self::$TIMESTAMP_NOW;
+            $vsvc->save();
+
+            $strSerial = igbinary_serialize($list);
+            //Gen cache file by json format
+            $igbFile = _DYP_DIR_CFG .'/release_ctr/upgrade.igb';
+            if(file_put_contents($igbFile, $strSerial)){
+                Resp::outJsonMsg(0, 'SUCCESS', $this->request);
+            }else{
+                Resp::outJsonMsg(1, 'WRITE CACHE FAILURE', $this->request);
+            }
         }
     }//end
 

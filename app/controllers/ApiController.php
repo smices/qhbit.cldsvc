@@ -53,16 +53,28 @@ class ApiController extends ControllerApi
      * 获取我方程序更新列表
      */
     public function upgradeAction(){
-        $cfv = $this->request->getQuery('cfv', 'int', 0); //配置文件版本
 
-        if(!is_file(realpath(_DYP_DIR_CFG .'/ServiceControl/_upgrade.php'))) {
-            Resp::outJsonMsg(1, 'LIST NOT FIND', $this->request);
+        $cacheKey = 'SYS0:upgrade.igb';
+        $rInfo   = $this->memCache->get($cacheKey);
+        $_fromCache = true;
+        if ($rInfo === null) {
+            $rFile = _DYP_DIR_CFG .'/release_ctr/upgrade.igb';
+
+            if(!is_file(realpath($rFile))) {
+                Resp::outJsonMsg(1, 'LIST NOT FIND', $this->request);
+            }
+            $rInfo = file_get_contents($rFile);
+            //存入缓冲
+            $this->memCache->save($cacheKey, $rInfo);
+            $_fromCache = false;
         }
-        $cfg = new Phalcon\Config\Adapter\Php(realpath(_DYP_DIR_CFG .'/ServiceControl/_upgrade.php'));
-        if($cfg){
-            if(0 == $cfv || (int) $cfv < (int) $cfg->version){
-                //unset($cfg->config);
-                Resp::outJsonMsg(0, $cfg->toArray());
+
+        if($rInfo){
+            $rInfo = igbinary_unserialize($rInfo);
+            $cfv = $this->request->getQuery('cfv', 'int', 0); //配置文件版本
+            if(0 == $cfv || (int) $cfv < (int) $rInfo['version']){
+                $rInfo['source'] = ($_fromCache)?'mem':'igb';
+                Resp::outJsonMsg(0, $rInfo);
             }else{
                 Resp::outJsonMsg(9, 'NO UPDATE');
             }
@@ -114,6 +126,38 @@ class ApiController extends ControllerApi
             $counter->update();
         }
 
+        //带Cache处理数据块
+        $cacheKey = 'SYS0:svc_'.$svc.'.igb';
+        $rInfo   = $this->memCache->get($cacheKey);
+        $_fromCache = true;
+        if ($rInfo === null) {
+            $rFile = _DYP_DIR_CFG .'/release_ctr/svc_'.$svc.'.igb';
+
+            if(!is_file(realpath($rFile))) {
+                Resp::outJsonMsg(1, 'LIST NOT FIND', $this->request);
+            }
+            $rInfo = file_get_contents($rFile);
+            //存入缓冲
+            $this->memCache->save($cacheKey, $rInfo);
+            $_fromCache = false;
+        }
+
+        if($rInfo){
+            $rInfo = igbinary_unserialize($rInfo);
+            $cfv = $this->request->getQuery('cfv', 'int', 0); //配置文件版本
+            if(0 == $cfv || (int) $cfv < (int) $rInfo['version']){
+                $rInfo['source'] = ($_fromCache)?'mem':'igb';
+                Resp::outJsonMsg(0, $rInfo);
+            }else{
+                Resp::outJsonMsg(9, 'NO UPDATE');
+            }
+        }else{
+            Resp::outJsonMsg(1, "UNKNOWN ERROR");
+        }
+
+
+
+/*
         $cfFile = _DYP_DIR_CFG .'/ServiceControl/'.$svc.'.php';
         $cfCacheFile = _DYP_DIR_CFG .'/ServiceControl/'.$svc.'.cache.php';
 
@@ -135,6 +179,7 @@ class ApiController extends ControllerApi
             Resp::outJsonMsg(9, 'NO UPDATE');
         }
 
+*/
     }//end
 
 }//end

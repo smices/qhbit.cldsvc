@@ -7,7 +7,12 @@ use Phalcon\DI\FactoryDefault,
     Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter,
     Phalcon\Session\Adapter\Files as SessionAdapter,
     Phalcon\Crypt as Crypt,
-    Phalcon\Http\Response\Cookies as Cookies;
+    Phalcon\Http\Response\Cookies as Cookies,
+    Phalcon\Cache\Frontend\Data as FrontData,
+    Phalcon\Cache\Backend\File as BackFile,
+    Phalcon\Cache\Backend\Memcache as MemcacheCache;
+
+
 
 $di = new FactoryDefault();
 /*
@@ -164,3 +169,46 @@ $di->set('cookies', function() {
     $cookies->useEncryption(true);
     return $cookies;
 });
+
+
+
+/**
+ * Data Cache By Memory
+ */
+$di->set('memCache', function() {
+    //Cache data for 2 day
+    $frontCache = new FrontData(array("lifetime" => 172800));
+    /**
+     * Create the component that will cache "Data" to a "Memcached" backend
+     * Memcached connection settings
+     */
+    $cache = new MemcacheCache($frontCache, array(
+        "servers" => array(
+            array(
+                "host" => "127.0.0.1",
+                "port" => "11211",
+                "weight" => "1"
+            )
+        )
+    ));
+    return $cache;
+});
+
+
+/**
+ * Data Cache By Files
+ */
+$di->set('fileCache', function() use ($config){
+    // Cache the files for 2000 days using a Data frontend
+    $frontCache = new FrontData(array("lifetime" => 172800000));
+    /**
+     * Create the component that will cache "Data" to a "File" backend
+     * Set the cache file directory - important to keep the "/" at the end of
+     * of the value for the folder
+     */
+    $cache = new BackFile($frontCache, array(
+        "cacheDir" => $config->application->cacheDir
+    ));
+    return $cache;
+});
+

@@ -29,9 +29,9 @@ class FileCache{
     /**
      * 写文件, 文件名就是KEY, 先在真实的位置写入, 再写一份到Cache位置, 默认在/dev/shm/DYPFC
      *
-     * @param $filename
+     * @param $file
      * @param $content
-     * @rturn bool
+     * @return bool
      */
     static public function put($file, $content){
         $rbk = file_put_contents($file, $content);

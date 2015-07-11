@@ -44,7 +44,8 @@
 [GET][PUBILC] http://ctr.datacld.com/api/upgrade
     [GET]参数(参数名前带*号的为必须要的字段, #为可选):
         # cfv={int:[20150629]}  ** 客户端当前配置文件的版本, 版本号以年份来表示(当没有本参数时,传最新数据)
-        使用范例:http://ctr.datacld.com/api/upgrade?cfv=20150629
+        # channel={string:[production|testing|development']}  ** 客户端请求的更新频道 默认为Production
+        使用范例:http://ctr.datacld.com/api/upgrade?cfv=20150629&channel=development
     [RESPONSE]:
         分段说明:
             [xbCoreDrv] 常用文件名
