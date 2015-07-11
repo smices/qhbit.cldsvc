@@ -93,29 +93,6 @@ class CpController extends ControllerSecurity
      * xbSpeed Service
      */
     public function xbspeedAction(){
-        /**
-         * 汇入旧的文件配置表
-         */
-        /*
-        $task = new XbspeedTask();
-        if($cfg = $this->getSvcConfig('xbspeed')){
-            foreach($cfg->files as $k=>$v){
-                $task = new XbspeedTask();
-                $task->id=null;
-                $task->fileName=$v->fileName;
-                $task->storage=$v->storage;
-                $task->fileSize=$v->fileSize;
-                $task->fileHash=$v->fileHash;
-                $task->uploadSpeed=$v->uploadSpeed;
-                $task->downloadUrl=$v->downloadUrl;
-                $task->tdConfigUrl=$v->tdConfigUrl;
-                $task->create();
-                $task = null;
-            }
-        }
-        die;
-        */
-
         if($this->request->isPut()){
             $this->view->disable();
             /**
@@ -144,22 +121,11 @@ class CpController extends ControllerSecurity
             //Gen cache file by json format
             $igbFile = _DYP_DIR_CFG .'/release_ctr/svc_xbspeed.igb';
             if(file_put_contents($igbFile, $strSerial)){
+                if($this->memCache->exists('SYS0:svc_xbspeed.igb')){$this->memCache->delete('SYS0:svc_xbspeed.igb');}
                 Resp::outJsonMsg(0, 'SUCCESS', $this->request);
             }else{
                 Resp::outJsonMsg(1, 'WRITE CACHE FAILURE', $this->request);
             }
-
-//            $contents="<?php".PHP_EOL
-//                     ."//*--------------------------------------------------------*/".PHP_EOL
-//                     ."// XBSpeed 服务控制配置".PHP_EOL
-//                     ."//*--------------------------------------------------------*/".PHP_EOL
-//                     ."\$cf=" . var_export($taskls, true) . ";".PHP_EOL
-//                     ."return \$cf;".PHP_EOL;
-//            if($this->putSvcConfig('xbspeed', $contents)){
-//                Resp::outJsonMsg(0, 'SUCESS', $this->request);
-//            }else{
-//                Resp::outJsonMsg(1, 'WRITE CACHE FAILURE', $this->request);
-//            }
 
         }elseif($this->request->isPost()){
             $this->view->disable();
@@ -234,17 +200,13 @@ class CpController extends ControllerSecurity
              * 生成发行文件, 供API调用
              */
             $this->view->disable();
-            $channel = $this->request->getQuery('channel', 'string', 'production');
-
             $task = Upgrade::find();
             $list = array();
             $list['version'] = self::$TIMESTAMP_NOW;
             $list['files'] = array();
             foreach($task->toArray() as $k=>$v){
-                //if($v['status'] ==2 || $v['status'] ==0) continue;
                 unset($v['id']);
                 unset($v['channel']);
-                //unset($v['status']);
                 $v['lastVersionCode'] = floatval($v['lastVersionCode']);
                 $v['fileSize']     = floatval($v['fileSize']);
                 $list['files'][] = $v;
@@ -255,15 +217,16 @@ class CpController extends ControllerSecurity
             $vsvc->save();
 
             $strSerial = igbinary_serialize($list);
-            //Gen cache file by json format
             $igbFile = _DYP_DIR_CFG .'/release_ctr/upgrade.igb';
             if(file_put_contents($igbFile, $strSerial)){
+                if($this->memCache->exists('SYS0:upgrade.igb')){$this->memCache->delete('SYS0:upgrade.igb');}
                 Resp::outJsonMsg(0, 'SUCCESS', $this->request);
             }else{
                 Resp::outJsonMsg(1, 'WRITE CACHE FAILURE', $this->request);
             }
         }
     }//end
+
 
     /**
      * 预装软件管理
@@ -277,9 +240,6 @@ class CpController extends ControllerSecurity
         }else{
             $this->flash->error('NOT FIND CONFIG FILE');
         }
-
-
-
     }//end
 
     /**
@@ -297,6 +257,7 @@ class CpController extends ControllerSecurity
      * 检查远程文件是否存在
      */
     public function rfexistsAction(){
+        $this->view->disable();
         $file = $this->request->getQuery('file', 'string');
         if(empty($file)) Resp::outJsonMsg(1, 'FILE ERROR');
         $resp = get_headers($file,1);
