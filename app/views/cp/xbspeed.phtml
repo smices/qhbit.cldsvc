@@ -73,7 +73,14 @@
                                             );
                                         </script></span>
                                     <?elseif(strstr(strtolower($key), 'tdconfigurl')):?>
-                                        <a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-secondary">Download</a>
+                                        <span id="<?=md5($v)?>">
+                                        <script>fileExists("<?=md5($v)?>", "<?=$v?>",
+                                                '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-danger">404 | 找不到了</a>',
+                                                '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-warning">503 | 下载不到</a>',
+                                                '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-secondary">200 | 正常下载</a>'
+                                            );
+                                        </script></span>
+                                        <!--<a href="<?/*=$v*/?>" target="_blank" class="am-btn am-btn-xs am-btn-secondary">Download</a>-->
                                     <?else: ?>
                                         <?=$v?>
                                     <?endif ?>
