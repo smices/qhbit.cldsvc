@@ -63,7 +63,6 @@ class CpController extends ControllerSecurity
         $this->view->weekTotal      = HdUser::count("DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(ctime)");//昨天
         $this->view->thDayTotal     = HdUser::count("DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(ctime)");//近30天
         $this->view->MonthDayTotal  = HdUser::count("DATE_FORMAT(ctime, '%Y%m' = DATE_FORMAT(CURDATE(), '%Y%m')");//本月
-        //dd($this->view->todayTotal);
         */
 
         $this->view->TotalUnique = $this->view->HistoryVisitors = $this->view->OnlineUser = 'Unknown';
@@ -89,8 +88,11 @@ class CpController extends ControllerSecurity
 
     }//end
 
+
     /**
-     * xbSpeed Service
+     * xbSpeed Service Management
+     *
+     *
      */
     public function xbspeedAction(){
         if($this->request->isPut()){
@@ -179,8 +181,11 @@ class CpController extends ControllerSecurity
 
     }//end
 
+
     /**
      * 核心服务管理
+     *
+     *
      */
     public function coresvcAction(){
         if($this->request->isGet()){
@@ -229,32 +234,84 @@ class CpController extends ControllerSecurity
 
 
     /**
-     * 预装软件管理
-     */
-    public function presoftwareAction(){
-        if($cfg = $this->getSvcConfig('_software')){
-            $this->view->list = $cfg;
-            $str="<?php\n".'$cf=' . var_export($cfg->toArray(), true) . ";\n".'return $cf;';
-            //echo file_put_contents('R:\shm\_software.php', $str);
-
-        }else{
-            $this->flash->error('NOT FIND CONFIG FILE');
-        }
-    }//end
-
-    /**
      * 数据分析管理
+     *
+     *
      */
     public function analysisAction(){
 
     }//end
 
-    public function softmgrAction(){
 
-    }
+    /**
+     * 软件管家管理
+     *
+     *
+     *
+     */
+    public function swmgrAction(){
+        if($this->request->isPost()){
+            /**
+             * Upload a new software package
+             */
+        }elseif($this->request->isPut()){
+            /**
+             * Update software package info
+             */
+        }elseif($this->request->isGet()){
+            /***
+             * Show manager and list
+             * Get method or other method , show operation page.
+             */
+            $vsvc = TaskVersion::findFirst(sprintf('name="%s"', 'swmgr'));
+            $task = SwmgrPackage::find();
+            if ($task) {
+                $this->view->task = $task;
+                $this->view->vsvc = $vsvc;
+            } else {
+                $this->view->list = null;
+            }
+        }
+
+    }//end
+
+    /**
+     * 软件管理之分类管理
+     */
+    public function swmgrCategoryAction(){
+        if($this->request->isPost()){
+            /**
+             * Upload a new software package
+             */
+        }elseif($this->request->isPut()){
+            /**
+             * Update software package info
+             */
+        }elseif($this->request->isGet()){
+            /***
+             * Show manager and list
+             * Get method or other method , show operation page.
+             */
+            $vsvc = Service::findFirst(sprintf('name="%s"', 'swmgr'));
+
+            $task = SwmgrCategory::find();
+            if ($task) {
+                $this->view->task = $task;
+                $this->view->vsvc = $vsvc;
+            } else {
+                $this->view->list = null;
+            }
+        }
+
+    }//end
+
+
+    public function swmgrAnalysisAction(){}//end
 
     /**
      * 检查远程文件是否存在
+     *
+     *
      */
     public function rfexistsAction(){
         $this->view->disable();

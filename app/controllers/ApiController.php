@@ -10,6 +10,23 @@ class ApiController extends ControllerApi
     {
         parent::initialize();
         $this->view->disable();
+
+        if(!$this->cookies->has('uuid')) {
+            $sess_id = md5(uniqid()+microtime());
+            $this->cookies->set('uuid', $sess_id, time()+ 3600*24*365, '/');
+            if(!$this->session->isStarted()){
+                $this->session->setId($sess_id);
+                $this->session->start();
+            }
+
+            $this->cookies->send();
+        }else{
+            if(!$this->session->isStarted()){
+                $this->session->setId($this->cookies->get('uuid'));
+                $this->session->start();
+            }
+        }
+
     }//end init
 
     /**

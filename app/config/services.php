@@ -90,15 +90,25 @@ $di->set('db', function() use ($config) {
 $di->set('modelsMetadata', function() {
     return new MetaDataAdapter();
 });
-/*
+
 $di->set('session', function() {
+    $session = new \Phalcon\Session\Adapter\Memcache(array(
+        'uniqueId' => 'ctr.datacld',
+        'host' => '127.0.0.1',
+        'port' => 11211,
+        'persistent' => TRUE,
+        'lifetime' => 3600,
+        'prefix' => 'sess_'
+    ));
+    /*
     $session = new Phalcon\Session\Adapter\Files();
     if($session->isStarted() == FALSE){
         $session->start();
     }
+    */
     return $session;
 });
-*/
+
 
 /**
  * member MongoDB

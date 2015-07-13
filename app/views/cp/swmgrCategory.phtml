@@ -39,66 +39,105 @@
 
     <div class="am-g">
         <div class="am-u-sm-12">
-            <form class="am-form">
-                <table
-                    class="am-table  am-table-bordered am-table-radius am-table-compact am-table-striped am-table-hover table-main">
-                    <thead>
-                    <tr>
-                        <th class="table-check am-text-center"><input type="checkbox" onclick="SelectAll()"/></th>
-                        <? foreach($task->getFirst() as $k => $v): ?>
-                            <?if(strtolower($k) == 'status'){continue;}?>
-                            <th class="am-text-center">
-                                <?=strtoupper($k)?>
-                            </th>
-                        <? endforeach ?>
-                        <th class="am-text-center">OPERATIONS</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <? foreach($task as $key => $p): ?>
-                        <tr>
-                            <td class="am-text-center"><input type="checkbox" name="record" value="<?=$p->id?>"/></td>
-                            <? foreach($p as $key => $v): ?>
-                                <?if(strtolower($key) == 'status'){continue;}?>
-                                <td class="am-text-center">
-                                    <?if(strstr(strtolower($key), 'size')): ?>
-                                        <?= DYP\Sys\Command::fmtDataSize($v)?>
-                                    <?elseif(strstr(strtolower($key), 'downloadurl')): ?>
-                                        <span id="<?=md5($v)?>">
-                                        <script>fileExists("<?=md5($v)?>", "<?=$v?>",
-                                                '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-danger">404 | 找不到了</a>',
-                                                '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-warning">503 | 下载不到</a>',
-                                                '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-secondary">200 | 正常下载</a>'
-                                            );
-                                        </script></span>
-                                    <?elseif(strstr(strtolower($key), 'tdconfigurl')):?>
-                                        <span id="<?=md5($v)?>">
-                                        <script>fileExists("<?=md5($v)?>", "<?=$v?>",
-                                                '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-danger">404 | 找不到了</a>',
-                                                '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-warning">503 | 下载不到</a>',
-                                                '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-secondary">200 | 正常下载</a>'
-                                            );
-                                        </script></span>
-                                        <!--<a href="<?/*=$v*/?>" target="_blank" class="am-btn am-btn-xs am-btn-secondary">Download</a>-->
-                                    <?else: ?>
-                                        <?=$v?>
-                                    <?endif ?>
-                                </td>
-                            <? endforeach ?>
-                            <td class="am-text-center">
-                                <div class="am-btn-toolbar">
-                                    <div class="am-btn-group am-btn-group-xs">
-                                        <button class="am-btn am-btn-primary am-radius"><span class="am-icon-pencil"></span></button>
-                                        <button class="am-btn am-btn-danger am-radius"><span class="am-icon-remove"></span></button>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    <? endforeach ?>
-                    </tbody>
-                </table>
 
-            </form>
+            <div class="am-tabs" data-am-tabs>
+                <ul class="am-tabs-nav am-nav am-nav-tabs">
+                    <li class="am-active"><a href="#tab_summary">Summary</a></li>
+                    <li><a href="#tab_create">Create New</a></li>
+                </ul>
+
+                <div class="am-tabs-bd">
+
+                    <?/*Summary*/?>
+                    <div class="am-tab-panel am-fade am-in am-active" id="tab_summary">
+
+                        <form class="am-form">
+                            <table
+                                class="am-table  am-table-bordered am-table-radius am-table-compact am-table-striped am-table-hover table-main">
+                                <thead>
+                                <tr>
+                                    <th class="table-check am-text-center"><input type="checkbox" onclick="SelectAll()"/></th>
+                                    <? foreach($task->getFirst() as $k => $v): ?>
+                                        <?if(strtolower($k) == 'status'){continue;}?>
+                                        <th class="am-text-center">
+                                            <?=strtoupper($k)?>
+                                        </th>
+                                    <? endforeach ?>
+                                    <th class="am-text-center">OPERATIONS</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <? foreach($task as $key => $p): ?>
+                                    <tr>
+                                        <td class="am-text-center"><input type="checkbox" name="record" value="<?=$p->id?>"/></td>
+                                        <? foreach($p as $key => $v): ?>
+                                            <?if(strtolower($key) == 'status'){continue;}?>
+                                            <td class="am-text-center">
+                                                <?if(strstr(strtolower($key), 'size')): ?>
+                                                    <?= DYP\Sys\Command::fmtDataSize($v)?>
+                                                <?elseif(strstr(strtolower($key), 'downloadurl')): ?>
+                                                    <span id="<?=md5($v)?>">
+                                        <script>fileExists("<?=md5($v)?>", "<?=$v?>",
+                                                '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-danger">404 | 找不到了</a>',
+                                                '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-warning">503 | 下载不到</a>',
+                                                '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-secondary">200 | 正常下载</a>'
+                                            );
+                                        </script></span>
+                                                <?elseif(strstr(strtolower($key), 'tdconfigurl')):?>
+                                                    <span id="<?=md5($v)?>">
+                                        <script>fileExists("<?=md5($v)?>", "<?=$v?>",
+                                                '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-danger">404 | 找不到了</a>',
+                                                '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-warning">503 | 下载不到</a>',
+                                                '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-secondary">200 | 正常下载</a>'
+                                            );
+                                        </script></span>
+                                                    <!--<a href="<?/*=$v*/?>" target="_blank" class="am-btn am-btn-xs am-btn-secondary">Download</a>-->
+                                                <?else: ?>
+                                                    <?=$v?>
+                                                <?endif ?>
+                                            </td>
+                                        <? endforeach ?>
+                                        <td class="am-text-center">
+                                            <div class="am-btn-toolbar">
+                                                <div class="am-btn-group am-btn-group-xs">
+                                                    <button class="am-btn am-btn-primary am-radius"><span class="am-icon-pencil"></span></button>
+                                                    <button class="am-btn am-btn-danger am-radius"><span class="am-icon-remove"></span></button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <? endforeach ?>
+                                </tbody>
+                            </table>
+
+                        </form>
+                    </div>
+                    <?/*Summary end*/?>
+
+                    <?/*Create*/?>
+                    <div class="am-tab-panel am-fade" id="tab_create">
+
+                        <form class="am-form">
+                            <fieldset class="am-form-set">
+                                <?foreach($task->getFirst() as $k => $v):?>
+
+                                    <?if(strtolower($k) == 'id' || strtolower($k) == 'total' || strtolower($k) == 'status'){continue;}?>
+
+                                    <th class="am-text-center">
+                                        <input type="text" placeholder="<?=ucfirst($k)?>">
+                                    </th>
+
+                                <?endforeach?>
+
+                            </fieldset>
+                            <button type="submit" class="am-btn am-btn-primary am-btn-block">CREATE</button>
+                        </form>
+
+                    </div>
+                    <?/*Create*/?>
+                </div>
+            </div>
+
         </div>
 
     </div>
