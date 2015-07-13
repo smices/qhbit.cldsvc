@@ -1,0 +1,326 @@
+<?$title = "Software Manager Service / Category Management" ?>
+<?=$this->tag->javascriptInclude("assets/js/layer/layer.js");?>
+
+
+<!-- content start -->
+<div class="admin-content">
+
+    <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">Home</strong> /
+            <small><?=$title?></small>
+        </div>
+    </div>
+
+    <div class="am-g am-margin-bottom-xs">
+
+        <div class="am-u-sm-12 am-u-md-6">
+            <div class="am-btn-toolbar">
+                <div class="am-btn-group am-btn-group-xs  am-align-right">
+                    <button type="button" class="am-btn am-btn-secondary am-round" data-am-modal="{target: '#newRecord'}"><span class="am-icon-plus"></span> New</button>
+                    <button type="button" class="am-btn am-btn-danger am-round"><span class="am-icon-trash-o"></span> Remove</button>
+                </div>
+                <button type="button" id="release" class="am-btn am-btn-xs am-btn-success am-round"><span class="am-icon-cloud-upload"></span> Release</button>
+                <button type="button" id="reloadPage" style="display: none;" onclick="window.location.reload()" class="am-btn am-btn-xs am-btn-warning am-round"><span class="am-icon-retweet"></span> Reload</button>
+            </div>
+        </div>
+
+        <div class="am-u-sm-12 am-u-md-6 am-text-right">
+            <span class="am-badge am-round am-badge-warning am-text-xs">
+                Total: <strong><?=sizeof($task)?></strong>
+            </span>
+            &nbsp;&nbsp;
+            <span class="am-badge am-round am-badge-danger am-text-xs">
+                Version: <strong><?=date("Y-m-d H:i:s", $vsvc->version_code)?></strong>
+            </span>
+        </div>
+
+
+    </div>
+
+    <div class="am-g">
+        <div class="am-u-sm-12">
+            <form class="am-form">
+                <table
+                    class="am-table  am-table-bordered am-table-radius am-table-compact am-table-striped am-table-hover table-main">
+                    <thead>
+                    <tr>
+                        <th class="table-check am-text-center"><input type="checkbox" onclick="SelectAll()"/></th>
+                        <? foreach($task->getFirst() as $k => $v): ?>
+                            <?if(strtolower($k) == 'status'){continue;}?>
+                            <th class="am-text-center">
+                                <?=strtoupper($k)?>
+                            </th>
+                        <? endforeach ?>
+                        <th class="am-text-center">OPERATIONS</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <? foreach($task as $key => $p): ?>
+                        <tr>
+                            <td class="am-text-center"><input type="checkbox" name="record" value="<?=$p->id?>"/></td>
+                            <? foreach($p as $key => $v): ?>
+                                <?if(strtolower($key) == 'status'){continue;}?>
+                                <td class="am-text-center">
+                                    <?if(strstr(strtolower($key), 'size')): ?>
+                                        <?= DYP\Sys\Command::fmtDataSize($v)?>
+                                    <?elseif(strstr(strtolower($key), 'downloadurl')): ?>
+                                        <span id="<?=md5($v)?>">
+                                        <script>fileExists("<?=md5($v)?>", "<?=$v?>",
+                                                '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-danger">404 | 找不到了</a>',
+                                                '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-warning">503 | 下载不到</a>',
+                                                '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-secondary">200 | 正常下载</a>'
+                                            );
+                                        </script></span>
+                                    <?elseif(strstr(strtolower($key), 'tdconfigurl')):?>
+                                        <span id="<?=md5($v)?>">
+                                        <script>fileExists("<?=md5($v)?>", "<?=$v?>",
+                                                '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-danger">404 | 找不到了</a>',
+                                                '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-warning">503 | 下载不到</a>',
+                                                '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-secondary">200 | 正常下载</a>'
+                                            );
+                                        </script></span>
+                                        <!--<a href="<?/*=$v*/?>" target="_blank" class="am-btn am-btn-xs am-btn-secondary">Download</a>-->
+                                    <?else: ?>
+                                        <?=$v?>
+                                    <?endif ?>
+                                </td>
+                            <? endforeach ?>
+                            <td class="am-text-center">
+                                <div class="am-btn-toolbar">
+                                    <div class="am-btn-group am-btn-group-xs">
+                                        <button class="am-btn am-btn-primary am-radius"><span class="am-icon-pencil"></span></button>
+                                        <button class="am-btn am-btn-danger am-radius"><span class="am-icon-remove"></span></button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    <? endforeach ?>
+                    </tbody>
+                </table>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+<!-- content end -->
+
+
+<!-- new panel -->
+<div class="am-popup" id="newRecord">
+    <div class="am-popup-inner">
+        <div class="am-popup-hd">
+            <h4 class="am-popup-title">CREATE A NEW RECORD</h4>
+      <span data-am-modal-close
+            class="am-close">&times;</span>
+        </div>
+        <div class="am-popup-bd">
+
+            <form class="am-form am-form-horizontal" name="create" onsubmit="return false;" id="frm_create" data-am-validator>
+                <div class="am-form-group am-form-group-sm">
+                    <div class="am-u-sm-9 am-u-sm-offset-3">
+                        <div class="am-alert am-alert-warning am-text-center">
+                            <p class="am-padding-xs">该颜色的表单内容必须正确填写,且所有项严格区分大小写!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="am-form-group am-form-group-sm am-form-warning">
+                    <label for="field_fileName" class="am-u-sm-3 am-form-label label">文件名称</label>
+                    <div class="am-u-sm-9">
+                        <input type="input" name="field_fileName" id="field_fileName" class="am-form-field am-radius"
+                               placeholder="请输入 文件名称" pattern="([iso|ISO])$" required />
+                    </div>
+                </div>
+
+                <div class="am-form-group am-form-group-sm">
+                    <label for="field_storage" class="am-u-sm-3 am-form-label">优先位置扫描</label>
+                    <div class="am-u-sm-9">
+                        <input type="input" name="field_storage" id="field_storage" class="am-form-field am-radius" placeholder="请输入 优先位置扫描">
+                    </div>
+                </div>
+                <div class="am-form-group am-form-group-sm am-form-warning">
+                    <label for="field_fileSize" class="am-u-sm-3 am-form-label">文件大小</label>
+                    <div class="am-u-sm-9">
+                        <input type="number" name="field_fileSize" id="field_fileSize" class="am-form-field am-radius"
+                               placeholder="请输入 文件大小 数字值" required />
+                    </div>
+                </div>
+
+                <div class="am-form-group am-form-group-sm am-form-warning">
+                    <label for="field_fileHash" class="am-u-sm-3 am-form-label">文件MD5值</label>
+                    <div class="am-u-sm-9">
+                        <input type="input" name="field_fileHash" id="field_fileHash" class="am-form-field am-radius"
+                               placeholder="请输入 文件MD5值 32位长度" minlength="32" maxlength="32" required />
+                    </div>
+                </div>
+
+                <div class="am-form-group am-form-group-sm">
+                    <label for="field_uploadSpeed" class="am-u-sm-3 am-form-label">上传速度控制</label>
+                    <div class="am-u-sm-9">
+                        <input type="number" name="field_uploadSpeed" id="field_uploadSpeed"
+                               class="am-form-field am-radius" value="30"
+                               placeholder="请输入 上传速度控制 不清楚不要改动" min="15" required />
+                    </div>
+                </div>
+
+                <div class="am-form-group am-form-group-sm am-form-warning">
+                    <label for="field_downloadUrl" class="am-u-sm-3 am-form-label">原始下载地址</label>
+                    <div class="am-u-sm-9">
+                        <input type="url" name="field_downloadUrl" id="field_downloadUrl"
+                               class="am-form-field am-radius" placeholder="请输入 原始下载地址"
+                               value="http://218.85.139.176:808/" required />
+                    </div>
+                </div>
+
+                <div class="am-form-group am-form-group-sm am-form-warning">
+                    <label for="field_tdConfigUrl" class="am-u-sm-3 am-form-label">迅雷配置文件</label>
+                    <div class="am-u-sm-9">
+                        <div class="am-form-group am-form-file">
+                            <button type="button" class="am-btn am-btn-default am-btn-sm am-radius">
+                                <i class="am-icon-cloud-upload"></i> 选择要上传的迅雷配置文件</button>
+                            <input type="file" name="field_tdConfigUrl" id="field_tdConfigUrl"
+                                   required />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="am-form-group am-form-group-sm">
+                    <div class="am-u-sm-6 am-u-sm-offset-3">
+                        <button type="submit" id="submitCreate" class="am-btn am-btn-primary am-btn-block am-round">Create</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+<!-- new panel end -->
+
+<style>
+    #vld-tooltip {
+        position: absolute;
+        z-index: 99999;
+        padding: 5px 10px;
+        background: #F37B1D;
+        min-width: 150px;
+        color: #fff;
+        transition: all 0.15s;
+        box-shadow: 0 0 5px rgba(0,0,0,.15);
+        display: none;
+    }
+
+    #vld-tooltip:before {
+        position: absolute;
+        top: -8px;
+        left: 50%;
+        width: 0;
+        height: 0;
+        margin-left: -8px;
+        content: "";
+        border-width: 0 8px 8px;
+        border-color: transparent transparent #F37B1D;
+        border-style: none inset solid;
+    }
+</style>
+<script>
+checkit = true;
+function SelectAll() {
+    el = document.getElementsByName("record");
+    if (checkit) {
+        for (i = 0; i < el.length; i++)
+            el.item(i).checked = true;
+        checkit = false;
+    }
+    else {
+        for (i = 0; i < el.length; i++)
+            el.item(i).checked = false;
+        checkit = true;
+    }
+}
+
+$(function(){
+    /**
+     * Release task
+     */
+    $("#release").click(function(){
+        layer.confirm('Are you sure?', {icon: 3}, function(index){
+            layer.close(index);
+            $("#release span").removeClass("am-icon-cloud-upload").addClass("am-icon-spinner am-icon-pulse");
+
+            $.ajax({
+                url: '<?=$_SERVER['REQUEST_URI']?>',
+                type: 'PUT',
+                //async:false,
+                cache:false,
+                success: function(response) {
+                    $("#release span").removeClass("am-icon-spinner am-icon-pulse").addClass("am-icon-cloud-upload");
+                    if(response.code == 0) {
+                        $("#release").attr("disabled", true).hide();
+                        $("#reloadPage").show();
+                        layer.msg(response.msg);
+                        layer.tips('Upload Successfully, Please Refresh This Page!', '#reloadPage',{tips: [1, '#f37b1d'],time: 400000});
+                    }else{
+                        layer.alert(response.msg, {icon: 11});
+                    }
+                }
+            }, 'JSON');
+        });
+
+    });//end
+
+    /**
+     * Create task
+     */
+    var $form = $('#frm_create');
+    var $tooltip = $('<div id="vld-tooltip">提示信息！</div>');
+    $tooltip.appendTo(document.body);
+    $form.validator();
+    var validator = $form.data('amui.validator');
+    $form.on('focusin focusout', '.am-form-error input', function(e) {
+        if (e.type === 'focusin') {
+            var $this = $(this);
+            var offset = $this.offset();
+            var msg = $this.data('foolishMsg') || validator.getValidationMessage($this.data('validity'));
+
+            $tooltip.text(msg).show().css({
+                left: offset.left + 10,
+                top: offset.top + $(this).outerHeight() + 10
+            });
+        } else {
+            $tooltip.hide();
+        }
+    });
+
+    $('#submitCreate').click(function (e){
+        $.when($form.validator('isFormValid')).then(function() {
+            // 验证成功的逻辑
+            $.ajax({
+                url: '<?=$_SERVER['REQUEST_URI']?>',
+                type: 'POST',
+                data: $form.serialize(),
+                cache: false,
+                success: function (response) {
+                    $("#release span").removeClass("am-icon-spinner am-icon-pulse").addClass("am-icon-cloud-upload");
+                    if (response.code == 0) {
+                        $("#release").attr("disabled", true).hide();
+                        $("#reloadPage").show();
+                        layer.msg(response.msg);
+                        layer.tips('Upload Successfully, Please Refresh This Page!', '#reloadPage', {
+                            tips: [1, '#f37b1d'],
+                            time: 400000
+                        });
+                        window.location.reload();
+                    } else {
+                        layer.alert(response.msg, {icon: 11});
+                    }
+                }
+            }, 'JSON');
+            //console.log($form.serialize());
+            return false;
+        });
+    });
+
+});
+
+</script>

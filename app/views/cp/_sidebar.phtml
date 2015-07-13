@@ -3,19 +3,32 @@
 <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
     <div class="am-offcanvas-bar admin-offcanvas-bar">
         <ul class="am-list admin-sidebar-list">
-            <li><a href="/cp"><span class="am-icon-home"></span> Home</a></li>
+            <li><a href="/cp"><span class="am-icon-home am-text-danger"></span> Home</a></li>
             <li class="admin-parent">
-                <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-cogs"></span> Service Management <span class="am-icon-angle-right am-fr am-margin-right"></span></a>
-                <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
-                    <li><a href="/cp/coresvc" class="am-cf"><span class="am-icon-cog"></span> Core services<span class="am-icon-star am-fr am-margin-right admin-icon-yellow"></span></a></li>
+                <a class="am-cf" data-am-collapse="{target: '#collapse-svc-nav'}">
+                    <span class="am-icon-cogs admin-icon-yellow"></span> Service Management
+                    <span class="am-icon-angle-right am-fr am-margin-right"></span>
+                </a>
+                <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-svc-nav">
+                    <li><a href="/cp/coresvc" class="am-cf"><span class="am-icon-cog"></span> Core services</a></li>
                     <li><a href="/cp/xbspeed"><span class="am-icon-share-alt"></span> xbSpeed service</a></li>
-                    <li><a href="/cp/presoftware"><span class="am-icon-cloud-download"></span> Pre installed software</a></li>
                 </ul>
             </li>
-            <li><a href="/cp/analysis"><span class="am-icon-pie-chart"></span> Statistical Analysis</a></li>
-	    <li><a href="/cgi-bin/awstats.pl" target="_blank"><span class="am-icon-pie-chart"></span> Visitors Analysis</a></li>
-	    
-            <li><a href="/cp/logout"><span class="am-icon-sign-out"></span> Security Exit</a></li>
+
+            <li class="admin-parent">
+                <a class="am-cf" data-am-collapse="{target: '#collapse-swmgr-nav'}">
+                    <span class="am-icon-cubes am-text-primary"></span> XB::Software Manager <span class="am-icon-angle-right am-fr am-margin-right"></span>
+                </a>
+                <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-swmgr-nav">
+                    <li><a href="/cp/swmgr" class="am-cf"><span class="am-icon-list-ul"></span> Software List<span class="am-icon-star am-fr am-margin-right"></span></a></li>
+                    <li><a href="/cp/swmgrCategory"><span class="am-icon-th"></span> Categories</a></li>
+                    <li><a href="/cp/swmgrAnalysis"><span class="am-icon-bar-chart"></span> Analysis</a></li>
+                </ul>
+            </li>
+
+            <li><a href="/cgi-bin/awstats.pl" target="_blank"><span class="am-icon-pie-chart am-text-warning"></span> Visitors Analysis</a></li>
+
+            <li><a href="/cp/logout"><span class="am-icon-sign-out am-text-danger"></span> Security Exit</a></li>
         </ul>
 
         <div class="am-panel am-panel-default admin-sidebar-panel">
