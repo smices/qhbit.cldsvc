@@ -1,8 +1,4 @@
 <?php
-
-
-use Phalcon\Mvc\Model\Validator\Email as Email;
-
 class HdUser extends \Phalcon\Mvc\Model
 {
 

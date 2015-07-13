@@ -1,8 +1,5 @@
 <?php
-
-
 use Phalcon\Mvc\Model\Validator\Email as Email;
-
 class Admin extends \Phalcon\Mvc\Model
 {
 

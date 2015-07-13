@@ -1,8 +1,4 @@
 <?php
-
-
-use Phalcon\Mvc\Model\Validator\Email as Email;
-
 class XbspeedTask extends \Phalcon\Mvc\Model
 {
 
