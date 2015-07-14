@@ -139,7 +139,7 @@ class CpController extends ControllerSecurity
             $task->fileName = $this->request->getPost('field_fileName', 'string', null);
             $task->storage = $this->request->getPost('field_storage', 'string', null);
             $task->fileSize = $this->request->getPost('field_fileSize', 'int');
-            $task->fileHash = $this->request->getPost('field_fileHash', 'string');
+            $task->fileHash = strtolower($this->request->getPost('field_fileHash', 'string'));
             $task->uploadSpeed = $this->request->getPost('field_uploadSpeed', 'int');
             $task->downloadUrl = $this->request->getPost('field_downloadUrl', 'string');
             $task->tdConfigUrl = 'http://ctr.datacld.com/fs/svc/xbspeed/tdConfigUrl/' . $task->fileName . '.td.cfg';
