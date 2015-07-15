@@ -102,7 +102,7 @@ class CpController extends ControllerSecurity
              */
             $currentTime = time();
             $vsvc = TaskVersion::findFirst(sprintf('name="%s"', 'xbspeed'));
-            $task = XbspeedTask::find();
+            $task = XbspeedTask::find('status=1');
             $vsvc->vcode = $currentTime;
             $vsvc->save();
 
@@ -187,7 +187,7 @@ class CpController extends ControllerSecurity
              * Get method or other method , show operation page.
              */
             $vsvc = TaskVersion::findFirst(sprintf('name="%s"', 'xbspeed'));
-            $task = XbspeedTask::find();
+            $task = XbspeedTask::find('status=1');
             if ($task) {
                 $this->view->task = $task;
                 $this->view->vsvc = $vsvc;
