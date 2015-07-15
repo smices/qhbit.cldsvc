@@ -171,6 +171,7 @@ class CpController extends ControllerSecurity
             }
             $task = XbspeedTask::findFirst(sprintf('id = %d AND status <> 2', $params['id']));
             if($task){
+                //Resp::outJsonMsg(1, 'SUCCESS');
                 $task->status = 2;
                 if($task->update()){
                     Resp::outJsonMsg(0, 'SUCCESS');
