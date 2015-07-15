@@ -164,7 +164,23 @@ class CpController extends ControllerSecurity
             /**
              * Delete method, disabled record(s)
              */
-
+            $params=array();
+            parse_str($this->request->getRawBody(),$params);
+            if(!isset($params['id']) && !is_numeric($params['id'])){
+                Resp::outJsonMsg(1, 'RECORD ID LOST');
+            }
+            $task = XbspeedTask::findFirst(sprintf('id = %d AND status <> 2', $params['id']));
+            if($task){
+                $task->status = 2;
+                if($task->update()){
+                    Resp::outJsonMsg(0, 'SUCCESS');
+                }else{
+                    Resp::outJsonMsg(1, 'RECORD UPDATE FAILED');
+                }
+            }else{
+                Resp::outJsonMsg(1, 'RECORD NOT FIND');
+            }
+            /* REMOVE ONE RECORD PROCESS END */
         }else{
             /**
              * Get method or other method , show operation page.

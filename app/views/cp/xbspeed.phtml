@@ -42,10 +42,10 @@
         <div class="am-u-sm-12">
             <form class="am-form">
                 <table
-                    class="am-table  am-table-bordered am-table-radius am-table-compact am-table-striped am-table-hover table-main">
+                    class="am-table am-table-bordered am-table-radius am-table-compact am-table-striped am-table-hover table-main">
                     <thead>
                     <tr>
-                        <th class="table-check am-text-center"><input type="checkbox" onclick="SelectAll()"/></th>
+                        <!--<th class="table-check am-text-center"><input type="checkbox" onclick="SelectAll()"/></th>-->
                         <? foreach($task->getFirst() as $k => $v): ?>
                             <?if(strtolower($k) == 'status'){continue;}?>
                             <th class="am-text-center">
@@ -57,8 +57,8 @@
                     </thead>
                     <tbody>
                     <? foreach($task as $key => $p): ?>
-                        <tr>
-                            <td class="am-text-center"><input type="checkbox" name="record" value="<?=$p->id?>"/></td>
+                        <tr id="EINode_<?=$p->id?>">
+                            <!--<td class="am-text-center"><input type="checkbox" name="record" value="<?/*=$p->id*/?>"/></td>-->
                             <? foreach($p as $key => $v): ?>
                                 <?if(strtolower($key) == 'status'){continue;}?>
                                 <td class="am-text-center">
@@ -80,7 +80,7 @@
                                                 '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-secondary">200 | 正常下载</a>'
                                             );
                                         </script></span>
-                                        <!--<a href="<?/*=$v*/?>" target="_blank" class="am-btn am-btn-xs am-btn-secondary">Download</a>-->
+
                                     <?else: ?>
                                         <?=$v?>
                                     <?endif ?>
@@ -89,8 +89,7 @@
                             <td class="am-text-center">
                                 <div class="am-btn-toolbar">
                                     <div class="am-btn-group am-btn-group-xs">
-                                        <button class="am-btn am-btn-primary am-radius"><span class="am-icon-pencil"></span></button>
-                                        <button class="am-btn am-btn-danger am-radius"><span class="am-icon-remove"></span></button>
+                                        <button typ="button" id="RMR_<?=$p->id?>" onclick="RemoveRecord('RMR_<?=$p->id?>', '<?=$p->id?>')" class="am-btn am-btn-xs am-btn-warning"><span class="am-icon-remove"></span> REMOVE</button>
                                     </div>
                                 </div>
                             </td>
@@ -238,9 +237,34 @@ function SelectAll() {
             el.item(i).checked = false;
         checkit = true;
     }
-}
+}//end
+
+/**
+ * Remove a item
+ **/
+function RemoveRecord(el, id){
+    event.preventDefault();
+    var $btn = $('#'+el);
+    console.log($btn);
+    $btn.button('loading');
+    $.ajax({
+        url: '<?=$_SERVER['REQUEST_URI']?>',
+        type: 'DELETE',
+        data:{'id':id},
+        cache:false,
+        success: function(resp) {
+            if(resp.code == 0) {
+                $('#EINode_'+id).remove();
+                layer.msg(resp.msg);
+            }else{
+                layer.alert(resp.msg, {icon: 11});
+            }
+        }
+    }, 'JSON');
+}//end
 
 $(function(){
+
     /**
      * Release task
      */
@@ -296,6 +320,7 @@ $(function(){
     $('#submitCreate').click(function (e){
         $.when($form.validator('isFormValid')).then(function() {
             // 验证成功的逻辑
+            //e.preventDefault();
             $.ajax({
                 url: '<?=$_SERVER['REQUEST_URI']?>',
                 type: 'POST',
