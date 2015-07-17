@@ -1,25 +1,5 @@
 <?$title = "Software Manager Service / Package Management" ?>
 <?=$this->tag->javascriptInclude("assets/js/layer/layer.js");?>
-<?=$this->tag->javascriptInclude("assets/js/handsontable/dist/handsontable.full.min.js");?>
-<?=$this->tag->stylesheetLink("assets/js/handsontable/dist/handsontable.full.min.css");?>
-
-<?
-$ft = [];
-foreach($task->getFirst() as $k => $v){
-    $ft[] = $k;
-}
-$fd=[];
-$taskAr = $task->toArray();
-
-$fkey = false;
-$fdat = [];
-foreach($taskAr as $k => $v){
-    if($fkey === false) $fkey = array_keys($v);
-    $fdat[] = array_values($v);
-}
-//dd($fields);
-//$fields_data = json_encode($fields);
-?>
 
 <!-- content start -->
 <div class="admin-content">
@@ -38,23 +18,6 @@ foreach($taskAr as $k => $v){
             <a href="javascript:void(0);" id="release" class="am-badge am-badge-success am-round"><span class="am-icon-cloud-upload"></span> Release</a>
         </div>
 
-    </div>
-
-
-    <div class="am-g">
-        <div class="am-u-sm-12">
-            <div id="dataland"></div>
-            <script>
-                var ftitle=<?=json_encode($fkey)?>;
-                var fdata = [];
-                //var data = [['Column A', 'Column B', 'Column C'], ['1', '2', '3']];
-                var data = [ftitle, <?foreach($fdat as $v):?><?=json_encode($v)?>,<?endforeach?>];
-                var container = document.getElementById("dataland");
-                var hot = new Handsontable(container, {
-                    data: data
-                });
-            </script>
-        </div>
     </div>
 
 
