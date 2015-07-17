@@ -2,13 +2,180 @@
 <?//=$this->tag->stylesheetLink("assets/am/css/admin.css");?>
 <?=$this->tag->javascriptInclude("assets/js/layer/layer.js");?>
 
+<?if (isset($record)):/******************************EDIT RECORD******************************/?>
+<?$title = "Edit xbSpeed Task" ?>
 
 <!-- content start -->
 <div class="admin-content">
 
     <div class="am-cf am-padding">
         <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">Home</strong> /
-            <small>xbSpeed Service Management</small>
+            <small><?=$title?></small>
+        </div>
+    </div>
+
+    <div class="am-g">
+        <div class="am-u-sm-12">
+
+            <section class="am-panel am-panel-default">
+                <header class="am-panel-hd">
+                    <h3 class="am-panel-title"><?=$title?></h3>
+                </header>
+                <div class="am-panel-bd">
+
+
+                    <form class="am-form am-form-horizontal" name="create" onsubmit="return false;" id="frm_create" data-am-validator>
+                        <input type="hidden" name="id" value="<?=$record->id?>">
+                        <div class="am-form-group am-form-group-sm">
+                            <div class="am-u-sm-9 am-u-sm-offset-3">
+                                <div class="am-alert am-alert-warning am-text-center">
+                                    <p class="am-padding-xs">该颜色的表单内容必须正确填写,且所有项严格区分大小写!</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="am-form-group am-form-group-sm am-form-warning">
+                            <label for="field_fileName" class="am-u-sm-3 am-form-label label">文件名称</label>
+                            <div class="am-u-sm-9">
+                                <input type="input" name="field_fileName" id="field_fileName" class="am-form-field am-radius"
+                                       placeholder="请输入 文件名称" value="<?=$record->fileName?>" pattern="([iso|ISO])$" required />
+                            </div>
+                        </div>
+
+                        <div class="am-form-group am-form-group-sm">
+                            <label for="field_storage" class="am-u-sm-3 am-form-label">优先位置扫描</label>
+                            <div class="am-u-sm-9">
+                                <input type="input" name="field_storage" id="field_storage" class="am-form-field am-radius"
+                                       placeholder="请输入 优先位置扫描" value="<?=$record->storage?>">
+                            </div>
+                        </div>
+                        <div class="am-form-group am-form-group-sm am-form-warning">
+                            <label for="field_fileSize" class="am-u-sm-3 am-form-label">文件大小</label>
+                            <div class="am-u-sm-9">
+                                <input type="number" name="field_fileSize" id="field_fileSize" class="am-form-field am-radius"
+                                       placeholder="请输入 文件大小 数字值" value="<?=$record->fileSize?>" required />
+                            </div>
+                        </div>
+
+                        <div class="am-form-group am-form-group-sm am-form-warning">
+                            <label for="field_fileHash" class="am-u-sm-3 am-form-label">文件MD5值</label>
+                            <div class="am-u-sm-9">
+                                <input type="input" name="field_fileHash" id="field_fileHash" class="am-form-field am-radius"
+                                       placeholder="请输入 文件MD5值 32位长度" value="<?=$record->fileHash?>" minlength="32" maxlength="32" required />
+                            </div>
+                        </div>
+
+                        <div class="am-form-group am-form-group-sm">
+                            <label for="field_uploadSpeed" class="am-u-sm-3 am-form-label">上传速度控制</label>
+                            <div class="am-u-sm-9">
+                                <input type="number" name="field_uploadSpeed" id="field_uploadSpeed"
+                                       class="am-form-field am-radius" value="30"
+                                       placeholder="请输入 上传速度控制 不清楚不要改动" value="<?=$record->uploadSpeed?>" min="15" required />
+                            </div>
+                        </div>
+
+                        <div class="am-form-group am-form-group-sm am-form-warning">
+                            <label for="field_downloadUrl" class="am-u-sm-3 am-form-label">原始下载地址</label>
+                            <div class="am-u-sm-9">
+                                <input type="url" name="field_downloadUrl" id="field_downloadUrl"
+                                       class="am-form-field am-radius" placeholder="请输入 原始下载地址"
+                                       value="<?=$record->downloadUrl?>" required />
+                            </div>
+                        </div>
+
+                        <div class="am-form-group am-form-group-sm am-form-warning">
+                            <label for="field_downloadUrl" class="am-u-sm-3 am-form-label">状态</label>
+                            <div class="am-u-sm-9">
+                                <select id="field_status" name="field_status">
+                                    <option value="0" <?if($record->status==0):?> selected="selected"<?endif?>>禁用</option>
+                                    <option value="1" <?if($record->status==1):?> selected="selected"<?endif?>>正常</option>
+                                    <option value="2" <?if($record->status==2):?> selected="selected"<?endif?>>删除</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="am-form-group am-form-group-sm">
+                            <div class="am-u-sm-6 am-u-sm-offset-3">
+                                <button type="submit" id="submitCreate" class="am-btn am-btn-primary am-btn-block am-round">UPDATE</button>
+                            </div>
+                        </div>
+                    </form>
+
+
+
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+$(function(){
+    var $form = $('#frm_create');
+    var $tooltip = $('<div id="vld-tooltip">提示信息！</div>');
+    $tooltip.appendTo(document.body);
+    $form.validator();
+    var validator = $form.data('amui.validator');
+    $form.on('focusin focusout', '.am-form-error input', function(e) {
+        if (e.type === 'focusin') {
+            var $this = $(this);
+            var offset = $this.offset();
+            var msg = $this.data('foolishMsg') || validator.getValidationMessage($this.data('validity'));
+
+            $tooltip.text(msg).show().css({
+                left: offset.left + 10,
+                top: offset.top + $(this).outerHeight() + 10
+            });
+        } else {
+            $tooltip.hide();
+        }
+    });
+
+    $('#submitCreate').click(function (e){
+        $.when($form.validator('isFormValid')).then(function() {
+            // 验证成功的逻辑
+            //e.preventDefault();
+            $.ajax({
+                url: '<?=$_SERVER['REQUEST_URI']?>',
+                type: 'PATCH',
+                data: $form.serialize(),
+                cache: false,
+                success: function (response) {
+                    $("#release span").removeClass("am-icon-spinner am-icon-pulse").addClass("am-icon-cloud-upload");
+                    if (response.code == 0) {
+                        $("#release").attr("disabled", true).hide();
+                        $("#reloadPage").show();
+                        layer.msg(response.msg);
+                        layer.tips('Upload Successfully, Please Refresh This Page!', '#reloadPage', {
+                            tips: [1, '#f37b1d'],
+                            time: 400000
+                        });
+                        window.location.reload();
+                    } else {
+                        layer.alert(response.msg, {icon: 11});
+                    }
+                }
+            }, 'JSON');
+            //console.log($form.serialize());
+            return false;
+        });
+    });
+
+});
+</script>
+
+<?/******************************EDIT RECORD******************************/
+else:
+/******************************MANAGEMENT******************************/?>
+
+<!-- content start -->
+<div class="admin-content">
+
+    <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">Home</strong> /
+            <small><?=$title?></small>
         </div>
     </div>
 
@@ -56,7 +223,7 @@
                     </thead>
                     <tbody>
                     <? foreach($task as $key => $p): ?>
-                        <tr id="EINode_<?=$p->id?>">
+                        <tr id="EINode_<?=$p->id?>" <?if($p->status != 1):?>class="am-disabled"<?endif?>>
                             <!--<td class="am-text-center"><input type="checkbox" name="record" value="<?/*=$p->id*/?>"/></td>-->
                             <? foreach($p as $key => $v): ?>
                                 <?if(strtolower($key) == 'status'){continue;}?>
@@ -64,29 +231,37 @@
                                     <?if(strstr(strtolower($key), 'size')): ?>
                                         <?= DYP\Sys\Command::fmtDataSize($v)?>
                                     <?elseif(strstr(strtolower($key), 'downloadurl')): ?>
-                                        <span id="<?=md5($v)?>">
-                                        <script>fileExists("<?=md5($v)?>", "<?=$v?>",
-                                                '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-danger">404 | 找不到了</a>',
-                                                '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-warning">503 | 下载不到</a>',
-                                                '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-secondary">200 | 正常下载</a>'
-                                            );
-                                        </script></span>
+                                        <?if($p->status != 1):?>
+                                            DISABLED
+                                        <?else:?>
+                                            <span id="<?=md5($v)?>">
+                                            <script>fileExists("<?=md5($v)?>", "<?=$v?>",
+                                                    '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-danger">404 | 找不到了</a>',
+                                                    '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-warning">503 | 下载不到</a>',
+                                                    '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-secondary">200 | 正常下载</a>'
+                                                );
+                                            </script></span>
+                                            <?endif?>
                                     <?elseif(strstr(strtolower($key), 'tdconfigurl')):?>
-                                        <span id="<?=md5($v)?>">
-                                        <script>fileExists("<?=md5($v)?>", "<?=$v?>",
-                                                '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-danger">404 | 找不到了</a>',
-                                                '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-warning">503 | 下载不到</a>',
-                                                '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-secondary">200 | 正常下载</a>'
-                                            );
-                                        </script></span>
-
+                                        <?if($p->status != 1):?>
+                                            DISABLED
+                                        <?else:?>
+                                            <span id="<?=md5($v)?>">
+                                            <script>fileExists("<?=md5($v)?>", "<?=$v?>",
+                                                    '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-danger">404 | 找不到了</a>',
+                                                    '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-warning">503 | 下载不到</a>',
+                                                    '<a href="<?=$v?>" target="_blank" class="am-btn am-btn-xs am-btn-secondary">200 | 正常下载</a>'
+                                                );
+                                            </script></span>
+                                        <?endif?>
                                     <?else: ?>
                                         <?=$v?>
                                     <?endif ?>
                                 </td>
                             <? endforeach ?>
                             <td class="am-text-center">
-                                <button typ="button" id="RMR_<?=$p->id?>" onclick="RemoveRecord('RMR_<?=$p->id?>', '<?=$p->id?>')" class="am-btn am-btn-xs am-btn-warning"><span class="am-icon-remove"></span> REMOVE</button>
+                                <button typ="button" id="RMR_<?=$p->id?>" onclick="RemoveRecord('RMR_<?=$p->id?>', '<?=$p->id?>')" class="am-btn am-btn-xs am-btn-warning"><span class="am-icon-remove"></span></button>
+                                <a href="<?=$_SERVER['REQUEST_URI']?>?id=<?=$p->id?>&rnd=<?=md5(uniqid(microtime()))?>" class="am-btn am-btn-xs am-btn-primary"><span class="am-icon-edit"></span></a>
                             </td>
                         </tr>
                     <? endforeach ?>
@@ -182,7 +357,7 @@
 
                 <div class="am-form-group am-form-group-sm">
                     <div class="am-u-sm-6 am-u-sm-offset-3">
-                        <button type="submit" id="submitCreate" class="am-btn am-btn-primary am-btn-block am-round">Create</button>
+                        <button type="submit" id="submitCreate" class="am-btn am-btn-primary am-btn-block am-round">CREATE</button>
                     </div>
                 </div>
             </form>
@@ -351,3 +526,4 @@ $(function(){
 });
 
 </script>
+<?endif?>
