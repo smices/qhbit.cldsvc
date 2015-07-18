@@ -359,6 +359,31 @@ class CpController extends ControllerSecurity
             /**
              * Upload a new software package
              */
+            if(!$this->request->hasPost('name') || !$this->request->hasPost('status')){
+                Resp::outJsonMsg(1, 'SOME FIELD EMPTY');
+            }
+            $category         = new SwmgrCategory();
+            $category->id     = null;
+            $category->name   = $this->request->getPost('name', 'string');
+
+            if($this->request->hasPost('alias')){
+                $category->alias  = $this->request->getPost('alias', 'string');
+            }
+
+            $category->total  = 0;
+            $category->status = $this->request->getPost('status', 'int');
+
+            if($category->create()){
+                Resp::outJsonMsg(0, 'SUCCESS');
+            }else{
+                $err = array();
+                foreach ($category->getMessages() as $message) {
+                    $err[] = $message;
+                }
+                Resp::outJsonMsg(1, join(",", $err), $this->request);
+            }
+            /*CREATE RECORD END*/
+
         }elseif($this->request->isPut()){
             /**
              * Update software package info
