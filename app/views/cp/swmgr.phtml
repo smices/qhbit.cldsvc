@@ -12,10 +12,26 @@
 
     <div class="am-g am-margin-bottom-xs">
 
-        <div class="am-u-sm-12 am-text-right">
-            <span class="am-badge am-badge-primary">Total: <strong><?=sizeof($task)?></strong></span>
-            <span class="am-badge am-badge-secondary">Version: <strong><?=date("Y-m-d H:i:s", $vsvc->vcode)?></strong></span>
-            <a href="javascript:void(0);" id="release" class="am-badge am-badge-success am-round"><span class="am-icon-cloud-upload"></span> Release</a>
+        <div class="am-u-sm-12 am-u-md-6">
+            <div class="am-btn-toolbar">
+                <div class="am-btn-group am-btn-group-xs  am-align-right">
+                    <button type="button" class="am-btn am-btn-secondary am-round" data-am-modal="{target: '#newRecord'}"><span class="am-icon-plus"></span> New</button>
+                </div>
+                <button type="button" id="release" class="am-btn am-btn-xs am-btn-success am-round"><span class="am-icon-cloud-upload"></span> Release</button>
+                <button type="button" id="reloadPage" style="display: none;" onclick="window.location.reload()" class="am-btn am-btn-xs am-btn-warning am-round"><span class="am-icon-retweet"></span> Reload</button>
+            </div>
+        </div>
+
+        <div class="am-u-sm-12 am-u-md-6 am-text-right">
+            <a href="<?=$_SERVER['REQUEST_SCHEME']?>://<?=$_SERVER['SERVER_NAME']?>/api/ctr?svc=swmgr" target="_blank"
+               class="am-badge am-round am-badge-secondary am-text-xs">
+                Test API
+            </a>
+            &nbsp;&nbsp;
+            <span class="am-badge am-round am-badge-warning am-text-xs">Total: <strong><?=sizeof($task)?></strong></span>
+            &nbsp;&nbsp;
+            <span class="am-badge am-round am-badge-danger am-text-xs">Version: <strong><?=date("Y-m-d H:i:s", $vsvc->vcode)?></strong></span>
+
         </div>
 
     </div>

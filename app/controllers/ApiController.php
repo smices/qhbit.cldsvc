@@ -1,7 +1,10 @@
 <?php
 use Phalcon\Security,
+    Phalcon\Paginator\Adapter\Model as Paginator,
     DYP\Sys\Command AS CMD,
+    DYP\Agreement\Metapole as DMeta,
     DYP\Response\Simple as Resp;
+
 
 class ApiController extends ControllerApi
 {
@@ -103,6 +106,44 @@ class ApiController extends ControllerApi
 
 
     /**
+     * 软件管理服务
+     */
+    public function swmgrAction(){
+
+        if($this->request->isGet()){
+            /**
+             * 获取软件信息或软件列表
+             */
+            if($this->request->hasQuery('id') && is_numeric($this->request->getQuery('id'))){
+                //获取单个软件的全部信息
+
+            }
+
+            /**
+             * 处理软件清单
+             */
+            $curentPage = $this->request->getQuery('page', 'int', '1');
+            $pSize = $this->request->getQuery('psize', 'int', '60');
+            $categoryId = $this->request->getQuery('category_id', 'int', '0');
+
+            $phql = "SELECT SP.*, SC.* FROM SwmgrCategory AS SC, SwmgrPackage AS SP
+                  WHERE SP.category=SC.id AND SP.status=1 AND SC.status=1";
+
+            $packages = $this->modelsManager->createQuery($phql);
+            $paginator = new Paginator(array(
+                "data" => $packages,
+                "limit" => $pSize,
+                "page" => $curentPage
+            ));
+            $result = $paginator->getPaginate();
+
+            var_dump($result);
+            /*HTTP GET METHOD END*/
+        }
+    }
+
+
+    /**
      * 服务控制
      */
     public function ctrAction(){
@@ -114,7 +155,7 @@ class ApiController extends ControllerApi
             Resp::outJsonMsg(1, 'PARAM LOST');
         }
 
-        $service = Service::findFirst(array('name'=>$svc));
+        $service = Service::findFirst(array('name'=>strtolower($svc)));
         if(!$service){
             Resp::outJsonMsg(1, 'SERVICE NOT FIND');
         }
@@ -173,30 +214,14 @@ class ApiController extends ControllerApi
         }
 
 
+    }//end
 
-/*
-        $cfFile = _DYP_DIR_CFG .'/ServiceControl/'.$svc.'.php';
-        $cfCacheFile = _DYP_DIR_CFG .'/ServiceControl/'.$svc.'.cache.php';
 
-        if(!is_file(realpath($cfCacheFile)) && !is_file(realpath($cfFile))){
-            Resp::outJsonMsg(1, 'UNKNOWN SERVICE');
-        }
-        if(is_file(realpath($cfCacheFile))){
-            $cfg = new Phalcon\Config\Adapter\Php(realpath($cfCacheFile));
-            $cfg->source = substr(basename($cfCacheFile), 0, -4);
-        }else{
-            $cfg = new Phalcon\Config\Adapter\Php(realpath($cfFile));
-            $cfg->source = substr(basename($cfFile), 0, -4);
-        }
+    /**
+     * 汇报
+     */
+    public function reportAction(){
 
-        if(0 == $cfv || (int) $cfv < (int) $cfg->version){
-
-            Resp::outJsonMsg(0, $cfg->toArray());
-        }else{
-            Resp::outJsonMsg(9, 'NO UPDATE');
-        }
-
-*/
     }//end
 
 }//end

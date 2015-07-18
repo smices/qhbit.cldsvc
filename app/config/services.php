@@ -167,7 +167,7 @@ $di->set('logger', function () use ($config) {
 
 $di->set('crypt', function() {
     $crypt = new Crypt();
-    $crypt->setKey("SZDYKJYXGS2DIYEGROUPOFCHINA");
+    $crypt->setKey("4069f89ee64ea5b1dcd22783cd032a46");
     return $crypt;
 });
 
