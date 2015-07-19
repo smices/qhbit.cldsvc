@@ -2,6 +2,10 @@
 <?$title = "Software Manager Service / Category Management" ?>
 <?=$this->tag->javascriptInclude("assets/js/layer/layer.js");?>
 
+<?//=$this->tag->stylesheetLink("assets/js/editable-table/index.css");?>
+<?=$this->tag->javascriptInclude("assets/js/tabledit/jquery.tabledit.js");?>
+
+
 <!-- content start -->
 <div class="admin-content">
 
@@ -25,7 +29,7 @@
                     <?/*Summary*/?>
                     <div class="am-tab-panel am-fade am-in am-active" id="tab_summary">
 
-                        <table class="am-table am-table-bordered am-table-radius am-table-compact am-table-striped am-table-hover table-main">
+                        <table id="SummaryTable" class="am-table am-table-bordered am-table-radius am-table-compact am-table-striped am-table-hover table-main">
                             <thead>
                             <tr>
                                 <? foreach($task->getFirst() as $k => $v): ?>
@@ -42,7 +46,7 @@
                             </thead>
                             <tbody>
                             <? foreach($task as $key => $p): ?>
-                                <tr id="EINode_<?=$p->id?>" <?if($p->status != 1):?>class="am-disabled"<?endif?>>
+                                <tr id="<?=$p->id?>" <?if($p->status != 1):?>class="am-disabled"<?endif?>>
                                     <? foreach($p as $key => $v): ?>
                                         <td class="am-text-center">
                                         <?if(strtolower($key) == 'status'):?>
@@ -102,6 +106,42 @@
 
 <script>
 $(function(){
+
+    $('#SummaryTable').Tabledit({
+        url: '<?=$_SERVER['REQUEST_URI']?>',
+        eventType: 'dblclick',
+        editButton:true,
+        deleteButton:false,
+        restoreButton:false,
+        buttons: {edit: {action: 'edit'}},
+        columns: {
+            identifier: [0, 'id'],
+            editable: [[1, 'name'],[2, 'alias'],[3, 'total'], [4, 'status', '{"1":"ENABLE", "0":"DISABLE","3":"DELETE"}']]
+        },
+        onDraw: function() {
+            //console.log('onDraw()');
+        },
+        onSuccess: function(data, textStatus, jqXHR) {
+            console.log($(this).parent());
+            layer.closeAll('loading');
+            if (data.code == 0) {
+                layer.msg(data.msg,{icon: 6});
+            } else {
+                layer.alert(data.msg, {icon: 11});
+            }
+        },
+        onFail: function(jqXHR, textStatus, errorThrown) {
+            layer.closeAll('loading');
+            layer.msg('PROGRESSING FAILURE!',{icon: 11});
+        },
+        onAlways: function() {
+            //console.log('onAlways()');
+            return false;
+        },
+        onAjax: function(action, serialize) {
+            layer.load();
+        }
+    });
 
     /**
      * Create

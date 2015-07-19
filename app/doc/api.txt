@@ -77,14 +77,17 @@
 
 
 ┌────────────────────────────────────────────────────────────┐
-│ 获取 需要下载安装的 文件列表清单
+│ 软件管理家服务
 │ 说明:
-│   1,拖家带口的安装分成软件)
+│   1,软件管家服务名为"swmgr"
 └────────────────────────────────────────────────────────────┘
-[GET][PUBILC] http://ctr.datacld.com/api/software
+[GET][PUBILC] http://ctr.datacld.com/api/swmgr
     [GET]参数(参数名前带*号的为必须要的字段, #为可选):
-        # cfv={int:[20150629]}  ** 客户端当前配置文件的版本, 版本号以年份来表示(当没有本参数时,传最新数据)
-        使用范例:http://ctr.datacld.com/api/software?cfv=20150629
+        # cfv={int:[UNIX_TIMESTAMP]}  ** 客户端当前配置文件的版本, 版本号以年份来表示(当没有本参数时,传最新数据)
+        # type={string:[category|package]}  ** 获取数据类型 (category:分类数据|package:指定的包的详细资料,必须要加PackageID参数)
+        #* pkgid={int:}  ** 当Type为category时, 必须要有本参数,否则为参数错误
+        使用范例:
+            http://ctr.datacld.com/api/swmgr?cfv=1234567890&type=category (获取分类数据)
     [RESPONSE]:
         请参考实际配置文件
 
