@@ -18,13 +18,13 @@ class SwmgrPackage extends \Phalcon\Mvc\Model
      *
      * @var string
      */
-    public $minVersion;
+    public $windowsVersion;
 
     /**
      *
      * @var integer
      */
-    public $minVersionCode;
+    public $arch;
 
     /**
      *
@@ -49,7 +49,7 @@ class SwmgrPackage extends \Phalcon\Mvc\Model
      * @var string
      */
     public $developer;
-	
+
 
     /**
      *
@@ -68,7 +68,7 @@ class SwmgrPackage extends \Phalcon\Mvc\Model
      * @var string
      */
 	public $screenshotsUrl;
-	
+
     /**
      *
      * @var integer
@@ -80,13 +80,13 @@ class SwmgrPackage extends \Phalcon\Mvc\Model
      * @var integer
      */
 	public $rating;
-	
+
     /**
      *
      * @var string
      */
 	public $versionName;
-	
+
     /**
      *
      * @var integer
@@ -118,7 +118,7 @@ class SwmgrPackage extends \Phalcon\Mvc\Model
      * @var string
      */
 	public $hash;
-	
+
     /**
      *
      * @var integer

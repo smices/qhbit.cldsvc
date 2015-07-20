@@ -1,5 +1,8 @@
+<?use DYP\Tags\Element;?>
 <?$title = "Software Manager Service / Package Management" ?>
 <?=$this->tag->javascriptInclude("assets/js/layer/layer.js");?>
+<?=$this->tag->stylesheetLink("assets/js/validity/jquery.validity.css");?>
+<?=$this->tag->javascriptInclude("assets/js/validity/jquery.validity.min.js");?>
 
 <!-- content start -->
 <div class="admin-content">
@@ -70,21 +73,47 @@
                     <?/*Create*/?>
                     <div class="am-tab-panel am-fade" id="tab_create">
 
-                        <form class="am-form">
-                            <fieldset class="am-form-set">
-                                <?foreach($task->getFirst() as $k => $v):?>
+                        <form name="frmCreate" id="frmCreate" class="am-form am-form-horizontal">
+                            <?foreach($task->getFirst() as $k => $v):?>
+                            <?if($k == 'id' || $k=='createTime' || $k=='updateTime' || $k=='signature')continue;?>
 
-                                    <?if(strtolower($k) == 'id' || strtolower($k) == 'total' || strtolower($k) == 'status'){continue;}?>
-
-                                    <div class="am-input-group am-input-group-sm am-margin-top-xs">
-                                        <span class="am-input-group-label am-text-right"><?=ucfirst($k)?></span>
-                                        <input type="text" class="am-form-field" placeholder="<?=ucfirst($k)?>">
+                                <div class="am-form-group">
+                                    <label for="<?=$k?>" class="am-u-sm-2 am-form-label"><?=ucfirst($k)?></label>
+                                    <div class="am-u-sm-8 am-u-end">
+                                        <?if($k=='category'):?>
+                                            <?=$this->tag->select(array($k,SwmgrCategory::find(),"using" => array("id", "name")))?>
+                                        <?elseif($k=='status'):?>
+                                            <?=$this->tag->selectStatic(array($k,array("1" => "启用","0" => "禁用")))?>
+                                        <?elseif($k=='arch'):?>
+                                            <?=$this->tag->selectStatic(array($k,array("32" => "32位 系统架构","64" => "64位 系统架构")))?>
+                                        <?elseif($k=='windowsVersion'):?>
+                                            <?=$this->tag->selectStatic(array($k,Element::windowsVersion()))?>
+                                        <?elseif($k=='incomeShare' || $k=='isAd'):?>
+                                            <?=$this->tag->selectStatic(array($k,array("0" => "NO", "1" => "YES")))?>
+                                        <?elseif($k=='language'):?>
+                                            <?=$this->tag->selectStatic(array($k,array("简体中文","繁体中文","English")))?>
+                                        <?elseif($k=='rating'):?>
+                                            <?=$this->tag->selectStatic(array($k,range(0,9)))?>
+                                        <?elseif($k=='description' || $k=='updateInfo' || $k=='brief'):?>
+                                            <?=$this->tag->textArea(array($k,ucfirst($v),"cols" => "6","rows" => 3))?>
+                                        <?elseif($k=='versionCode' || $k=='size'):?>
+                                            <?=$this->tag->numericField(array($k, 'class'=>'am-form-field', 'placeholder'=>ucfirst($k)))?>
+                                        <?elseif($k=='screenshotsUrl' || $k=='iconUrl' || $k=='largeIcon' || $k=='downloadUrl'):?>
+                                            <?//=$this->tag->urlField(array($k, 'class'=>'am-form-field', 'placeholder'=>ucfirst($k)))?>
+                                            <?=$this->tag->textField(array($k, 'class'=>'am-form-field', 'placeholder'=>ucfirst($k)))?>
+                                        <?else:?>
+                                            <?=$this->tag->textField(array($k, 'class'=>'am-form-field', 'placeholder'=>ucfirst($k)))?>
+                                        <?endif?>
                                     </div>
+                                </div>
 
                                 <?endforeach?>
+                            <div class="am-form-group">
+                                <div class="am-u-sm-offset-2 am-u-sm-8 am-u-end">
+                                    <button type="submit" class="am-btn am-btn-primary am-btn-block">CREATE</button>
+                                </div>
+                            </div>
 
-                            </fieldset>
-                            <button type="submit" class="am-btn am-btn-primary am-btn-block">CREATE</button>
                         </form>
 
                     </div>
@@ -100,51 +129,70 @@
 
 
 <script>
-    checkit = true;
-    function SelectAll() {
-        el = document.getElementsByName("record");
-        if (checkit) {
-            for (i = 0; i < el.length; i++)
-                el.item(i).checked = true;
-            checkit = false;
-        }
-        else {
-            for (i = 0; i < el.length; i++)
-                el.item(i).checked = false;
-            checkit = true;
-        }
-    }
+$(function(){
+    /**
+     * Release task
+     */
+    $("#release").click(function(){
+        /*
+        layer.confirm('Are you sure?', {icon: 3}, function(index){
+            layer.close(index);
+            $("#release span").removeClass("am-icon-cloud-upload").addClass("am-icon-spinner am-icon-pulse");
 
-    $(function(){
-        /**
-         * Release task
-         */
-        $("#release").click(function(){
-            layer.confirm('Are you sure?', {icon: 3}, function(index){
-                layer.close(index);
-                $("#release span").removeClass("am-icon-cloud-upload").addClass("am-icon-spinner am-icon-pulse");
-
-                $.ajax({
-                    url: '<?=$_SERVER['REQUEST_URI']?>',
-                    type: 'PUT',
-                    //async:false,
-                    cache:false,
-                    success: function(response) {
-                        $("#release span").removeClass("am-icon-spinner am-icon-pulse").addClass("am-icon-cloud-upload");
-                        if(response.code == 0) {
-                            $("#release").attr("disabled", true).hide();
-                            $("#reloadPage").show();
-                            layer.msg(response.msg);
-                            layer.tips('Upload Successfully, Please Refresh This Page!', '#reloadPage',{tips: [1, '#f37b1d'],time: 400000});
-                        }else{
-                            layer.alert(response.msg, {icon: 11});
-                        }
+            $.ajax({
+                url: '<?=$_SERVER['REQUEST_URI']?>',
+                type: 'PUT',
+                //async:false,
+                cache:false,
+                success: function(response) {
+                    $("#release span").removeClass("am-icon-spinner am-icon-pulse").addClass("am-icon-cloud-upload");
+                    if(response.code == 0) {
+                        $("#release").attr("disabled", true).hide();
+                        $("#reloadPage").show();
+                        layer.msg(response.msg);
+                        layer.tips('Upload Successfully, Please Refresh This Page!', '#reloadPage',{tips: [1, '#f37b1d'],time: 400000});
+                    }else{
+                        layer.alert(response.msg, {icon: 11});
                     }
-                }, 'JSON');
-            });
+                }
+            }, 'JSON');
+        });
+*/
+    });//end
 
-        });//end
 
+    <?/*上传包验证*/?>
+    $("#frmCreate").validity(function() {
+        event.preventDefault();
+        $("#packageName").require().match("string");
+        $("#arch").require().match("number");
+        $("#windowsVersion").require().match("number");
+        $("#name").require().match("string");
+        $("#category").require().match("number");
+        $("#description").require().match("string");
+        $("#developer").require().match("string");
+        $("#iconUrl").require().match("string");
+        $("#largeIcon").require().match("string");
+        $("#screenshotsUrl").require().match("string");
+        $("#incomeShare").require().match("number");
+        $("#rating").require().match("number");
+        $("#versionName").require().match("string");
+        $("#versionCode").require().match("string");
+        $("#priceInfo").require().match("string");
+        $("#tag").require().match("string");
+        $("#downloadUrl").require().match("string");
+        $("#hash").require().match("string");
+        $("#size").require().match("number");
+        //$("#createTime").require().match("datetime");
+        //$("#updateTime").require().match("datetime");
+        //$("#signature").require().match("string").lessThanOrEqualTo(32);
+        $("#updateInfo").require().match("string");
+        $("#language").require().match("number");
+        $("#brief").require().match("string");
+        $("#isAd").require().match("number");
+        $("#status").require().match("number");
     });
+
+});
 
 </script>

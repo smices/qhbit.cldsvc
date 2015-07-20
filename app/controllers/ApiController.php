@@ -183,6 +183,7 @@ class ApiController extends ControllerApi
             /**
              * 处理软件清单
              */
+            /**
             $curentPage = $this->request->getQuery('page', 'int', '1');
             $pSize = $this->request->getQuery('psize', 'int', '60');
             $categoryId = $this->request->getQuery('category_id', 'int', '0');
@@ -197,8 +198,8 @@ class ApiController extends ControllerApi
                 "page" => $curentPage
             ));
             $result = $paginator->getPaginate();
-
             var_dump($result);
+             */
             /*HTTP GET METHOD END*/
         }
     }

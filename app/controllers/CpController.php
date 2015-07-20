@@ -393,7 +393,9 @@ class CpController extends ControllerSecurity
 
             }/*EDIT UPLDATE*/
 
-            //Normal
+            /**
+             * 新上传一个包
+            */
             if(!$this->request->hasPost('name') || empty($this->request->getPost('name', 'string')) ||
                 !$this->request->hasPost('status') || empty($this->request->getPost('status', 'int'))){
                 Resp::outJsonMsg(1, 'SOME FIELD EMPTY');

@@ -46,5 +46,19 @@ class Element
         return $str.'</select>'.PHP_EOL;
     }//end
 
+    /**
+     * 获取Windows 版本列表
+     */
+    static function windowsVersion(){
+        $ar = [];
+        $ar[]= 'Windows XP - 5.1.x';
+        $ar[]= 'Windows XP Professional x64 Edition - 5.2.x';
+        $ar[]= 'Windows Vista - 6.0.x';
+        $ar[]= 'Windows 7 - 6.1.x';
+        $ar[]= 'Windows 8 - 6.2.x';
+        $ar[]= 'Windows 8.1 - 6.3.x';
+        $ar[]= 'Windows 10 - 10.0.x';
+        return $ar;
+    }//end
 
 }//end
