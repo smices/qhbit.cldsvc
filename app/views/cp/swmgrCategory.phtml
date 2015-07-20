@@ -15,6 +15,18 @@
         </div>
     </div>
 
+
+    <div class="am-g am-margin-bottom-xs">
+        <div class="am-u-sm-12 am-u-md-12 am-text-right">
+            <a href="<?=$_SERVER['REQUEST_SCHEME']?>://<?=$_SERVER['SERVER_NAME']?>/api/swmgr?type=category" target="_blank"
+               class="am-badge am-round am-badge-secondary am-text-xs">
+                Test API
+            </a>
+        </div>
+
+    </div>
+
+
     <div class="am-g">
         <div class="am-u-sm-12">
 
@@ -116,7 +128,7 @@ $(function(){
         buttons: {edit: {action: 'edit'}},
         columns: {
             identifier: [0, 'id'],
-            editable: [[1, 'name'],[2, 'alias'],[3, 'total'], [4, 'status', '{"1":"ENABLE", "0":"DISABLE","3":"DELETE"}']]
+            editable: [[1, 'name'],[2, 'alias'],/*[3, 'total'],*/ [4, 'status', '{"1":"ENABLE", "0":"DISABLE","3":"DELETE"}']]
         },
         onDraw: function() {
             //console.log('onDraw()');

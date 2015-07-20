@@ -361,9 +361,38 @@ class CpController extends ControllerSecurity
              */
             if($this->request->hasPost('action') && $this->request->getPost('action', 'string') == 'edit'){
                 /*Edit Record*/
-                sleep(2);
-                Resp::outJsonMsg(1, join(',', $this->request->getPost()));
-            }
+                $id = $this->request->getPost('id', 'int', null);
+                if(null == $id){
+                    Resp::outJsonMsg(1, 'ID LOST');
+                }
+
+                $category         = SwmgrCategory::findFirst($id);
+
+                if($this->request->hasPost('name') && !empty($this->request->getPost('name', 'string'))) {
+                    $category->name = $this->request->getPost('name', 'string');
+                }
+                if($this->request->hasPost('alias') && !empty($this->request->getPost('alias', 'string'))){
+                    $category->alias  = $this->request->getPost('alias', 'string');
+                }
+                /*
+                if($this->request->hasPost('total') && 0 != $this->request->getPost('total', 'int')) {
+                    $category->total = $this->request->getPost('total', 'int');
+                }
+                */
+                $category->status = $this->request->getPost('status', 'int');
+
+                if($category->update()){
+                    Resp::outJsonMsg(0, 'SUCCESS');
+                }else{
+                    $err = array();
+                    foreach ($category->getMessages() as $message) {
+                        $err[] = $message;
+                    }
+                    Resp::outJsonMsg(1, join(",", $err), $this->request);
+                }
+
+            }/*EDIT UPLDATE*/
+
             //Normal
             if(!$this->request->hasPost('name') || empty($this->request->getPost('name', 'string')) ||
                 !$this->request->hasPost('status') || empty($this->request->getPost('status', 'int'))){

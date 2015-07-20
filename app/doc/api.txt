@@ -84,10 +84,14 @@
 [GET][PUBILC] http://ctr.datacld.com/api/swmgr
     [GET]参数(参数名前带*号的为必须要的字段, #为可选):
         # cfv={int:[UNIX_TIMESTAMP]}  ** 客户端当前配置文件的版本, 版本号以年份来表示(当没有本参数时,传最新数据)
-        # type={string:[category|package]}  ** 获取数据类型 (category:分类数据|package:指定的包的详细资料,必须要加PackageID参数)
+        # type={string:[category|top|hot]}  ** 获取数据类型
         #* pkgid={int:}  ** 当Type为category时, 必须要有本参数,否则为参数错误
         使用范例:
-            http://ctr.datacld.com/api/swmgr?cfv=1234567890&type=category (获取分类数据)
+            http://ctr.datacld.com/api/swmgr?type=category&cfv=1234567890 (获取分类数据, **本接口输出格式与其他接口都不同!为真实分类数据)
+            http://ctr.datacld.com/api/swmgr?type=category&id=1 (查询 分类ID=1 的分类下的所有软件.**注意与取分类的差别!无ID为取分类,有ID为取软件集合)
+            http://ctr.datacld.com/api/swmgr?type=top (获取推荐软件包, TOP为虚拟分类, 表示所有分成软件 **固定条数为100, 可以不足)
+            http://ctr.datacld.com/api/swmgr?type=top (获取热门软件包, HOT为虚拟分类, 表示下载次数最多的软件 **固定条数为100, 可以不足)
+            http://ctr.datacld.com/api/swmgr?pkgid=1 (查询 PackageID=1 的软件数据)
     [RESPONSE]:
         请参考实际配置文件
 
