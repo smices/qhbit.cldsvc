@@ -11,39 +11,6 @@ class CpController extends ControllerSecurity
     }//end init
 
     /**
-     * 读取配置文件
-     * @param $svcName
-     *
-     * @return bool|\Phalcon\Config\Adapter\Php
-     */
-    public function getSvcConfig($svcName)
-    {
-        $cfFile = _DYP_DIR_CFG . '/ServiceControl/' . $svcName . '.php';
-        if (!is_file(realpath($cfFile))) {
-            return false;
-        } else {
-            $cfg = new Phalcon\Config\Adapter\Php(realpath($cfFile));
-            if ($cfg) return $cfg;
-        }
-    }//end
-
-    /**
-     * 写入配置文件Cache
-     * @param $svcName
-     *
-     * @return bool
-     */
-    public function putSvcConfig($svcName, $contents)
-    {
-        $cfFile = _DYP_DIR_CFG . '/ServiceControl/' . $svcName . '.cache.php';
-        if(file_put_contents($cfFile, $contents)){
-            return true;
-        }else{
-            return false;
-        }
-    }//end
-
-    /**
      * Index
      */
     public function indexAction()
@@ -70,7 +37,7 @@ class CpController extends ControllerSecurity
         if(strtolower(PHP_OS) == 'linux'){
             $awstatsFile = "/DYFS/storage/awstats/awstats".date("mY").".ctr.datacld.com.txt";
         }else{//for test
-            $awstatsFile = "D:/usr/local/Apache64/temp/awstats".date("mY").".ctr.datacld.com.txt";
+            $awstatsFile = "D:/usr/local/Apache64/temp/awstats".date("mY").".ctr.datacld.com.txt";//Test
         }
 
         if(is_file($awstatsFile)){
@@ -277,10 +244,11 @@ class CpController extends ControllerSecurity
                 $this->view->list = null;
             }
         }elseif($this->request->isPut()){
+            $this->view->disable();
             /**
              * 生成发行文件, 供API调用
              */
-            $this->view->disable();
+
             $task = Upgrade::find();
             $list = array();
             $list['version'] = self::$TIMESTAMP_NOW;
@@ -327,25 +295,38 @@ class CpController extends ControllerSecurity
      */
     public function swmgrAction(){
         if($this->request->isPost()){
+            $this->view->disable();
             /**
              * Upload a new software package
              */
+
+            $this->request->getPost('');
         }elseif($this->request->isPut()){
+            $this->view->disable();
             /**
              * Update software package info
              */
+
+            print_r($_POST);
+            print_r($_FILES);
         }elseif($this->request->isGet()){
             /***
              * Show manager and list
              * Get method or other method , show operation page.
              */
-            $vsvc = TaskVersion::findFirst(sprintf('name="%s"', 'swmgr'));
-            $task = SwmgrPackage::find();
-            if ($task) {
-                $this->view->task = $task;
-                $this->view->vsvc = $vsvc;
-            } else {
-                $this->view->list = null;
+            if($this->request->hasQuery('mode') && 'create' == $this->request->getQuery('mode', 'string')){
+                $this->view->templeName = 'create';
+                $this->view->task = SwmgrPackage::findFirst(1);
+            }else {
+                /*Main Page*/
+                $vsvc = TaskVersion::findFirst(sprintf('name="%s"', 'swmgr'));
+                $task = SwmgrPackage::find();
+                if ($task) {
+                    $this->view->task = $task;
+                    $this->view->vsvc = $vsvc;
+                } else {
+                    $this->view->list = null;
+                }
             }
         }
 
@@ -356,6 +337,7 @@ class CpController extends ControllerSecurity
      */
     public function swmgrCategoryAction(){
         if($this->request->isPost()){
+            $this->view->disable();
             /**
              * Upload a new software package
              */
@@ -423,6 +405,7 @@ class CpController extends ControllerSecurity
             /*CREATE RECORD END*/
 
         }elseif($this->request->isPut()){
+            $this->view->disable();
             /**
              * Update software package info
              */
@@ -447,6 +430,17 @@ class CpController extends ControllerSecurity
 
     public function swmgrAnalysisAction(){}//end
 
+
+    /**
+     * UI AJAX 通用文件上传
+     */
+    public function fileuploadAction(){
+        $this->view->disable();
+
+        print_r($_POST);
+        print_r($_FILES);
+
+    }//end
     /**
      * 检查远程文件是否存在
      *

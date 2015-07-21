@@ -1,0 +1,140 @@
+<?use DYP\Tags\Element;?>
+<?$title = "Software Manager Service / Upload New Package" ?>
+
+<?=$this->tag->javascriptInclude("assets/js/layer/layer.js");?>
+<?=$this->tag->stylesheetLink("assets/js/validity/jquery.validity.css");?>
+<?=$this->tag->javascriptInclude("assets/js/validity/jquery.validity.min.js");?>
+
+<?/*FileUpload*/?>
+<?=$this->tag->javascriptInclude("assets/js/fileupload/js/vendor/jquery.ui.widget.js");?>
+<?=$this->tag->javascriptInclude("assets/js/fileupload/js/jquery.iframe-transport.js");?>
+<?=$this->tag->javascriptInclude("assets/js/fileupload/js/jquery.fileupload.js");?>
+
+
+<!-- content start -->
+<div class="admin-content">
+
+    <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">Home</strong> /
+            <small><?=$title?></small>
+        </div>
+    </div>
+
+    <div class="am-g">
+
+        <div class="am-u-sm-12">
+            <?/*Create*/?>
+            <form name="frmCreate" id="frmCreate" class="am-form am-form-horizontal">
+                    <?foreach($task as $k => $v):?>
+                        <?if($k == 'id' || $k=='createTime' || $k=='updateTime' || $k=='signature')continue;?>
+
+                        <div class="am-form-group">
+                            <label for="<?=$k?>" class="am-u-sm-2 am-form-label"><?=ucfirst($k)?></label>
+                            <div class="am-u-sm-8 am-u-end">
+                                <?if($k=='category'):?>
+                                    <?=$this->tag->select(array($k,SwmgrCategory::find(),"using" => array("id", "name")))?>
+                                <?elseif($k=='status'):?>
+                                    <?=$this->tag->selectStatic(array($k,array("1" => "启用","0" => "禁用")))?>
+                                <?elseif($k=='arch'):?>
+                                    <?=$this->tag->selectStatic(array($k,array("32" => "32位 系统架构","64" => "64位 系统架构")))?>
+                                <?elseif($k=='windowsVersion'):?>
+                                    <?=$this->tag->selectStatic(array($k,Element::windowsVersion()))?>
+                                <?elseif($k=='incomeShare' || $k=='isAd'):?>
+                                    <?=$this->tag->selectStatic(array($k,array("0" => "NO", "1" => "YES")))?>
+                                <?elseif($k=='language'):?>
+                                    <?=$this->tag->selectStatic(array($k,array("简体中文","繁体中文","English")))?>
+                                <?elseif($k=='rating'):?>
+                                    <?=$this->tag->selectStatic(array($k,range(0,9)))?>
+                                <?elseif($k=='description' || $k=='updateInfo' || $k=='brief'):?>
+                                    <?=$this->tag->textArea(array($k,ucfirst($v),"cols" => "6","rows" => 3))?>
+                                <?elseif($k=='versionCode' || $k=='size'):?>
+                                    <?=$this->tag->numericField(array($k, 'class'=>'am-form-field', 'placeholder'=>ucfirst($k)))?>
+                                <?elseif($k=='iconUrl' || $k=='largeIcon'):?>
+                                    <?=$this->tag->fileField(array($k, 'class'=>'am-form-field', 'placeholder'=>ucfirst($k)))?>
+                                    <?=$this->tag->hiddenField(array('hide_'.$k, 'value'=>''))?><span id="i_<?=$k?>" class="am-icon-file-picture-o" style="display:none;"></span>
+                                <?elseif($k=='screenshotsUrl'):?>
+                                    <?=$this->tag->fileField(array($k, 'class'=>'am-form-field','multiple'=>'multiple','placeholder'=>ucfirst($k)))?>
+                                    <?=$this->tag->hiddenField(array('hide_'.$k, 'value'=>''))?><span id="i_<?=$k?>" class="am-hide am-icon-picture-o"></span>
+                                <?else:?>
+                                    <?=$this->tag->textField(array($k, 'class'=>'am-form-field', 'placeholder'=>ucfirst($k)))?>
+                                <?endif?>
+                            </div>
+                        </div>
+
+                    <?endforeach?>
+                    <div class="am-form-group">
+                        <div class="am-u-sm-offset-2 am-u-sm-8 am-u-end">
+                            <button type="submit" class="am-btn am-btn-primary am-btn-block">CREATE</button>
+                        </div>
+                    </div>
+
+                </form>
+            <?/*Create*/?>
+        </div>
+
+    </div>
+
+</div>
+<!-- content end -->
+
+
+<script>
+    $(function(){
+
+        $("input[type='file']").fileupload({
+            url:"/cp/fileupload",
+            formData:{field:$(this).attr('name')},
+            done:function(e,result){
+                //done方法就是上传完毕的回调函数，其他回调函数可以自行查看api
+                //注意result要和jquery的ajax的data参数区分，这个对象包含了整个请求信息
+                //返回的数据在result.result中，假设我们服务器返回了一个json对象
+                console.log(JSON.stringify(result.result));
+
+                var hideField ='#hide_'+$(this).attr('name');
+                var imgField = '#i_'+$(this).attr('name');
+                $(hideField).val('/assets/i/48.png');
+                $(imgField).show();
+                $(imgField).popover({
+                    content: '<img src="'+$(hideField).val()+'" alt="">'
+                })
+
+            }
+        })
+
+
+        <?/*上传包验证*/?>
+        $("#frmCreate").validity(function() {
+            event.preventDefault();
+            $("#packageName").require().match("string");
+            $("#arch").require().match("number");
+            $("#windowsVersion").require().match("number");
+            $("#name").require().match("string");
+            $("#category").require().match("number");
+            $("#description").require().match("string");
+            $("#developer").require().match("string");
+            $("#iconUrl").require();
+            $("#largeIcon").require();
+            $("#screenshotsUrl").require();
+            $("#downloadUrl").require().match("string");
+            $("#incomeShare").require().match("number");
+            $("#rating").require().match("number");
+            $("#versionName").require().match("string");
+            $("#versionCode").require().match("string");
+            $("#priceInfo").require().match("string");
+            $("#tag").require().match("string");
+            $("#hash").require().match("string");
+            $("#size").require().match("number");
+            //$("#createTime").require().match("datetime");
+            //$("#updateTime").require().match("datetime");
+            //$("#signature").require().match("string").lessThanOrEqualTo(32);
+            $("#updateInfo").require().match("string");
+            $("#language").require().match("number");
+            $("#brief").require().match("string");
+            $("#isAd").require().match("number");
+            $("#status").require().match("number");
+            $(this).submit();
+        });
+
+    });
+
+</script>
