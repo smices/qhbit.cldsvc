@@ -54,7 +54,7 @@
                                     <?=$this->tag->hiddenField(array('hide_'.$k, 'value'=>''))?><span id="i_<?=$k?>" class="am-icon-file-picture-o" style="display:none;"></span>
                                 <?elseif($k=='screenshotsUrl'):?>
                                     <?=$this->tag->fileField(array($k, 'class'=>'am-form-field','multiple'=>'multiple','placeholder'=>ucfirst($k)))?>
-                                    <?=$this->tag->hiddenField(array('hide_'.$k, 'value'=>''))?><span id="i_<?=$k?>" class="am-hide am-icon-picture-o"></span>
+                                    <?=$this->tag->hiddenField(array('hide_'.$k, 'value'=>''))?><span id="i_<?=$k?>" class="am-icon-picture-o" style="display:none;"></span>
                                 <?else:?>
                                     <?=$this->tag->textField(array($k, 'class'=>'am-form-field', 'placeholder'=>ucfirst($k)))?>
                                 <?endif?>
@@ -88,15 +88,26 @@
                 //done方法就是上传完毕的回调函数，其他回调函数可以自行查看api
                 //注意result要和jquery的ajax的data参数区分，这个对象包含了整个请求信息
                 //返回的数据在result.result中，假设我们服务器返回了一个json对象
-                console.log(JSON.stringify(result.result));
-
+                //console.log(JSON.stringify(result.result));
+                resp = result.result;
                 var hideField ='#hide_'+$(this).attr('name');
                 var imgField = '#i_'+$(this).attr('name');
-                $(hideField).val('/assets/i/48.png');
-                $(imgField).show();
-                $(imgField).popover({
-                    content: '<img src="'+$(hideField).val()+'" alt="">'
-                })
+                if(resp.code == 0){
+                    $(hideField).val($(hideField).val()+','+resp.msg);
+                    var ar= new Array();
+                    var ar=$(hideField).val().split(",");
+                    var imgs='';
+                    for (i=0;i<ar.length;i++ )
+                    {
+                        if(ar[i].length<1)continue;
+                        imgs+='<img src="'+ar[i]+'" alt="">';
+                    }
+                    $(imgField).show();
+                    console.log('IMGS:'+imgs);
+                    $(imgField).popover({content: imgs})
+                }else{
+                    layer.alert(resp.msg, {icon: 11});
+                }
 
             }
         })
@@ -132,7 +143,22 @@
             $("#brief").require().match("string");
             $("#isAd").require().match("number");
             $("#status").require().match("number");
-            $(this).submit();
+
+            layer.load();
+            $.ajax({url: '<?=$_SERVER['REQUEST_URI']?>',type: 'POST',
+                success: function(response) {
+                    layer.closeAll('loading');
+                    if(response.code == 0) {
+                        $("#release").attr("disabled", true).hide();
+                        $("#reloadPage").show();
+                        layer.msg(response.msg);
+                        layer.tips('Upload Successfully, Please Refresh This Page!', '#reloadPage',{tips: [1, '#f37b1d'],time: 400000});
+                    }else{
+                        layer.alert(response.msg, {icon: 11});
+                    }
+                }
+            }, 'JSON');
+
         });
 
     });

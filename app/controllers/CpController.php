@@ -300,15 +300,50 @@ class CpController extends ControllerSecurity
              * Upload a new software package
              */
 
-            $this->request->getPost('');
+            $pkg                 = new SwmgrPackage();
+            $pkg->id             = null;
+            $pkg->packageName    = $this->request->getPost('packageName', 'string');
+            $pkg->windowsVersion = $this->request->getPost('windowsVersion', 'string');
+            $pkg->arch           = $this->request->getPost('arch', 'int');
+            $pkg->name           = $this->request->getPost('name', 'string');
+            $pkg->category       = $this->request->getPost('category', 'int');
+            $pkg->description    = $this->request->getPost('description', 'string');
+            $pkg->developer      = $this->request->getPost('developer', 'string');
+            $pkg->iconUrl        = $this->request->getPost('hide_iconUrl', 'string');
+            $pkg->largeIcon      = $this->request->getPost('hide_largeIcon', 'string');
+            $pkg->screenshotsUrl = $this->request->getPost('hide_screenshotsUrl', 'string');
+            $pkg->incomeShare    = $this->request->getPost('incomeShare', 'int');
+            $pkg->rating         = $this->request->getPost('rating', 'int');
+            $pkg->versionName    = $this->request->getPost('versionName', 'string');
+            $pkg->versionCode    = $this->request->getPost('versionCode', 'int');
+            $pkg->priceInfo      = $this->request->getPost('priceInfo', 'string');
+            $pkg->tag            = $this->request->getPost('tag', 'string');
+            $pkg->downloadUrl    = $this->request->getPost('downloadUrl', 'string');
+            $pkg->hash           = $this->request->getPost('hash', 'string');
+            $pkg->size           = $this->request->getPost('size', 'int');
+            $pkg->createTime     = self::$TIMESTAMP_MYSQL_FMT;
+            $pkg->updateTime     = self::$TIMESTAMP_MYSQL_FMT;
+            $pkg->signature      = md5(uniqid(microtime()));
+            $pkg->updateInfo     = $this->request->getPost('updateInfo', 'string');
+            $pkg->language       = $this->request->getPost('language', 'string');
+            $pkg->brief          = $this->request->getPost('brief', 'string');
+            $pkg->isAd           = $this->request->getPost('isAd', 'int');
+            $pkg->status         = $this->request->getPost('status', 'int');
+
+            if($pkg->create()){
+                Resp::outJsonMsg(0, 'SUCCESS');
+            }else{
+                $err = array();
+                foreach ($pkg->getMessages() as $message) {$err[] = $message;}
+                Resp::outJsonMsg(1, join(",", $err), $this->request);
+            }
+
         }elseif($this->request->isPut()){
             $this->view->disable();
             /**
              * Update software package info
              */
 
-            print_r($_POST);
-            print_r($_FILES);
         }elseif($this->request->isGet()){
             /***
              * Show manager and list
@@ -436,11 +471,23 @@ class CpController extends ControllerSecurity
      */
     public function fileuploadAction(){
         $this->view->disable();
-
-        print_r($_POST);
-        print_r($_FILES);
-
+        $savePath = 'sw_tmp'.DIR_SEP.date('y').DIR_SEP.date('m').DIR_SEP.date('d').DIR_SEP;
+        if(!is_dir(_DYP_DIR_FS.DIR_SEP.$savePath)) DYP\Sys\Command::mkdirs(_DYP_DIR_FS.DIR_SEP.$savePath);
+        if ($this->request->hasFiles() == true){
+            $fileList = [];
+            foreach ($this->request->getUploadedFiles() as $file) {
+                //echo $file->getName(), " ", $file->getSize(), "\n";
+                $fileName = md5($file->getName().microtime()).substr($file->getName(), -4);
+                $file->moveTo(_DYP_DIR_FS.DIR_SEP.$savePath.$fileName);
+                $fileList[] = '/fs/'.str_replace(DIR_SEP, '/', $savePath.$fileName);
+            }
+            Resp::outJsonMsg(0, join(',', $fileList), $this->request);
+        }else{
+            Resp::outJsonMsg(1, 'NO FILE UPLOAD', $this->request);
+        }
     }//end
+
+
     /**
      * 检查远程文件是否存在
      *
