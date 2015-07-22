@@ -459,15 +459,15 @@ $(function(){
                 type: 'PUT',
                 //async:false,
                 cache:false,
-                success: function(response) {
+                success: function(resp) {
                     $("#release span").removeClass("am-icon-spinner am-icon-pulse").addClass("am-icon-cloud-upload");
-                    if(response.code == 0) {
+                    if(resp.code == 0) {
                         $("#release").attr("disabled", true).hide();
                         $("#reloadPage").show();
-                        layer.msg(response.msg,{icon: 6});
+                        layer.msg(resp.msg,{icon: 6});
                         layer.tips('Upload Successfully, Please Refresh This Page!', '#reloadPage',{tips: [1, '#f37b1d'],time: 400000});
                     }else{
-                        layer.alert(response.msg, {icon: 11});
+                        layer.alert(resp.msg, {icon: 11});
                     }
                 }
             }, 'JSON');
@@ -500,26 +500,25 @@ $(function(){
 
     $('#submitCreate').click(function (e){
         $.when($form.validator('isFormValid')).then(function() {
-            // 验证成功的逻辑
-            //e.preventDefault();
+            event.preventDefault();
             $.ajax({
                 url: '<?=$_SERVER['REQUEST_URI']?>',
                 type: 'POST',
                 data: $form.serialize(),
                 cache: false,
-                success: function (response) {
+                success: function (resp) {
                     $("#release span").removeClass("am-icon-spinner am-icon-pulse").addClass("am-icon-cloud-upload");
-                    if (response.code == 0) {
+                    if (resp.code == 0) {
                         $("#release").attr("disabled", true).hide();
                         $("#reloadPage").show();
-                        layer.msg(response.msg);
+                        layer.msg(resp.msg);
                         layer.tips('Upload Successfully, Please Refresh This Page!', '#reloadPage', {
                             tips: [1, '#f37b1d'],
                             time: 400000
                         });
                         window.location.reload();
                     } else {
-                        layer.alert(response.msg, {icon: 11});
+                        layer.alert(resp.msg, {icon: 11});
                     }
                 }
             }, 'JSON');

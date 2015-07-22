@@ -90,7 +90,7 @@
             http://ctr.datacld.com/api/swmgr?type=category&cfv=1234567890 (获取分类数据, **本接口输出格式与其他接口都不同!为真实分类数据)
             http://ctr.datacld.com/api/swmgr?type=category&id=1 (查询 分类ID=1 的分类下的所有软件.**注意与取分类的差别!无ID为取分类,有ID为取软件集合)
             http://ctr.datacld.com/api/swmgr?type=top (获取推荐软件包, TOP为虚拟分类, 表示所有分成软件 **固定条数为100, 可以不足)
-            http://ctr.datacld.com/api/swmgr?type=top (获取热门软件包, HOT为虚拟分类, 表示下载次数最多的软件 **固定条数为100, 可以不足)
+            http://ctr.datacld.com/api/swmgr?type=hot (获取热门软件包, HOT为虚拟分类, 表示下载次数最多的软件 **固定条数为100, 可以不足)
             http://ctr.datacld.com/api/swmgr?pkgid=1 (查询 PackageID=1 的软件数据)
     [RESPONSE]:
         请参考实际配置文件

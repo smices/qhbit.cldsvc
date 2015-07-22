@@ -164,12 +164,12 @@ $(function(){
             type: 'POST',
             data: $('#frmCreate').serialize(),
             cache: false,
-            success: function (respond) {
-                if (respond.code == 0) {
-                    layer.msg(respond.msg);
+            success: function (resp) {
+                if (resp.code == 0) {
+                    layer.msg(resp.msg);
                     window.location.reload();
                 } else {
-                    layer.alert(respond.msg, {icon: 11});
+                    layer.alert(resp.msg, {icon: 11});
                 }
             }
         }, 'JSON');

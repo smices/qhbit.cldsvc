@@ -300,6 +300,17 @@ class CpController extends ControllerSecurity
              * Upload a new software package
              */
 
+            $picJs2Php = function() use (&$jsStr, &$noEmpty){
+                if($noEmpty == true && empty(trim($jsStr))) Resp::outJsonMsg(1, 'UPLOAD FILE EMPTY');
+                if(empty(trim($jsStr))) return '';
+                $tmpAr = [];
+                foreach(explode(',', $jsStr) as $k=>$v){
+                    if(trim($v) == '') continue;
+                    $tmpAr[] = $v;
+                }
+                return join(',', $tmpAr);
+            };
+
             $pkg                 = new SwmgrPackage();
             $pkg->id             = null;
             $pkg->packageName    = $this->request->getPost('packageName', 'string');
@@ -309,9 +320,9 @@ class CpController extends ControllerSecurity
             $pkg->category       = $this->request->getPost('category', 'int');
             $pkg->description    = $this->request->getPost('description', 'string');
             $pkg->developer      = $this->request->getPost('developer', 'string');
-            $pkg->iconUrl        = $this->request->getPost('hide_iconUrl', 'string');
-            $pkg->largeIcon      = $this->request->getPost('hide_largeIcon', 'string');
-            $pkg->screenshotsUrl = $this->request->getPost('hide_screenshotsUrl', 'string');
+            $pkg->iconUrl       .= $picJs2Php($this->request->getPost('hide_iconUrl', 'string'), true);
+            $pkg->largeIcon      = $picJs2Php($this->request->getPost('hide_largeIcon', 'string'), false);
+            $pkg->screenshotsUrl = $picJs2Php($this->request->getPost('hide_screenshotsUrl', 'string'), false);
             $pkg->incomeShare    = $this->request->getPost('incomeShare', 'int');
             $pkg->rating         = $this->request->getPost('rating', 'int');
             $pkg->versionName    = $this->request->getPost('versionName', 'string');

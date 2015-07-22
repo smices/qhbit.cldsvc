@@ -2,15 +2,21 @@
 <?$title = "Software Manager Service / Upload New Package" ?>
 
 <?=$this->tag->javascriptInclude("assets/js/layer/layer.js");?>
-<?=$this->tag->stylesheetLink("assets/js/validity/jquery.validity.css");?>
-<?=$this->tag->javascriptInclude("assets/js/validity/jquery.validity.min.js");?>
+
+<?//=$this->tag->stylesheetLink("assets/js/validity/jquery.validity.css");?>
+<?//=$this->tag->javascriptInclude("assets/js/validity/jquery.validity.min.js");?>
 
 <?/*FileUpload*/?>
 <?=$this->tag->javascriptInclude("assets/js/fileupload/js/vendor/jquery.ui.widget.js");?>
 <?=$this->tag->javascriptInclude("assets/js/fileupload/js/jquery.iframe-transport.js");?>
 <?=$this->tag->javascriptInclude("assets/js/fileupload/js/jquery.fileupload.js");?>
 
-
+<?=$this->tag->javascriptInclude("assets/js/Validform/Validform_v5.3.2_min.js");?>
+<style>
+    .Validform_checktip{display: inline}
+    .Validform_checktip.Validform_wrong{color:red;}
+    .Validform_checktip.Validform_right{color:blue;}
+</style>
 <!-- content start -->
 <div class="admin-content">
 
@@ -46,9 +52,9 @@
                                 <?elseif($k=='rating'):?>
                                     <?=$this->tag->selectStatic(array($k,range(0,9)))?>
                                 <?elseif($k=='description' || $k=='updateInfo' || $k=='brief'):?>
-                                    <?=$this->tag->textArea(array($k,ucfirst($v),"cols" => "6","rows" => 3))?>
+                                    <?=$this->tag->textArea(array($k,ucfirst($v),'datatype'=>'*','errormsg'=>$k.' must type!',"cols" => "6","rows" => 3))?>
                                 <?elseif($k=='versionCode' || $k=='size'):?>
-                                    <?=$this->tag->numericField(array($k, 'class'=>'am-form-field', 'placeholder'=>ucfirst($k)))?>
+                                    <?=$this->tag->numericField(array($k,'datatype'=>'n','errormsg'=>$k.' must type!','class'=>'am-form-field', 'placeholder'=>ucfirst($k)))?>
                                 <?elseif($k=='iconUrl' || $k=='largeIcon'):?>
                                     <?=$this->tag->fileField(array($k, 'class'=>'am-form-field', 'placeholder'=>ucfirst($k)))?>
                                     <?=$this->tag->hiddenField(array('hide_'.$k, 'value'=>''))?><span id="i_<?=$k?>" class="am-icon-file-picture-o" style="display:none;"></span>
@@ -56,7 +62,7 @@
                                     <?=$this->tag->fileField(array($k, 'class'=>'am-form-field','multiple'=>'multiple','placeholder'=>ucfirst($k)))?>
                                     <?=$this->tag->hiddenField(array('hide_'.$k, 'value'=>''))?><span id="i_<?=$k?>" class="am-icon-picture-o" style="display:none;"></span>
                                 <?else:?>
-                                    <?=$this->tag->textField(array($k, 'class'=>'am-form-field', 'placeholder'=>ucfirst($k)))?>
+                                    <?=$this->tag->textField(array($k,'datatype'=>'*', 'errormsg'=>$k.' must type!','class'=>'am-form-field', 'placeholder'=>ucfirst($k)))?>
                                 <?endif?>
                             </div>
                         </div>
@@ -80,7 +86,6 @@
 
 <script>
     $(function(){
-
         $("input[type='file']").fileupload({
             url:"/cp/fileupload",
             formData:{field:$(this).attr('name')},
@@ -110,10 +115,31 @@
                 }
 
             }
-        })
+        });
 
 
         <?/*上传包验证*/?>
+        $('#frmCreate').bind('submit', function(){
+            event.preventDefault();
+            $('#frmCreate').Validform({tiptype:4,showAllError:true});
+            layer.load();
+            $.ajax({url: '<?=$_SERVER['REQUEST_URI']?>',type: 'POST',
+                success: function(resp) {
+                    layer.closeAll('loading');
+                    if(resp.code == 0) {
+                        layer.msg(resp.msg);
+                        window.location.reload();
+                    }else{
+                        layer.alert(resp.msg, {icon: 11});
+                    }
+                }
+            }, 'JSON');
+
+        });
+
+
+
+        /*
         $("#frmCreate").validity(function() {
             event.preventDefault();
             $("#packageName").require().match("string");
@@ -160,6 +186,7 @@
             }, 'JSON');
 
         });
+        */
 
     });
 
