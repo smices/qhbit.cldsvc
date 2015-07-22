@@ -300,8 +300,8 @@ class CpController extends ControllerSecurity
              * Upload a new software package
              */
 
-            $picJs2Php = function() use (&$jsStr, &$noEmpty){
-                if($noEmpty == true && empty(trim($jsStr))) Resp::outJsonMsg(1, 'UPLOAD FILE EMPTY');
+            $picJs2Php = function($jsStr){
+                //if(empty(trim($jsStr))) Resp::outJsonMsg(1, 'UPLOAD FILE EMPTY');
                 if(empty(trim($jsStr))) return '';
                 $tmpAr = [];
                 foreach(explode(',', $jsStr) as $k=>$v){
@@ -310,6 +310,7 @@ class CpController extends ControllerSecurity
                 }
                 return join(',', $tmpAr);
             };
+
 
             $pkg                 = new SwmgrPackage();
             $pkg->id             = null;
@@ -320,9 +321,9 @@ class CpController extends ControllerSecurity
             $pkg->category       = $this->request->getPost('category', 'int');
             $pkg->description    = $this->request->getPost('description', 'string');
             $pkg->developer      = $this->request->getPost('developer', 'string');
-            $pkg->iconUrl       .= $picJs2Php($this->request->getPost('hide_iconUrl', 'string'), true);
-            $pkg->largeIcon      = $picJs2Php($this->request->getPost('hide_largeIcon', 'string'), false);
-            $pkg->screenshotsUrl = $picJs2Php($this->request->getPost('hide_screenshotsUrl', 'string'), false);
+            $pkg->iconUrl        = $this->request->getPost('hide_iconUrl', 'string');
+            $pkg->largeIcon      = $this->request->getPost('hide_largeIcon', 'string');
+            $pkg->screenshotsUrl = $picJs2Php($this->request->getPost('hide_screenshotsUrl', 'string'));
             $pkg->incomeShare    = $this->request->getPost('incomeShare', 'int');
             $pkg->rating         = $this->request->getPost('rating', 'int');
             $pkg->versionName    = $this->request->getPost('versionName', 'string');
@@ -348,7 +349,7 @@ class CpController extends ControllerSecurity
                 foreach ($pkg->getMessages() as $message) {$err[] = $message;}
                 Resp::outJsonMsg(1, join(",", $err), $this->request);
             }
-
+            /*UPLOAD A NEW SOFTWARE PACKAGE*/
         }elseif($this->request->isPut()){
             $this->view->disable();
             /**
@@ -482,7 +483,7 @@ class CpController extends ControllerSecurity
      */
     public function fileuploadAction(){
         $this->view->disable();
-        $savePath = 'sw_tmp'.DIR_SEP.date('y').DIR_SEP.date('m').DIR_SEP.date('d').DIR_SEP;
+        $savePath = 'sw'.DIR_SEP.date('y').DIR_SEP.date('m').DIR_SEP.date('d').DIR_SEP;
         if(!is_dir(_DYP_DIR_FS.DIR_SEP.$savePath)) DYP\Sys\Command::mkdirs(_DYP_DIR_FS.DIR_SEP.$savePath);
         if ($this->request->hasFiles() == true){
             $fileList = [];

@@ -95,7 +95,12 @@
                 var hideField ='#hide_'+$(this).attr('name');
                 var imgField = '#i_'+$(this).attr('name');
                 if(resp.code == 0){
-                    $(hideField).val($(hideField).val()+','+resp.msg);
+                    if($(this).attr('name') == 'screenshotsUrl'){
+                        $(hideField).val($(hideField).val()+','+resp.msg);
+                    }else{
+                        $(hideField).val(resp.msg);
+                    }
+
                     var ar= new Array();
                     var ar=$(hideField).val().split(",");
                     var imgs='';
@@ -105,7 +110,7 @@
                         imgs+='<img src="'+ar[i]+'" alt="">';
                     }
                     $(imgField).show();
-                    console.log('IMGS:'+imgs);
+                    //console.log('IMGS:'+imgs);
                     $(imgField).popover({content: imgs})
                 }else{
                     layer.alert(resp.msg, {icon: 11});
@@ -120,12 +125,14 @@
             event.preventDefault();
             $('#frmCreate').Validform({tiptype:4,showAllError:true});
             layer.load();
-            $.ajax({url: '<?=$_SERVER['REQUEST_URI']?>',type: 'POST',
+            $.ajax({url:'<?=$_SERVER['REQUEST_URI']?>',
+                type: 'POST',
+                data: $(this).serialize(),
                 success: function(resp) {
                     layer.closeAll('loading');
                     if(resp.code == 0) {
                         layer.msg(resp.msg);
-                        window.location.reload();
+                        //window.location.reload();
                     }else{
                         layer.alert(resp.msg, {icon: 11});
                     }
