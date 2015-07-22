@@ -343,6 +343,11 @@ class CpController extends ControllerSecurity
             $pkg->status         = $this->request->getPost('status', 'int');
 
             if($pkg->create()){
+                $SwmgrCategory = SwmgrCategory::findFirst($pkg->category);
+                $SwmgrCategory->total =$SwmgrCategory->total+1;
+                if($SwmgrCategory->update()){
+                    Resp::outJsonMsg(0, 'SUCCESS');
+                }
                 Resp::outJsonMsg(0, 'SUCCESS');
             }else{
                 $err = array();

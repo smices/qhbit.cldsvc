@@ -200,6 +200,7 @@ class ApiController extends ControllerApi
             $result = $paginator->getPaginate();
             var_dump($result);
              */
+            Resp::outJsonMsg(1, 'PLEASE READ API DOCUMENT');
             /*HTTP GET METHOD END*/
         }
     }
