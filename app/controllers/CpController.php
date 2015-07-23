@@ -42,10 +42,10 @@ class CpController extends ControllerSecurity
 
         if(is_file($awstatsFile)){
             $str = file_get_contents($awstatsFile);
-            $s=strpos($str,'BEGIN_GENERAL');
-            if ($s) $str=substr($str,$s);
+            $s = strpos($str,'BEGIN_GENERAL');
+            if ($s) $str = substr($str,$s);
             $e=strpos($str,'END_GENERAL');//寻找位置
-            if ($e) $str=substr($str,0, $e);//删除后面
+            if ($e) $str = substr($str,0, $e);//删除后面
             $awlist = explode("\n", $str);
             $startWith = function ($str, $needle) {return strpos($str, $needle) === 0;};
             foreach($awlist as $v){
@@ -53,6 +53,18 @@ class CpController extends ControllerSecurity
             }
         }
 
+    }//end
+
+    /**
+     * Exit Login
+     */
+    public function logoutAction()
+    {
+        $this->view->disable();
+        $_SERVER['PHP_AUTH_USER'] = null;
+        $_SERVER['PHP_AUTH_PW']   = null;
+        $this->response->redirect("cp/index");
+        exit(0);
     }//end
 
 
@@ -428,7 +440,7 @@ class CpController extends ControllerSecurity
             }/*EDIT UPLDATE*/
 
             /**
-             * 新上传一个包
+             * 添加一个分类
             */
             if(!$this->request->hasPost('name') || empty($this->request->getPost('name', 'string')) ||
                 !$this->request->hasPost('status') || empty($this->request->getPost('status', 'int'))){
@@ -436,7 +448,9 @@ class CpController extends ControllerSecurity
             }
             $category         = new SwmgrCategory();
             $category->id     = null;
+            $category->pid    = 0;
             $category->name   = $this->request->getPost('name', 'string');
+            $category->order  = 0;
 
             if($this->request->hasPost('alias')){
                 $category->alias  = $this->request->getPost('alias', 'string');
@@ -468,7 +482,7 @@ class CpController extends ControllerSecurity
              */
             $vsvc = Service::findFirst(sprintf('name="%s"', 'swmgr'));
 
-            $task = SwmgrCategory::find();
+            $task = SwmgrCategory::find(array('columns'=>'id, name,alias,total,status'));
             if ($task) {
                 $this->view->task = $task;
                 $this->view->vsvc = $vsvc;

@@ -1,5 +1,7 @@
 <?use DYP\Tags\Element;?>
+<?$apiUrl=$_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].'/api/swmgr'?>
 <?$title = "Software Manager Service / Category Management" ?>
+
 <?=$this->tag->javascriptInclude("assets/js/layer/layer.js");?>
 
 <?//=$this->tag->stylesheetLink("assets/js/editable-table/index.css");?>
@@ -17,11 +19,11 @@
 
 
     <div class="am-g am-margin-bottom-xs">
+
         <div class="am-u-sm-12 am-u-md-12 am-text-right">
-            <a href="<?=$_SERVER['REQUEST_SCHEME']?>://<?=$_SERVER['SERVER_NAME']?>/api/swmgr?type=category" target="_blank"
-               class="am-badge am-round am-badge-secondary am-text-xs">
-                Test API
-            </a>
+            <a href="<?=$apiUrl?>?type=category" target="_blank" class="am-badge am-badge-secondary">API:CATEGORY</a>
+            <a href="<?=$apiUrl?>?type=top" target="_blank" class="am-badge am-badge-secondary">API:TOP</a>
+            <a href="<?=$apiUrl?>?type=hot" target="_blank" class="am-badge am-badge-secondary">API:HOT</a>
         </div>
 
     </div>

@@ -10,6 +10,12 @@ class SwmgrCategory extends \Phalcon\Mvc\Model
 
     /**
      *
+     * @var integer
+     */
+    public $pid;
+
+    /**
+     *
      * @var string
      */
     public $name;
@@ -25,6 +31,12 @@ class SwmgrCategory extends \Phalcon\Mvc\Model
      * @var integer
      */
     public $total;
+
+    /**
+     *
+     * @var integer
+     */
+    public $order;
 
     /**
      *
