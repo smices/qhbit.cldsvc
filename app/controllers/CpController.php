@@ -343,7 +343,7 @@ class CpController extends ControllerSecurity
             $pkg->priceInfo      = $this->request->getPost('priceInfo', 'string');
             $pkg->tag            = $this->request->getPost('tag', 'string');
             $pkg->downloadUrl    = $this->request->getPost('downloadUrl', 'string');
-            $pkg->hash           = $this->request->getPost('hash', 'string');
+            $pkg->hash           = strtolower($this->request->getPost('hash', 'string'));
             $pkg->size           = $this->request->getPost('size', 'int');
             $pkg->createTime     = self::$TIMESTAMP_MYSQL_FMT;
             $pkg->updateTime     = self::$TIMESTAMP_MYSQL_FMT;
