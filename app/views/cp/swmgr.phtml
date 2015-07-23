@@ -2,4 +2,6 @@
     <?$this->partial("cp/_swmgr_index", $this)?>
 <?elseif('create' == $templeName):?>
     <?$this->partial("cp/_swmgr_create", $this)?>
+<?elseif('edit' == $templeName):?>
+    <?$this->partial("cp/_swmgr_edit", $this)?>
 <?endif?>

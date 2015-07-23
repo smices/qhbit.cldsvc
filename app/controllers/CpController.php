@@ -323,7 +323,6 @@ class CpController extends ControllerSecurity
                 return join(',', $tmpAr);
             };
 
-
             $pkg                 = new SwmgrPackage();
             $pkg->id             = null;
             $pkg->packageName    = $this->request->getPost('packageName', 'string');
@@ -374,15 +373,42 @@ class CpController extends ControllerSecurity
              */
 
         }elseif($this->request->isGet()){
-            /***
+            /**
              * Show manager and list
              * Get method or other method , show operation page.
              */
-            if($this->request->hasQuery('mode') && 'create' == $this->request->getQuery('mode', 'string')){
-                $this->view->templeName = 'create';
-                $this->view->task = SwmgrPackage::findFirst(1);
+            if($this->request->hasQuery('mode')){
+                /**
+                 * 带模式的处理块
+                 */
+
+                if('create' == $this->request->getQuery('mode', 'string')){
+                    /**
+                     * CREATE SWMGRPACKAGE
+                     **/
+                    $this->view->templeName = 'create';
+                    $this->view->task       = SwmgrPackage::findFirst(1);
+                    /*CREATE SWMGRPACKAGE*/
+                }elseif('edit' == $this->request->getQuery('mode', 'string')){
+                    /**
+                     * EDIT SWMGRPACKAGE
+                     */
+                    $this->view->templeName = 'edit';
+                    $this->view->error = false;
+
+                    if(!$this->request->hasQuery('id') || !is_numeric($this->request->getQuery('id'))){
+                        $this->view->error = true;
+                        $this->view->msg = 'ID NOT FIND';
+                    }else{
+
+                        $this->view->task       = SwmgrPackage::findFirst($this->request->getQuery('id', 'int'));
+                    }
+                    /*EDIT SWMGRPACKAGE*/
+                }
             }else {
-                /*Main Page*/
+                /**
+                 * MAIN PAGE
+                 */
                 $vsvc = TaskVersion::findFirst(sprintf('name="%s"', 'swmgr'));
                 $task = SwmgrPackage::find();
                 if ($task) {
