@@ -12,6 +12,7 @@ class Simple{
 
     static public function jsonMsg($code, $msg, $request=null){
         if($request == null || !$request->hasQuery('callback')){
+            //return json_encode(self::message($code, $msg), JSON_UNESCAPED_UNICODE+JSON_NUMERIC_CHECK+JSON_BIGINT_AS_STRING);
             return json_encode(self::message($code, $msg), JSON_UNESCAPED_UNICODE);
         }else{
             return $request->getQuery("callback") ."(". json_encode(self::message($code, $msg), JSON_UNESCAPED_UNICODE) . ");";

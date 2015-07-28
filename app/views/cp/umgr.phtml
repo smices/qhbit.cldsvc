@@ -1,0 +1,142 @@
+<?use DYP\Tags\Element;?>
+<?$apiUrl=$_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].'/api/hdumgr'?>
+<?$title = "User Manager Service / Registered User" ?>
+
+<?=$this->tag->javascriptInclude("assets/js/layer/layer.js");?>
+<?=$this->tag->javascriptInclude("assets/js/tabledit/jquery.tabledit.js");?>
+<?d($page)?>
+<!-- content start -->
+<div class="admin-content">
+
+    <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">Home</strong> /
+            <small><?=$title?></small>
+        </div>
+    </div>
+
+
+    <div class="am-g am-margin-bottom-xs">
+
+        <div class="am-u-sm-12 am-u-md-12 am-text-right">
+            <a href="#" target="_blank" class="am-badge am-badge-secondary">API:NONE</a>
+        </div>
+
+    </div>
+
+
+    <div class="am-g">
+        <div class="am-u-sm-12">
+
+
+            <?/*Summary*/?>
+            <div class="am-tab-panel am-fade am-in am-active" id="tab_summary">
+
+                <table id="SummaryTable" class="am-table am-table-bordered am-table-radius am-table-compact am-table-striped am-table-hover table-main">
+                    <thead>
+                    <tr>
+                        <? foreach($page->items[0] as $k => $v): ?>
+
+                            <th class="am-text-center">
+                                <?if(strtolower($k) == 'status'):?>
+                                    STATUS
+                                <?else:?>
+                                    <?=strtoupper($k)?>
+                                <?endif?>
+                            </th>
+                        <? endforeach ?>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <? foreach($page->items as $key => $p): ?>
+                        <tr id="<?=$p->id?>">
+                            <? foreach($p as $key => $v): ?>
+                                <td class="am-text-center">
+                                    <?=strtoupper($v)?>
+                                </td>
+                            <? endforeach ?>
+                        </tr>
+                    <? endforeach ?>
+                    </tbody>
+                </table>
+
+                <ul class="am-pagination am-pagination-centered">
+                    <li><?=$this->tag->linkTo("cp/hdumgr", 'First')?></li>
+                    <li><?=$this->tag->linkTo("cp/hdumgr?page=" . $page->before, 'Previous')?></li>
+                    <li><?=$this->tag->linkTo("cp/hdumgr?page=" . $page->before, 'Previous')?></li>
+                    <li><?=$this->tag->linkTo("cp/hdumgr?page=" . $page->next, 'Next')?></li>
+                    <li><?=$this->tag->linkTo("cp/hdumgr?page=" . $page->last, 'Last')?></li>
+                    <li><span class="help-inline"><?=$page->current?> of <?=$page->total_pages?></span></li>
+                </ul>
+
+            </div>
+            <?/*Summary end*/?>
+
+
+        </div>
+
+    </div>
+</div>
+<!-- content end -->
+
+
+<script>
+$(function(){
+
+    $('#SummaryTable').Tabledit({
+        url: '<?=$_SERVER['REQUEST_URI']?>',
+        eventType: 'dblclick',
+        editButton:true,
+        deleteButton:false,
+        restoreButton:false,
+        buttons: {edit: {action: 'edit'}},
+        columns: {
+            identifier: [0, 'id'],
+            editable: [[1, 'name'],[2, 'alias'],/*[3, 'total'],*/ [4, 'status', '{"1":"ENABLE", "0":"DISABLE","3":"DELETE"}']]
+        },
+        onDraw: function() {
+            //console.log('onDraw()');
+        },
+        onSuccess: function(data, textStatus, jqXHR) {
+            console.log($(this).parent());
+            layer.closeAll('loading');
+            if (data.code == 0) {
+                layer.msg(data.msg,{icon: 6});
+            } else {
+                layer.alert(data.msg, {icon: 11});
+            }
+        },
+        onFail: function(jqXHR, textStatus, errorThrown) {
+            layer.closeAll('loading');
+            layer.msg('PROGRESSING FAILURE!',{icon: 11});
+        },
+        onAlways: function() {
+            //console.log('onAlways()');
+            return false;
+        },
+        onAjax: function(action, serialize) {
+            layer.load();
+        }
+    });
+
+    /**
+     * Create
+     */
+    $('#create').bind('click', function(){
+        event.preventDefault();
+        $.ajax({url: '<?=$_SERVER['REQUEST_URI']?>',
+            type: 'POST',
+            data: $('#frmCreate').serialize(),
+            cache: false,
+            success: function (resp) {
+                if (resp.code == 0) {
+                    layer.msg(resp.msg);
+                    window.location.reload();
+                } else {
+                    layer.alert(resp.msg, {icon: 11});
+                }
+            }
+        }, 'JSON');
+    });//create
+
+});
+</script>

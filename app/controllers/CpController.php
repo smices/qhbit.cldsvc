@@ -1,6 +1,6 @@
 <?php
 use DYP\Response\Simple as Resp,
-    DYP\Sys\FileCache as Fc;
+    Phalcon\Paginator\Adapter\Model as Paginator;
 
 class CpController extends ControllerSecurity
 {
@@ -546,6 +546,51 @@ class CpController extends ControllerSecurity
 
 
     /**
+     * 基于用户硬件, 硬盘序列号的用户管理
+     */
+    public function hdumgrAction(){
+        $currPage = $this->request->getQuery('page', 'int', 1);
+        $ulist = HdUser::find(array('columns'=>'id,sn,ctime', 'order'=>'id DESC'));
+
+        if (count($ulist) == 0) {
+            $this->view->title="QUERY FAIL";
+            $this->view->msg="NOT FOUND ANY USERS";
+            return $this->dispatcher->forward(array("controller" => "cp","action" => "error"));
+        }
+
+        $paginator = new Paginator(array(
+            "data" => $ulist, // Data to paginate
+            "limit" => 50, // Rows per page
+            "page" => $currPage // Active page
+        ));
+
+        $this->view->page = $paginator->getPaginate();
+    }//end
+
+
+    /**
+     * 通过正式注册的用户管理
+     */
+    public function umgrAction(){
+        $currPage = $this->request->getQuery('page', 'int', 1);
+        $ulist = HdUser::find(array('status'=>1, 'columns'=>'id,sn,ctime', 'order'=>'id DESC'));
+
+        if (count($ulist) == 0) {
+            $this->view->title="QUERY FAIL";
+            $this->view->msg="NOT FOUND ANY USERS";
+            return $this->dispatcher->forward(array("controller" => "cp","action" => "error"));
+        }
+
+        $paginator = new Paginator(array(
+            "data" => $ulist, // Data to paginate
+            "limit" => 50, // Rows per page
+            "page" => $currPage // Active page
+        ));
+
+        $this->view->page = $paginator->getPaginate();
+    }//end
+
+    /**
      * 检查远程文件是否存在
      *
      *
@@ -554,6 +599,22 @@ class CpController extends ControllerSecurity
         $this->view->disable();
         $file = $this->request->getQuery('file', 'string');
         if(empty($file)) Resp::outJsonMsg(1, 'FILE ERROR');
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $file);//不下载
+        curl_setopt($ch, CURLOPT_NOBODY, 1);//不取回数据
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 3);//设置超时
+        curl_setopt($ch, CURLOPT_TIMEOUT, 3);
+        curl_exec($ch);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if ($http_code == 200) {
+            Resp::outJsonMsg(0, '200');
+        } elseif ($http_code == 503) {
+            Resp::outJsonMsg(0, '503');
+        } else {
+            Resp::outJsonMsg(1, $http_code);
+        }
+        /*
         $resp = get_headers($file,1);
         if(preg_match('/200/',$resp[0])){
             Resp::outJsonMsg(0, '200', $this->request);
@@ -562,6 +623,12 @@ class CpController extends ControllerSecurity
         }else{
             Resp::outJsonMsg(1, join(",", $resp), $this->request);
         }
+        */
     }//end
+
+    /**
+     * 友好的错误处理
+     */
+    public function errorAction(){}//end
 
 }//end

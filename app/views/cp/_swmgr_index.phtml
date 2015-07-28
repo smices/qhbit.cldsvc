@@ -1,5 +1,6 @@
 <?use DYP\Tags\Element;?>
 <?$title = "Software Manager Service / Package Management" ?>
+
 <?=$this->tag->javascriptInclude("assets/js/layer/layer.js");?>
 
 <!-- content start -->
@@ -41,27 +42,37 @@
     <div class="am-g">
         <div class="am-u-sm-12">
 
-            <div class="am-tabs-bd">
-                <?/*Summary*/?>
-                <div class="am-tab-panel am-fade am-in am-active" id="tab_summary">
 
-                    <ul class="am-list am-list-static am-list-border">
-                        <? foreach($task as $key => $p): ?>
-                            <li>
-                                <?if(!empty($p->downloadUrl)):?>
-                                    <span class="am-badge am-badge-primary"><?=$p->downloadUrl?></span>
-                                <?else:?>
-                                    <span class="am-badge am-badge-danger">无下载地址</span>
-                                <?endif?>
+            <table class="am-table am-table-bordered am-table-radius am-table-striped">
+                <? foreach($task as $key => $p): ?>
+                    <tr>
+                        <td><img src="http://ctr.datacld.com/<?=$p->iconUrl?>" width="48" alt=""></td>
+                        <td>
+                            <?=$p->name?>&nbsp;<span class="am-badge am-badge-secondary"><?=$p->arch?></span>
+                            <br>
+                            <small>SIZE:<?=DYP\Sys\Command::fmtDataSize($p->size)?>, &nbsp;VER:<?=$p->versionName?></small>
+                        </td>
+                        <td><?=$p->brief?>&nbsp;<a href="javascript:$('#updateinfo_<?=$p->id?>').toggle()">更新信息&nbsp;<span class="am-icon-angle-double-down"></span></a>
+                            <div style="display: none;" class="am-text-primary" id="updateinfo_<?=$p->id?>"><?=nl2br(htmlspecialchars($p->updateInfo))?></div>
+                        </td>
+                        <td>
+                            <?if(!empty($p->downloadUrl)):?>
+                                <span id="download_id_<?=$p->id?>">
+                                    <script>fileExists("download_id_<?=$p->id?>", "<?=$p->downloadUrl?>",
+                                            '<a href="<?=$p->downloadUrl?>" target="_blank" class="am-btn am-btn-xs am-btn-danger">404 | 找不到了</a>',
+                                            '<a href="<?=$p->downloadUrl?>" target="_blank" class="am-btn am-btn-xs am-btn-warning">503 | 下载不到</a>',
+                                            '<a href="<?=$p->downloadUrl?>" target="_blank" class="am-btn am-btn-xs am-btn-secondary">200 | 正常下载</a>'
+                                        );
+                                    </script></span>
+                            <?else:?>
+                                <button class="am-btn am-btn-xs am-btn-danger">NO SET</button>
+                            <?endif?>
+                        </td>
+                    </tr>
+                <?endforeach?>
+            </table>
 
-                                <?=$p->name?> - <?=$p->versionName?>
-                            </li>
-                        <?endforeach?>
-                    </ul>
 
-                </div>
-                <?/*Summary end*/?>
-            </div>
 
         </div>
 
@@ -72,6 +83,20 @@
 
 <script>
     $(function(){
+        $("[data-rel='detect']").bind('click', function(){
+
+            var fUrl = $.trim($(this).attr('data-var'));
+
+            if (fUrl !== '') {
+                $(this).button('Checking...');
+                $.getJSON('/cp/rfexists?file='+fUrl, function(resp){
+                    $(this).button('reset');
+                    console.log(resp);
+                });
+            }
+
+        });
+
         /**
          * Release task
          */
