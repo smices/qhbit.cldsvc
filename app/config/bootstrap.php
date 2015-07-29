@@ -26,8 +26,8 @@ define("_DYP_APPVER", _DYP_APPVER_JOURNAL . '.' . _DYP_APPVER_REVISE);
 $loader = new \Phalcon\Loader();
 
 $loader->registerNamespaces(array(
-    'modelsDir'        => $config->application->modelsDir,
-    'controllersDir'   => $config->application->controllersDir,
+//    'modelsDir'        => $config->application->modelsDir,
+//    'controllersDir'   => $config->application->controllersDir,
     //    'DYPA'             => _DYP_DIR_APP,
     'DYPA\Controllers' => $config->application->controllersDir,
     'DYPA\Models'      => $config->application->modelsDir,
