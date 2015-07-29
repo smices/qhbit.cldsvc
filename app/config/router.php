@@ -10,8 +10,8 @@ $router->setDefaultController('index');
 $router->setDefaultAction('index');*/
 
 
-$router->add('', array(
-    "namespace"  => 'DYPA\Controllers',
+$router->add('/', array(
+    'namespace'  => 'DYPA\Controllers',
     'controller' => 'index',
     'action'     => 'index'
 ));
