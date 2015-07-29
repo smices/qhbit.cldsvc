@@ -20,7 +20,6 @@ define("_DYP_APPVER_NAME", "DYXB");
 define("_DYP_APPVER", _DYP_APPVER_JOURNAL . '.' . _DYP_APPVER_REVISE);
 
 
-
 /**********************************************************************
  * Loader Configuration
  **********************************************************************/
@@ -29,11 +28,11 @@ $loader = new \Phalcon\Loader();
 $loader->registerNamespaces(array(
     'modelsDir'        => $config->application->modelsDir,
     'controllersDir'   => $config->application->controllersDir,
-//    'DYPA'             => _DYP_DIR_APP,
+    //    'DYPA'             => _DYP_DIR_APP,
     'DYPA\Controllers' => $config->application->controllersDir,
     'DYPA\Models'      => $config->application->modelsDir,
     'DYP'              => $config->application->libraryDir . '/DYP/'
-//    'Phalcon'          => $config->application->libraryDir . '/Phalcon/',
+    //    'Phalcon'          => $config->application->libraryDir . '/Phalcon/',
 ));
 
 $loader->registerDirs(array(
@@ -52,7 +51,9 @@ $di = new FactoryDefault();
 /**
  * Router Configuration
  */
-$di->set('router', function () {return require __DIR__ . '/router.php';}, true);
+$di->set('router', function () {
+    return require __DIR__ . '/router.php';
+}, true);
 
 /**
  * Url Resolver Configuration
@@ -60,6 +61,7 @@ $di->set('router', function () {return require __DIR__ . '/router.php';}, true);
 $di->set('url', function () use ($config) {
     $url = new UrlResolver();
     $url->setBaseUri($config->application->baseUri);
+
     return $url;
 }, true);
 
@@ -72,6 +74,7 @@ $di->set('view', function () use ($config) {
     $view->registerEngines(array(
         '.phtml' => 'Phalcon\Mvc\View\Engine\Php'
     ));
+
     return $view;
 }, true);
 
@@ -109,12 +112,14 @@ $di->set('session', function () {
         'lifetime'   => 3600,
         'prefix'     => 'sess_'
     ));
+
     /*
     $session = new Phalcon\Session\Adapter\Files();
     if($session->isStarted() == FALSE){
         $session->start();
     }
     */
+
     return $session;
 });
 
@@ -127,6 +132,7 @@ $di->set('flash', function () {
         'success' => 'alert alert-success text-center',
         'notice'  => 'alert alert-info text-center',
     ));
+
     return $flash;
 });
 
@@ -136,6 +142,7 @@ $di->set('flash', function () {
 $di->set('crypt', function () {
     $crypt = new Crypt();
     $crypt->setKey("4069f89ee64ea5b1dcd22783cd032a46");
+
     return $crypt;
 });
 
@@ -145,6 +152,7 @@ $di->set('crypt', function () {
 $di->set('cookies', function () {
     $cookies = new Phalcon\Http\Response\Cookies();
     $cookies->useEncryption(true);
+
     return $cookies;
 });
 
@@ -198,7 +206,6 @@ $di->setShared('dispatcher', function () {
 
     return $dispatcher;
 });
-
 
 
 /**********************************************************************
