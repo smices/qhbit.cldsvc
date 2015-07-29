@@ -212,7 +212,4 @@ try {
     $msg .= 'FILE:' . str_replace(_DYP_DIR_ROOT, '', $e->getFile()) . PHP_EOL;
     $msg .= 'LINE:' . $e->getLine() . PHP_EOL;
     $msg .= 'MESSAGE:' . $e->getMessage() . PHP_EOL;
-    d($e);
-    d(get_required_files());
-    die(nl2br($msg));
 }
