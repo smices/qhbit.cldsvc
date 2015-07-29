@@ -109,7 +109,6 @@ $di->set('crypt', function () {
 $di->set('cookies', function () {
     $cookies = new Phalcon\Http\Response\Cookies();
     $cookies->useEncryption(true);
-
     return $cookies;
 });
 

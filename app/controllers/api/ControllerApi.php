@@ -11,6 +11,7 @@ class ControllerApi extends Controller
         self::$TIMESTAMP_NOW = time();
         self::$TIMESTAMP_MYSQL_FMT = date("Y-m-d H:i:s", self::$TIMESTAMP_NOW);
         $this->response->setHeader('Cache-Control', 'private, max-age=0, must-revalidate');
+/*
 
         if(!$this->cookies->has('uuid')) {
             $sess_id = md5(uniqid()+microtime());
@@ -26,7 +27,7 @@ class ControllerApi extends Controller
                 $this->session->setId($this->cookies->get('uuid'));
                 $this->session->start();
             }
-        }
+        }*/
 
     }
 }//end class
