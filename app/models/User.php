@@ -1,4 +1,5 @@
 <?php
+namespace DYPA\Models;
 class User extends \Phalcon\Mvc\Model
 {
 

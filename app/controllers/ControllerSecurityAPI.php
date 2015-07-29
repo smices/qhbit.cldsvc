@@ -1,4 +1,5 @@
 <?php
+namespace DYPA\Controllers;
 use Phalcon\Mvc\Controller,
     Phalcon\Translate\Adapter\NativeArray,
     DYP\Response\Simple as Resp,

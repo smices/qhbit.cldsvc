@@ -1,4 +1,5 @@
 <?php
+namespace DYPA\Models;
 class Upgrade extends \Phalcon\Mvc\Model
 {
 

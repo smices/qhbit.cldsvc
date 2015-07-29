@@ -1,5 +1,5 @@
 <?php
-//use Detection\MobileDetect;
+namespace DYPA\Controllers;
 
 class IndexController extends ControllerBase
 {

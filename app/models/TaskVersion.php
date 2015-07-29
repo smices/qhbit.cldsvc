@@ -1,4 +1,5 @@
 <?php
+namespace DYPA\Models;
 class TaskVersion extends \Phalcon\Mvc\Model
 {
     /**

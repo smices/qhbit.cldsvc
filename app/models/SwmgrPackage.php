@@ -1,4 +1,5 @@
 <?php
+namespace DYPA\Models;
 class SwmgrPackage extends \Phalcon\Mvc\Model
 {
 

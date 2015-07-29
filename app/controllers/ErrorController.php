@@ -1,8 +1,8 @@
 <?php
-//use Detection\MobileDetect;
+namespace DYPA\Controllers;
+use DYPA\Controllers;
 
-class ErrorController extends ControllerBase
-{
+class ErrorController extends ControllerBase{
 
     public function initialize()
     {
@@ -15,7 +15,5 @@ class ErrorController extends ControllerBase
     public function e404Action()
     {
     }//end
-
-
 
 }//end

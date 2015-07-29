@@ -1,6 +1,9 @@
 <?php
+namespace DYPA\Controllers\Cp;
+
 use Phalcon\Mvc\Controller,
-    DYP\Security\Crypt as DYCrypt;
+    DYP\Security\Crypt as DYCrypt,
+    DYPA\Models\Admin as Admin;
 
 class ControllerSecurity extends Controller
 {
@@ -16,6 +19,13 @@ class ControllerSecurity extends Controller
         self::$TIMESTAMP_MYSQL_FMT = date("Y-m-d H:i:s", self::$TIMESTAMP_NOW);
         $this->response->setHeader('Cache-Control', 'private, max-age=0, must-revalidate');
         if (!$this->BasicAuthentication()) die("<h1>Forbidden</h1>");
+
+        $this->view->setViewsDir(_DYP_DIR_VIEW.DIR_SEP.'cp/');
+        //$this->view->setLayoutsDir(_DYP_DIR_VIEW.DIR_SEP.'layouts/');
+        //$this->view->setBasePath(_DYP_DIR_VIEW.DIR_SEP.'cp/');
+        //$this->view->setMainView(_DYP_DIR_VIEW.DIR_SEP.'cp/');
+        $this->view->setLayout('index');
+        //dd($this->view);
     }
 
     /**
@@ -26,8 +36,8 @@ class ControllerSecurity extends Controller
     {
         $auth_ok = 0;
         if (isset($_SERVER['PHP_AUTH_USER'])) {
-            $user  = $_SERVER['PHP_AUTH_USER'];
-            $pass  = DYCrypt::uPasswordCreate($_SERVER['PHP_AUTH_PW']);
+            $user = $_SERVER['PHP_AUTH_USER'];
+            $pass = DYCrypt::uPasswordCreate($_SERVER['PHP_AUTH_PW']);
 
             $admin = Admin::findFirst("username='$user' AND password='$pass'");
 

@@ -1,4 +1,5 @@
 <?php
+namespace DYPA\Models;
 class Counter extends \Phalcon\Mvc\Model
 {
 
@@ -7,17 +8,17 @@ class Counter extends \Phalcon\Mvc\Model
      * @var integer
      */
     public $svc;
-     
+
     /**
      *
      * @var integer
      */
     public $request;
-     
+
     /**
      *
      * @var integer
      */
     public $download;
-     
+
 }

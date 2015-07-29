@@ -4,7 +4,7 @@
  * @returns {boolean}
  */
 function fileExists(ele, rUrl, m404, m503, m200){
-    $.getJSON("/cp/rfexists?file="+rUrl, function(resp){
+    $.getJSON("/cp/tools/rfexists?file="+rUrl, function(resp){
         if(resp.code == 0){
             if(resp.msg == "200"){
                 $('#'+ele).html(m200);

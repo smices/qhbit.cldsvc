@@ -1,4 +1,5 @@
 <?php
+namespace DYPA\Models;
 class Service extends \Phalcon\Mvc\Model
 {
 
@@ -50,4 +51,8 @@ class Service extends \Phalcon\Mvc\Model
      */
     public $mtime;
 
+    public function getSource()
+    {
+        return 'service';
+    }
 }

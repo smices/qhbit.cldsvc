@@ -1,4 +1,5 @@
 <?php
+namespace DYPA\Models;
 class XbspeedTask extends \Phalcon\Mvc\Model
 {
 
