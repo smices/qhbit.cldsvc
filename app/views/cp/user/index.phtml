@@ -4,7 +4,7 @@
 
 <?=$this->tag->javascriptInclude("assets/js/layer/layer.js");?>
 <?=$this->tag->javascriptInclude("assets/js/tabledit/jquery.tabledit.js");?>
-<?d($page)?>
+
 <!-- content start -->
 <div class="admin-content">
 
@@ -59,12 +59,12 @@
                     </tbody>
                 </table>
 
-                <ul class="am-pagination am-pagination-centered">
-                    <li><?=$this->tag->linkTo("cp/hdumgr", 'First')?></li>
-                    <li><?=$this->tag->linkTo("cp/hdumgr?page=" . $page->before, 'Previous')?></li>
-                    <li><?=$this->tag->linkTo("cp/hdumgr?page=" . $page->before, 'Previous')?></li>
-                    <li><?=$this->tag->linkTo("cp/hdumgr?page=" . $page->next, 'Next')?></li>
-                    <li><?=$this->tag->linkTo("cp/hdumgr?page=" . $page->last, 'Last')?></li>
+                <ul class="am-pagination am-pagination-right">
+                    <li><?=$this->tag->linkTo("cp/user", 'First')?></li>
+                    <li><?=$this->tag->linkTo("cp/user?page=" . $page->before, 'Previous')?></li>
+                    <li><?=$this->tag->linkTo("cp/user?page=" . $page->before, 'Previous')?></li>
+                    <li><?=$this->tag->linkTo("cp/user?page=" . $page->next, 'Next')?></li>
+                    <li><?=$this->tag->linkTo("cp/user?page=" . $page->last, 'Last')?></li>
                     <li><span class="help-inline"><?=$page->current?> of <?=$page->total_pages?></span></li>
                 </ul>
 

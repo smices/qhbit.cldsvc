@@ -56,11 +56,11 @@
                 </table>
 
                 <ul class="am-pagination am-pagination-right">
-                    <li><?=$this->tag->linkTo("cp/hdumgr", '<span class="am-icon-angle-double-left"></span>')?></li>
-                    <li><?=$this->tag->linkTo("cp/hdumgr?page=" . $page->before, '<span class="am-icon-angle-left"></span>')?></li>
+                    <li><?=$this->tag->linkTo('cp/user/hduser', '<span class="am-icon-angle-double-left"></span>')?></li>
+                    <li><?=$this->tag->linkTo("cp/user/hduser?page=" . $page->before, '<span class="am-icon-angle-left"></span>')?></li>
                     <li class="am-active"><?=$this->tag->linkTo("#", $page->current)?></li>
-                    <li><?=$this->tag->linkTo("cp/hdumgr?page=" . $page->next, '<span class="am-icon-angle-right"></span>')?></li>
-                    <li><?=$this->tag->linkTo("cp/hdumgr?page=" . $page->last, '<span class="am-icon-angle-double-right"></span>')?></li>
+                    <li><?=$this->tag->linkTo("cp/user/hduser?page=" . $page->next, '<span class="am-icon-angle-right"></span>')?></li>
+                    <li><?=$this->tag->linkTo("cp/user/hduser?page=" . $page->last, '<span class="am-icon-angle-double-right"></span>')?></li>
                     <li><span class="help-inline"><?=$page->current?> of <?=$page->total_pages?></span></li>
                 </ul>
 
