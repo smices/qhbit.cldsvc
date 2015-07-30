@@ -25,14 +25,14 @@
         </div>
 
         <div class="am-u-sm-12 am-u-md-6 am-text-right">
-            <a href="<?=$_SERVER['REQUEST_SCHEME']?>://<?=$_SERVER['SERVER_NAME']?>/api/ctr?svc=swmgr" target="_blank"
+            <a href="<?=$_SERVER['REQUEST_SCHEME']?>://<?=$_SERVER['SERVER_NAME']?>/api/swmgr?type=category" target="_blank"
                class="am-badge am-round am-badge-secondary am-text-xs">
                 Test API
             </a>
-            &nbsp;&nbsp;
-            <span class="am-badge am-round am-badge-warning am-text-xs">Total: <strong><?=sizeof($task)?></strong></span>
-            &nbsp;&nbsp;
-            <span class="am-badge am-round am-badge-danger am-text-xs">Version: <strong><?=date("Y-m-d H:i:s", $vsvc->vcode)?></strong></span>
+
+            <span class="am-badge am-round am-badge-secondary am-text-xs">PAGES: <strong><?=$page->total_pages?></strong></span>
+            <span class="am-badge am-round am-badge-primary am-text-xs">RECORDS: <strong><?=$page->total_items?></strong></span>
+            <span class="am-badge am-round am-badge-danger am-text-xs">VERSION: <strong><?=date("Y-m-d H:i:s", $svc->vcode)?></strong></span>
 
         </div>
 
@@ -44,7 +44,7 @@
 
 
             <table class="am-table am-table-bordered am-table-radius am-table-striped">
-                <? foreach($task as $key => $p): ?>
+                <? foreach($page->items as $key => $p): ?>
                     <tr>
                         <td><img src="http://ctr.datacld.com/<?=$p->iconUrl?>" width="48" alt=""></td>
                         <td>
@@ -73,6 +73,14 @@
             </table>
 
 
+            <ul class="am-pagination am-pagination-right">
+                <li><?=$this->tag->linkTo('cp/swmgr', '<span class="am-icon-angle-double-left"></span>')?></li>
+                <li><?=$this->tag->linkTo("cp/swmgr?page=" . $page->before, '<span class="am-icon-angle-left"></span>')?></li>
+                <li class="am-active"><?=$this->tag->linkTo("#", $page->current)?></li>
+                <li><?=$this->tag->linkTo("cp/swmgr?page=" . $page->next, '<span class="am-icon-angle-right"></span>')?></li>
+                <li><?=$this->tag->linkTo("cp/swmgr?page=" . $page->last, '<span class="am-icon-angle-double-right"></span>')?></li>
+                <li><span class="help-inline"><?=$page->current?> of <?=$page->total_pages?></span></li>
+            </ul>
 
         </div>
 

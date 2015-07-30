@@ -57,14 +57,23 @@ class SwmgrController extends ControllerSecurity
                 /**
                  * MAIN PAGE
                  */
-                $vsvc = TaskVersion::findFirst(sprintf('name="%s"', 'swmgr'));
-                $task = SwmgrPackage::find();
-                if ($task) {
-                    $this->view->task = $task;
-                    $this->view->vsvc = $vsvc;
-                } else {
-                    $this->view->list = null;
+                $currPage = $this->request->getQuery('page', 'int', 1);
+                $svc = TaskVersion::findFirst(sprintf('name="%s"', 'swmgr'));
+                $task = SwmgrPackage::find(array('order'=>'id DESC'));
+
+                if (count($task) == 0) {
+                    $this->view->title="QUERY FAIL";
+                    $this->view->msg="NOT FOUND ANY USERS";
+                    return $this->dispatcher->forward(array("controller" => "cp","action" => "error"));
                 }
+
+                $paginator = new Paginator(array(
+                    "data" => $task, // Data to paginate
+                    "limit" => 20, // Rows per page
+                    "page" => $currPage // Active page
+                ));
+                $this->view->svc  = $svc;
+                $this->view->page = $paginator->getPaginate();
             }
         }
 
