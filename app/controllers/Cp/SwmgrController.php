@@ -245,7 +245,7 @@ class SwmgrController extends ControllerSecurity
              */
             $vsvc = Service::findFirst(sprintf('name="%s"', 'swmgr'));
 
-            $task = SwmgrCategory::find(array('columns'=>'id, name,alias,total,status'));
+            $task = SwmgrCategory::find(array('columns'=>'id, name,alias,total,status', 'conditions'=>'status<>2'));
             if ($task) {
                 $this->view->task = $task;
                 $this->view->vsvc = $vsvc;
