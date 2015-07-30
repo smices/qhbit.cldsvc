@@ -20,73 +20,7 @@ class SwmgrController extends ControllerSecurity
      */
     public function indexAction()
     {
-        if($this->request->isPost()){
-            $this->view->disable();
-            /**
-             * Upload a new software package
-             */
-
-            $picJs2Php = function($jsStr){
-                //if(empty(trim($jsStr))) Resp::outJsonMsg(1, 'UPLOAD FILE EMPTY');
-                if(empty(trim($jsStr))) return '';
-                $tmpAr = [];
-                foreach(explode(',', $jsStr) as $k=>$v){
-                    if(trim($v) == '') continue;
-                    $tmpAr[] = $v;
-                }
-                return join(',', $tmpAr);
-            };
-
-            $pkg                 = new SwmgrPackage();
-            $pkg->id             = null;
-            $pkg->packageName    = $this->request->getPost('packageName', 'string');
-            $pkg->windowsVersion = $this->request->getPost('windowsVersion', 'string');
-            $pkg->arch           = $this->request->getPost('arch', 'int');
-            $pkg->name           = $this->request->getPost('name', 'string');
-            $pkg->category       = $this->request->getPost('category', 'int');
-            $pkg->description    = $this->request->getPost('description', 'string');
-            $pkg->developer      = $this->request->getPost('developer', 'string');
-            $pkg->iconUrl        = $this->request->getPost('hide_iconUrl', 'string');
-            $pkg->largeIcon      = $this->request->getPost('hide_largeIcon', 'string');
-            $pkg->screenshotsUrl = $picJs2Php($this->request->getPost('hide_screenshotsUrl', 'string'));
-            $pkg->incomeShare    = $this->request->getPost('incomeShare', 'int');
-            $pkg->rating         = $this->request->getPost('rating', 'int');
-            $pkg->versionName    = $this->request->getPost('versionName', 'string');
-            $pkg->versionCode    = $this->request->getPost('versionCode', 'int');
-            $pkg->priceInfo      = $this->request->getPost('priceInfo', 'string');
-            $pkg->tag            = $this->request->getPost('tag', 'string');
-            $pkg->downloadUrl    = $this->request->getPost('downloadUrl', 'string');
-            $pkg->hash           = strtolower($this->request->getPost('hash', 'string'));
-            $pkg->size           = $this->request->getPost('size', 'int');
-            $pkg->createTime     = self::$TIMESTAMP_MYSQL_FMT;
-            $pkg->updateTime     = self::$TIMESTAMP_MYSQL_FMT;
-            $pkg->signature      = md5(uniqid(microtime()));
-            $pkg->updateInfo     = $this->request->getPost('updateInfo', 'string');
-            $pkg->language       = $this->request->getPost('language', 'string');
-            $pkg->brief          = $this->request->getPost('brief', 'string');
-            $pkg->isAd           = $this->request->getPost('isAd', 'int');
-            $pkg->status         = $this->request->getPost('status', 'int');
-
-            if($pkg->create()){
-                $SwmgrCategory = SwmgrCategory::findFirst($pkg->category);
-                $SwmgrCategory->total =$SwmgrCategory->total+1;
-                if($SwmgrCategory->update()){
-                    Resp::outJsonMsg(0, 'SUCCESS');
-                }
-                Resp::outJsonMsg(0, 'SUCCESS');
-            }else{
-                $err = array();
-                foreach ($pkg->getMessages() as $message) {$err[] = $message;}
-                Resp::outJsonMsg(1, join(",", $err), $this->request);
-            }
-            /*UPLOAD A NEW SOFTWARE PACKAGE*/
-        }elseif($this->request->isPut()){
-            $this->view->disable();
-            /**
-             * Update software package info
-             */
-
-        }elseif($this->request->isGet()){
+        if($this->request->isGet()){
             /**
              * Show manager and list
              * Get method or other method , show operation page.
@@ -140,10 +74,78 @@ class SwmgrController extends ControllerSecurity
     /**
      * Create
      */
-    public function createAction(){
+    public function createAction()
+    {
+        if($this->request->isGet()) {
+            /*SHOW PAGE*/
+            $this->view->task = SwmgrPackage::findFirst(1);
+            /*SHOW PAGE*/
+        }elseif($this->request->isPost()) {
+            $this->view->disable();
+            /**
+             * Upload a new software package
+             */
 
-        $this->view->task       = SwmgrPackage::findFirst(1);
+            $picJs2Php = function ($jsStr) {
+                //if(empty(trim($jsStr))) Resp::outJsonMsg(1, 'UPLOAD FILE EMPTY');
+                if (empty(trim($jsStr))) return '';
+                $tmpAr = [];
+                foreach (explode(',', $jsStr) as $k => $v) {
+                    if (trim($v) == '') continue;
+                    $tmpAr[] = $v;
+                }
 
+                return join(',', $tmpAr);
+            };
+
+            $pkg                 = new SwmgrPackage();
+            $pkg->id             = null;
+            $pkg->packageName    = $this->request->getPost('packageName', 'string');
+            $pkg->windowsVersion = $this->request->getPost('windowsVersion', 'string');
+            $pkg->arch           = $this->request->getPost('arch', 'int');
+            $pkg->name           = $this->request->getPost('name', 'string');
+            $pkg->category       = $this->request->getPost('category', 'int');
+            $pkg->description    = $this->request->getPost('description', 'string');
+            $pkg->developer      = $this->request->getPost('developer', 'string');
+            $pkg->iconUrl        = $this->request->getPost('hide_iconUrl', 'string');
+            $pkg->largeIcon      = $this->request->getPost('hide_largeIcon', 'string');
+            $pkg->screenshotsUrl = $picJs2Php($this->request->getPost('hide_screenshotsUrl', 'string'));
+            $pkg->incomeShare    = $this->request->getPost('incomeShare', 'int');
+            $pkg->rating         = $this->request->getPost('rating', 'int');
+            $pkg->versionName    = $this->request->getPost('versionName', 'string');
+            $pkg->versionCode    = $this->request->getPost('versionCode', 'int');
+            $pkg->priceInfo      = $this->request->getPost('priceInfo', 'string');
+            $pkg->tag            = $this->request->getPost('tag', 'string');
+            $pkg->downloadUrl    = $this->request->getPost('downloadUrl', 'string');
+            $pkg->hash           = strtolower($this->request->getPost('hash', 'string'));
+            $pkg->size           = $this->request->getPost('size', 'int');
+            $pkg->createTime     = self::$TIMESTAMP_MYSQL_FMT;
+            $pkg->updateTime     = self::$TIMESTAMP_MYSQL_FMT;
+            $pkg->signature      = md5(uniqid(microtime()));
+            $pkg->updateInfo     = $this->request->getPost('updateInfo', 'string');
+            $pkg->language       = $this->request->getPost('language', 'string');
+            $pkg->brief          = $this->request->getPost('brief', 'string');
+            $pkg->isAd           = $this->request->getPost('isAd', 'int');
+            $pkg->status         = $this->request->getPost('status', 'int');
+
+            if ($pkg->create()) {
+                $SwmgrCategory        = SwmgrCategory::findFirst($pkg->category);
+                $SwmgrCategory->total = $SwmgrCategory->total + 1;
+                if ($SwmgrCategory->update()) {
+                    Resp::outJsonMsg(0, 'SUCCESS');
+                }
+                Resp::outJsonMsg(0, 'SUCCESS');
+            } else {
+                $err = array();
+                foreach ($pkg->getMessages() as $message) {
+                    $err[] = $message;
+                }
+                Resp::outJsonMsg(1, join(",", $err), $this->request);
+            }
+            /*UPLOAD A NEW SOFTWARE PACKAGE*/
+        }else {
+            Resp::outJsonMsg(1, 'METHOD ERROR');
+        }
 
     }//end
 
