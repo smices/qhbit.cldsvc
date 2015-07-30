@@ -1,7 +1,7 @@
 <?php
 namespace DYPA\Controllers\Cp;
-
-use DYP\Response\Simple as Resp;
+use DYP\Response\Simple as Resp,
+    DYP\Sys\Command as Cmd;
 
 class ToolsController extends \Phalcon\Mvc\Controller
 {
@@ -24,7 +24,7 @@ class ToolsController extends \Phalcon\Mvc\Controller
     {
         $this->view->disable();
         $savePath = 'sw' . DIR_SEP . date('y') . DIR_SEP . date('m') . DIR_SEP . date('d') . DIR_SEP;
-        if (!is_dir(_DYP_DIR_FS . DIR_SEP . $savePath)) DYP\Sys\Command::mkdirs(_DYP_DIR_FS . DIR_SEP . $savePath);
+        if (!is_dir(_DYP_DIR_FS . DIR_SEP . $savePath)) Cmd::mkdirs(_DYP_DIR_FS . DIR_SEP . $savePath);
         if ($this->request->hasFiles() == true) {
             $fileList = [];
             foreach ($this->request->getUploadedFiles() as $file) {

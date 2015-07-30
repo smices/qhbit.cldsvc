@@ -2,7 +2,11 @@
 
 <footer>
   <hr>
-  <p class="am-padding-left am-text-center">&copy; <?=date("Y")?> Datacld.Com. Powered By Hurricane Team.</p>
+  <p class="am-padding-left am-text-center">
+    &copy; <?=date("Y")?> Datacld.Com. Powered By Hurricane Team.
+    &nbsp;&nbsp;
+    <span class="am-badge am-round am-badge-<?=str_replace(array('development','testing','production'), array('danger','warning','success'), $GLOBALS['__DYRUNMODE__'])?>"><?=$GLOBALS['__DYRUNMODE__']?></span>
+  </p>
 </footer>
 
 </body>

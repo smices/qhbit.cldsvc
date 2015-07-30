@@ -84,7 +84,7 @@
 <script>
     $(function(){
         $("input[type='file']").fileupload({
-            url:"/cp/fileupload",
+            url:"/cp/tools/fileupload",
             formData:{field:$(this).attr('name')},
             done:function(e,result){
                 //done方法就是上传完毕的回调函数，其他回调函数可以自行查看api
@@ -111,7 +111,7 @@
                     }
                     $(imgField).show();
                     //console.log('IMGS:'+imgs);
-                    $(imgField).popover({content: imgs})
+                    $(imgField).popover({content: imgs,trigger: 'hover focus'});
                 }else{
                     layer.alert(resp.msg, {icon: 11});
                 }

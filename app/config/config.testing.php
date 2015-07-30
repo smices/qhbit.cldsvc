@@ -21,7 +21,7 @@ define("_DYP_HOST_PIC",        "http://i.datacld.com");
 return new \Phalcon\Config(array(
     'database' => array(
         'adapter'     => 'Mysql',
-        'host'        => 'datacld.com:13366',
+        'host'        => 'localhost:13366',
         'username'    => 'datacld',
         'password'    => 'powerdatacldcom',
         'dbname'      => 'datacld_ctr',
