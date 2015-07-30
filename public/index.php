@@ -7,6 +7,7 @@ error_reporting(E_ALL);
 header("Content-type: text/html; charset=utf-8");
 date_default_timezone_set('PRC');
 
+if (isset($_GET['_url'])) {$_GET['_url'] = strtolower($_GET['_url']);} //hack router
 
 //环境检测
 if (is_file('../app/config/production')) {

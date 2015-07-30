@@ -1,7 +1,7 @@
 <?php
 use Phalcon\Mvc\Router;
 
-$router = new Phalcon\Mvc\Router(true);
+$router = new Phalcon\Mvc\Router(false);
 
 // Setting a specific default
 /*$router->setDefaultModule('DYPA\Models');
