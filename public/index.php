@@ -7,7 +7,6 @@ error_reporting(E_ALL);
 header("Content-type: text/html; charset=utf-8");
 date_default_timezone_set('PRC');
 
-ini_set('open_basedir', dirname(__DIR__));
 
 //环境检测
 if (is_file('../app/config/production')) {
