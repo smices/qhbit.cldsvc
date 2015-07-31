@@ -141,57 +141,6 @@
 
         });
 
-
-
-        /*
-        $("#frmCreate").validity(function() {
-            event.preventDefault();
-            $("#packageName").require().match("string");
-            $("#arch").require().match("number");
-            $("#windowsVersion").require().match("number");
-            $("#name").require().match("string");
-            $("#category").require().match("number");
-            $("#description").require().match("string");
-            $("#developer").require().match("string");
-            $("#iconUrl").require();
-            $("#largeIcon").require();
-            $("#screenshotsUrl").require();
-            $("#downloadUrl").require().match("string");
-            $("#incomeShare").require().match("number");
-            $("#rating").require().match("number");
-            $("#versionName").require().match("string");
-            $("#versionCode").require().match("string");
-            $("#priceInfo").require().match("string");
-            $("#tag").require().match("string");
-            $("#hash").require().match("string");
-            $("#size").require().match("number");
-            //$("#createTime").require().match("datetime");
-            //$("#updateTime").require().match("datetime");
-            //$("#signature").require().match("string").lessThanOrEqualTo(32);
-            $("#updateInfo").require().match("string");
-            $("#language").require().match("number");
-            $("#brief").require().match("string");
-            $("#isAd").require().match("number");
-            $("#status").require().match("number");
-
-            layer.load();
-            $.ajax({url: '<?=$_SERVER['REQUEST_URI']?>',type: 'POST',
-                success: function(response) {
-                    layer.closeAll('loading');
-                    if(response.code == 0) {
-                        $("#release").attr("disabled", true).hide();
-                        $("#reloadPage").show();
-                        layer.msg(response.msg);
-                        layer.tips('Upload Successfully, Please Refresh This Page!', '#reloadPage',{tips: [1, '#f37b1d'],time: 400000});
-                    }else{
-                        layer.alert(response.msg, {icon: 11});
-                    }
-                }
-            }, 'JSON');
-
-        });
-        */
-
     });
 
 </script>

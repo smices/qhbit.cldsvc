@@ -1,9 +1,5 @@
-<?use DYP\Tags\Element;?>
-<?if(true == $error):?>
-    <?$this->partial("cp/_error", $this);return 0;?>
-<?endif?>
-
-<?$title = "Software Manager Service / Edit Package" ?>
+<?use DYP\Tags\Element,DYPA\Models\SwmgrCategory as SwmgrCategory;?>
+<?$title = "Software Manager Service / Upload New Package" ?>
 
 <?=$this->tag->javascriptInclude("assets/js/layer/layer.js");?>
 
@@ -30,52 +26,52 @@
     <div class="am-g">
 
         <div class="am-u-sm-12">
-            <?/*Edit*/?>
+            <?/*Create*/?>
             <form name="frmCreate" id="frmCreate" class="am-form am-form-horizontal">
-                    <?foreach($task as $k => $v):?>
-                        <?if($k == 'id' || $k=='createTime' || $k=='updateTime' || $k=='signature')continue;?>
+                <?foreach($task as $k => $v):?>
+                    <?if($k == 'id' || $k=='createTime' || $k=='updateTime' || $k=='signature')continue;?>
 
-                        <div class="am-form-group">
-                            <label for="<?=$k?>" class="am-u-sm-2 am-form-label"><?=ucfirst($k)?></label>
-                            <div class="am-u-sm-8 am-u-end">
-                                <?if($k=='category'):?>
-                                    <?=$this->tag->select(array($k,SwmgrCategory::find(),"using" => array("id", "name")))?>
-                                <?elseif($k=='status'):?>
-                                    <?=$this->tag->selectStatic(array($k,array("1" => "启用","0" => "禁用")))?>
-                                <?elseif($k=='arch'):?>
-                                    <?=$this->tag->selectStatic(array($k,array("32" => "32位 系统架构","64" => "64位 系统架构")))?>
-                                <?elseif($k=='windowsVersion'):?>
-                                    <?=$this->tag->selectStatic(array($k,Element::windowsVersion()))?>
-                                <?elseif($k=='incomeShare' || $k=='isAd'):?>
-                                    <?=$this->tag->selectStatic(array($k,array("0" => "NO", "1" => "YES")))?>
-                                <?elseif($k=='language'):?>
-                                    <?=$this->tag->selectStatic(array($k,array("简体中文","繁体中文","English")))?>
-                                <?elseif($k=='rating'):?>
-                                    <?=$this->tag->selectStatic(array($k,range(0,9)))?>
-                                <?elseif($k=='description' || $k=='updateInfo' || $k=='brief'):?>
-                                    <?=$this->tag->textArea(array($k,ucfirst($v),'datatype'=>'*','errormsg'=>$k.' must type!',"cols" => "6","rows" => 3))?>
-                                <?elseif($k=='versionCode' || $k=='size'):?>
-                                    <?=$this->tag->numericField(array($k,'datatype'=>'n','errormsg'=>$k.' must type!','class'=>'am-form-field', 'placeholder'=>ucfirst($k)))?>
-                                <?elseif($k=='iconUrl' || $k=='largeIcon'):?>
-                                    <?=$this->tag->fileField(array($k, 'class'=>'am-form-field', 'placeholder'=>ucfirst($k)))?>
-                                    <?=$this->tag->hiddenField(array('hide_'.$k, 'value'=>''))?><span id="i_<?=$k?>" class="am-icon-file-picture-o" style="display:none;"></span>
-                                <?elseif($k=='screenshotsUrl'):?>
-                                    <?=$this->tag->fileField(array($k, 'class'=>'am-form-field','multiple'=>'multiple','placeholder'=>ucfirst($k)))?>
-                                    <?=$this->tag->hiddenField(array('hide_'.$k, 'value'=>''))?><span id="i_<?=$k?>" class="am-icon-picture-o" style="display:none;"></span>
-                                <?else:?>
-                                    <?=$this->tag->textField(array($k,'datatype'=>'*', 'errormsg'=>$k.' must type!','class'=>'am-form-field', 'placeholder'=>ucfirst($k)))?>
-                                <?endif?>
-                            </div>
-                        </div>
-
-                    <?endforeach?>
                     <div class="am-form-group">
-                        <div class="am-u-sm-offset-2 am-u-sm-8 am-u-end">
-                            <button type="submit" class="am-btn am-btn-primary am-btn-block">CREATE</button>
+                        <label for="<?=$k?>" class="am-u-sm-2 am-form-label"><?=ucfirst($k)?></label>
+                        <div class="am-u-sm-8 am-u-end">
+                            <?if($k=='category'):?>
+                                <?=$this->tag->select(array($k,SwmgrCategory::find(),"using" => array("id", "name")))?>
+                            <?elseif($k=='status'):?>
+                                <?=$this->tag->selectStatic(array($k,array("1" => "启用","0" => "禁用")))?>
+                            <?elseif($k=='arch'):?>
+                                <?=$this->tag->selectStatic(array($k,array("32" => "32位 系统架构","64" => "64位 系统架构")))?>
+                            <?elseif($k=='windowsVersion'):?>
+                                <?=$this->tag->selectStatic(array($k,Element::windowsVersion()))?>
+                            <?elseif($k=='incomeShare' || $k=='isAd'):?>
+                                <?=$this->tag->selectStatic(array($k,array("0" => "NO", "1" => "YES")))?>
+                            <?elseif($k=='language'):?>
+                                <?=$this->tag->selectStatic(array($k,array("简体中文","繁体中文","English")))?>
+                            <?elseif($k=='rating'):?>
+                                <?=$this->tag->selectStatic(array($k,range(0,9)))?>
+                            <?elseif($k=='description' || $k=='updateInfo' || $k=='brief'):?>
+                                <?=$this->tag->textArea(array($k,ucfirst($v),'datatype'=>'*','errormsg'=>$k.' must type!',"cols" => "6","rows" => 3))?>
+                            <?elseif($k=='versionCode' || $k=='size'):?>
+                                <?=$this->tag->numericField(array($k,'datatype'=>'n','errormsg'=>$k.' must type!','class'=>'am-form-field', 'placeholder'=>ucfirst($k)))?>
+                            <?elseif($k=='iconUrl' || $k=='largeIcon'):?>
+                                <?=$this->tag->fileField(array($k, 'class'=>'am-form-field', 'placeholder'=>ucfirst($k)))?>
+                                <?=$this->tag->hiddenField(array('hide_'.$k, 'value'=>''))?><span id="i_<?=$k?>" class="am-icon-file-picture-o" style="display:none;"></span>
+                            <?elseif($k=='screenshotsUrl'):?>
+                                <?=$this->tag->fileField(array($k, 'class'=>'am-form-field','multiple'=>'multiple','placeholder'=>ucfirst($k)))?>
+                                <?=$this->tag->hiddenField(array('hide_'.$k, 'value'=>''))?><span id="i_<?=$k?>" class="am-icon-picture-o" style="display:none;"></span>
+                            <?else:?>
+                                <?=$this->tag->textField(array($k,'datatype'=>'*', 'errormsg'=>$k.' must type!','class'=>'am-form-field', 'placeholder'=>ucfirst($k)))?>
+                            <?endif?>
                         </div>
                     </div>
 
-                </form>
+                <?endforeach?>
+                <div class="am-form-group">
+                    <div class="am-u-sm-offset-2 am-u-sm-8 am-u-end">
+                        <button type="submit" class="am-btn am-btn-primary am-btn-block">CREATE</button>
+                    </div>
+                </div>
+
+            </form>
             <?/*Create*/?>
         </div>
 
@@ -88,7 +84,7 @@
 <script>
     $(function(){
         $("input[type='file']").fileupload({
-            url:"/cp/fileupload",
+            url:"/cp/tools/fileupload",
             formData:{field:$(this).attr('name')},
             done:function(e,result){
                 //done方法就是上传完毕的回调函数，其他回调函数可以自行查看api
@@ -115,7 +111,7 @@
                     }
                     $(imgField).show();
                     //console.log('IMGS:'+imgs);
-                    $(imgField).popover({content: imgs})
+                    $(imgField).popover({content: imgs,trigger: 'hover focus'});
                 }else{
                     layer.alert(resp.msg, {icon: 11});
                 }
@@ -144,57 +140,6 @@
             }, 'JSON');
 
         });
-
-
-
-        /*
-        $("#frmCreate").validity(function() {
-            event.preventDefault();
-            $("#packageName").require().match("string");
-            $("#arch").require().match("number");
-            $("#windowsVersion").require().match("number");
-            $("#name").require().match("string");
-            $("#category").require().match("number");
-            $("#description").require().match("string");
-            $("#developer").require().match("string");
-            $("#iconUrl").require();
-            $("#largeIcon").require();
-            $("#screenshotsUrl").require();
-            $("#downloadUrl").require().match("string");
-            $("#incomeShare").require().match("number");
-            $("#rating").require().match("number");
-            $("#versionName").require().match("string");
-            $("#versionCode").require().match("string");
-            $("#priceInfo").require().match("string");
-            $("#tag").require().match("string");
-            $("#hash").require().match("string");
-            $("#size").require().match("number");
-            //$("#createTime").require().match("datetime");
-            //$("#updateTime").require().match("datetime");
-            //$("#signature").require().match("string").lessThanOrEqualTo(32);
-            $("#updateInfo").require().match("string");
-            $("#language").require().match("number");
-            $("#brief").require().match("string");
-            $("#isAd").require().match("number");
-            $("#status").require().match("number");
-
-            layer.load();
-            $.ajax({url: '<?=$_SERVER['REQUEST_URI']?>',type: 'POST',
-                success: function(response) {
-                    layer.closeAll('loading');
-                    if(response.code == 0) {
-                        $("#release").attr("disabled", true).hide();
-                        $("#reloadPage").show();
-                        layer.msg(response.msg);
-                        layer.tips('Upload Successfully, Please Refresh This Page!', '#reloadPage',{tips: [1, '#f37b1d'],time: 400000});
-                    }else{
-                        layer.alert(response.msg, {icon: 11});
-                    }
-                }
-            }, 'JSON');
-
-        });
-        */
 
     });
 

@@ -2,6 +2,7 @@
 namespace DYPA\Controllers\Api;
 use DYP\Response\Simple as Resp,
     DYPA\Models\Service as Service,
+    DYPA\Models\HdUser as HdUser,
     DYPA\Models\Counter as Counter;
 
 
