@@ -96,6 +96,30 @@
         请参考实际配置文件
 
 
+
+┌────────────────────────────────────────────────────────────┐
+│ 用户系统
+│ 说明:
+│   1, 参数(参数名前带*号的为必须要的字段, #为可选)
+└────────────────────────────────────────────────────────────┘
+[PUBLIC][URI] http://ctr.datacld.com/api/user
+    [GET] 续令牌
+        * token={string:len32) 登录后可以获取到这个token,做为以后的需要token的场合必带参数
+        [RESPOND]
+            code: 1|0 1:失败,0:成功
+
+    [POST] 登录
+        * user={string}
+        * pwd={md5(string):len32} 需要客户端使用md5加密一次后传过来
+        [RESPOND]
+            code=0 成功登录 msg:array token+userinfo
+            code=1 USERNAME OR PASSWORD EMPTY OR PASSWORD NOT ENCODE
+            code=2 USER NOT FIND
+            code=3 PASSWORD ERROR
+
+
+
+
 ┌────────────────────────────────────────────────────────────┐
 │ 客户端 数据上报
 │ 说明:
