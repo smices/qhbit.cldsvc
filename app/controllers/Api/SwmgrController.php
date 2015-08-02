@@ -39,11 +39,11 @@ class SwmgrController extends ControllerApi
                 */
                 $rs = SwmgrPackage::findFirst($this->request->getQuery('pkgid', 'int'));
                 if($rs){
-                    Resp::outJsonMsg(0, $rs->toArray());
+                    $this->DYRespond(0, $rs->toArray());
                 }else{
                     $err = array();
                     foreach ($rs->getMessages() as $message) {$err[] = $message;}
-                    Resp::outJsonMsg(1, join(",", $err), $this->request);
+                    $this->DYRespond(1, join(",", $err), $this->request);
                 }
             }/*获取单个软件的全部信息*/
 
@@ -56,11 +56,11 @@ class SwmgrController extends ControllerApi
                 }
 
                 if($rs){
-                    Resp::outJsonMsg(0, $rs->toArray());
+                    $this->DYRespond(0, $rs->toArray());
                 }else{
                     $err = array();
                     foreach ($rs->getMessages() as $message) {$err[] = $message;}
-                    Resp::outJsonMsg(1, join(",", $err), $this->request);
+                    $this->DYRespond(1, join(",", $err), $this->request);
                 }
             }/*获取分类信息*/
 
@@ -68,11 +68,11 @@ class SwmgrController extends ControllerApi
             if('top' == $type){
                 $rs = SwmgrPackage::find(array('incomeShare=1 AND status=1', 'order'=>'rating DESC, id DESC',"limit" => 100));
                 if($rs){
-                    Resp::outJsonMsg(0, $rs->toArray());
+                    $this->DYRespond(0, $rs->toArray());
                 }else{
                     $err = array();
                     foreach ($rs->getMessages() as $message) {$err[] = $message;}
-                    Resp::outJsonMsg(1, join(",", $err), $this->request);
+                    $this->DYRespond(1, join(",", $err), $this->request);
                 }
             }/*获取TOP分类软件*/
 
@@ -80,11 +80,11 @@ class SwmgrController extends ControllerApi
             if('hot' == $type){
                 $rs = SwmgrPackage::find(array('status=1', 'order'=>'rating DESC, id DESC',"limit" => 100));
                 if($rs){
-                    Resp::outJsonMsg(0, $rs->toArray());
+                    $this->DYRespond(0, $rs->toArray());
                 }else{
                     $err = array();
                     foreach ($rs->getMessages() as $message) {$err[] = $message;}
-                    Resp::outJsonMsg(1, join(",", $err), $this->request);
+                    $this->DYRespond(1, join(",", $err), $this->request);
                 }
             }/*获取HOT分类软件*/
 
@@ -108,7 +108,7 @@ class SwmgrController extends ControllerApi
             $result = $paginator->getPaginate();
             var_dump($result);
              */
-            Resp::outJsonMsg(1, 'PLEASE READ API DOCUMENT');
+            $this->DYRespond(1, 'PLEASE READ API DOCUMENT');
             /*HTTP GET METHOD END*/
         }
     }//end

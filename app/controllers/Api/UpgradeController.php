@@ -23,7 +23,7 @@ class UpgradeController extends ControllerApi
             $rFile = _DYP_DIR_CFG .'/release_ctr/upgrade.igb';
 
             if(!is_file(realpath($rFile))) {
-                Resp::outJsonMsg(1, 'LIST NOT FIND', $this->request);
+                $this->DYRespond(1, 'LIST NOT FIND', $this->request);
             }
             $rInfo = file_get_contents($rFile);
             //存入缓冲
@@ -36,12 +36,12 @@ class UpgradeController extends ControllerApi
             $cfv = $this->request->getQuery('cfv', 'int', 0); //配置文件版本
             if(0 == $cfv || (int) $cfv < (int) $rInfo['version']){
                 $rInfo['source'] = ($_fromCache)?'mem':'igb';
-                Resp::outJsonMsg(0, $rInfo);
+                $this->DYRespond(0, $rInfo);
             }else{
-                Resp::outJsonMsg(9, 'NO UPDATE');
+                $this->DYRespond(9, 'NO UPDATE');
             }
         }else{
-            Resp::outJsonMsg(1, "UNKNOWN ERROR");
+            $this->DYRespond(1, "UNKNOWN ERROR");
         }
 
     }//end

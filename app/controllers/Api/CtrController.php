@@ -23,12 +23,12 @@ class CtrController extends ControllerApi
         $hw  = $this->request->getQuery('hw', 'string', null); //系统所有盘的硬件Serial Number
 
         if($svc == null){
-            Resp::outJsonMsg(1, 'PARAM LOST');
+            $this->DYRespond(1, 'PARAM LOST');
         }
 
         $service = Service::findFirst(array('name'=>strtolower($svc)));
         if(!$service){
-            Resp::outJsonMsg(1, 'SERVICE NOT FIND');
+            $this->DYRespond(1, 'SERVICE NOT FIND');
         }
         $counter = Counter::findFirst($service->id);
 
@@ -63,7 +63,7 @@ class CtrController extends ControllerApi
             $rFile = _DYP_DIR_CFG .'/release_ctr/svc_'.$svc.'.igb';
 
             if(!is_file(realpath($rFile))) {
-                Resp::outJsonMsg(1, 'LIST NOT FIND', $this->request);
+                $this->DYRespond(1, 'LIST NOT FIND', $this->request);
             }
             $rInfo = file_get_contents($rFile);
             //存入缓冲
@@ -76,12 +76,12 @@ class CtrController extends ControllerApi
             $cfv = $this->request->getQuery('cfv', 'int', 0); //配置文件版本
             if(0 == $cfv || (int) $cfv < (int) $rInfo['version']){
                 $rInfo['source'] = ($_fromCache)?'mem':'igb';
-                Resp::outJsonMsg(0, $rInfo);
+                $this->DYRespond(0, $rInfo);
             }else{
-                Resp::outJsonMsg(9, 'NO UPDATE');
+                $this->DYRespond(9, 'NO UPDATE');
             }
         }else{
-            Resp::outJsonMsg(1, "UNKNOWN ERROR");
+            $this->DYRespond(1, "UNKNOWN ERROR");
         }
 
 
