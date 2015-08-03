@@ -25,7 +25,7 @@ class UserController extends ControllerApi
         if($this->request->hasQuery('token')) {
             if ($this->session->has('entered') && true == $this->session->get('entered')) {
                 $this->session->touchTime = self::$TIMESTAMP_NOW;
-                $this->DYRespond(0, 1200);
+                return true;
             } else {
                 $this->DYRespond(1, 'PLEASE LOGIN FIRST');
             }
@@ -43,17 +43,8 @@ class UserController extends ControllerApi
              * 获取用户登录状态等相关内容, 如续令牌等操作
              * 如果没有登录, 则返回失败
              */
-            if($this->request->hasQuery('token')) {
-                if ($this->session->has('touchTime')) {
-                    $this->session->inTime = self::$TIMESTAMP_NOW;
-                    $this->DYRespond(0, 'DONE');
-                } else {
-                    $this->DYRespond(1, 'PLEASE LOGIN FIRST');
-                }
-            }else{
-                $this->DYRespond(1, 'TOKEN NOT FIND');
-            }
-
+            $this->chkToken();
+            $this->DYRespond(0, 1200);
         } elseif ($this->request->isPost()) {
             /**
              * 用户登录操作
