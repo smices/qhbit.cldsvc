@@ -125,7 +125,7 @@
     [POST] 用户注册
         * username={string:min5-max30($[A-Za-z][0-9]*)}因为使用自动登录模式判断, 所有用户名必须是数字和字母的组合,必须以字母开头,不区分大小写
         * password={string:len32HashString} p1=md5(password);salt = substr(p1, 8, 8);realPassword= sha1(password+salt);
-        * mobile={int:11} 中国境内手机号码
+        * email={string:len100} 长度不能超过100
         [RESPOND]
             code=0 注册成功
             code=1 USERNAME OR PASSWORD EMPTY OR USERNAME TOO SHORT OR PASSWORD NOT ENCODE

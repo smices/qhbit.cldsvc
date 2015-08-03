@@ -38,6 +38,9 @@ class UserController extends ControllerApi
      */
     public function indexAction()
     {
+
+        $this->chkMethod(array(self::$METHOD_GET, self::$METHOD_POST));//Method Check
+
         if ($this->request->isGet()) {
             /**
              * 获取用户登录状态等相关内容, 如续令牌等操作
@@ -96,7 +99,7 @@ class UserController extends ControllerApi
      */
     public function registerAction()
     {
-        if (!$this->request->isPost()) $this->DYRespond(1, 'METHOD ERROR');
+        $this->chkMethod(array(self::$METHOD_POST));//Method Check
 
         if (!$this->request->hasPost('username')
             || strlen($this->request->getPost('username', 'string'))<5
@@ -119,6 +122,9 @@ class UserController extends ControllerApi
 
         if($this->request->hasPost('mobile'))
             $user->mobile   = $this->request->getPost('mobile', 'int', '');
+
+        if($this->request->hasPost('email'))
+            $user->mobile   = $this->request->getPost('email', 'int', '');
 
         if($this->request->hasPost('nickname'))
         $user->nickname = $this->request->getPost('nickname','string', '');
@@ -166,18 +172,20 @@ class UserController extends ControllerApi
      */
     public function profileAction()
     {
+        $this->chkToken();
+        $this->chkMethod(array(self::$METHOD_GET, self::$METHOD_PUT));//Method Check
+
+
         if ($this->request->isGet()) {
             /**
              * 获取登录后的指定用户全部资料
              */
             return $this->_profile_get();
-        } elseif ($this->request->isPost()) {
+        } elseif ($this->request->isPut()) {
             /**
              * 更新登录后的指定用户资料
              */
             return $this->_profile_post();
-        } else {
-            $this->DYRespond(1, 'METHOD ERROR');
         }
     }//end
 
@@ -194,5 +202,8 @@ class UserController extends ControllerApi
     private function _profile_post()
     {
     }//end
+
+
+
 
 }//end

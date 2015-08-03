@@ -31,6 +31,12 @@ class User extends \Phalcon\Mvc\Model
      *
      * @var string
      */
+    public $email;
+
+    /**
+     *
+     * @var string
+     */
     public $nickname;
 
     /**
@@ -62,6 +68,13 @@ class User extends \Phalcon\Mvc\Model
      * @var string
      */
     public $address;
+
+
+    /**
+     *
+     * @var integer
+     */
+    public $cents;
 
     /**
      *
