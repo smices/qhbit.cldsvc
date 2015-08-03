@@ -106,8 +106,11 @@
 [PUBLIC][URI] http://ctr.datacld.com/api/user
     [GET] 续令牌
         * token={string:len32) 登录后可以获取到这个token,做为以后的需要token的场合必带参数
+        使用范例:
+            http://ctr.datacld.com/api/user?token={token}
         [RESPOND]
             code: 1|0 1:失败,0:成功
+            msg:  code=0:下一次需要来续令牌的秒数,code=!0:具体的错误消息
 
     [POST] 登录
         * username={string}
