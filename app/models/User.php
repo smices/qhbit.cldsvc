@@ -98,7 +98,14 @@ class User extends \Phalcon\Mvc\Model
      *
      * @var integer
      */
-    public $valid;
+    public $email_valid;
+
+
+    /**
+     *
+     * @var integer
+     */
+    public $mobile_valid;
 
     /**
      *

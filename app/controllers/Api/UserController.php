@@ -13,26 +13,29 @@ class UserController extends ControllerApi
     public function initialize()
     {
         parent::initialize();
-        if(!$this->session->isStarted()) $this->session->start();
-        if($this->request->hasQuery('token')) session_id($this->request->getQuery('token', 'string'));
+        if (!$this->session->isStarted()) $this->session->start();
+        if ($this->request->hasQuery('token')) session_id($this->request->getQuery('token', 'string'));
     }//end init
 
     /**
      * 必须要登录后才可使用的接品, 需要检查令牌
      * 如果检查令牌失败, 直接抛出错误返回
      */
-    private function chkToken(){
-        if($this->request->hasQuery('token')) {
+    private function chkToken()
+    {
+        if ($this->request->hasQuery('token')) {
             if ($this->session->has('entered') && true == $this->session->get('entered')) {
                 $this->session->touchTime = self::$TIMESTAMP_NOW;
+
                 return true;
             } else {
                 $this->DYRespond(1, 'PLEASE LOGIN FIRST');
             }
-        }else{
+        } else {
             $this->DYRespond(1, 'TOKEN NOT FIND');
         }
     }
+
     /**
      * 用户信息获取
      */
@@ -73,12 +76,13 @@ class UserController extends ControllerApi
                     unset($uInfo['token']);
                     unset($uInfo['type']);
                     $uInfo = array_merge($uInfo, array(
-                        'token' => $this->session->getId(),
-                        'touchTime'=>self::$TIMESTAMP_NOW)
+                            'token'     => $this->session->getId(),
+                            'touchTime' => self::$TIMESTAMP_NOW
+                        )
                     );
                     $this->session->set('uProfile', $uInfo);
                     $this->session->touchTime = self::$TIMESTAMP_NOW;
-                    $this->session->entered = true;
+                    $this->session->entered   = true;
                     //更新mtime
                     $rsUser->ltime = self::$TIMESTAMP_MYSQL_FMT;
                     $rsUser->update();
@@ -102,7 +106,7 @@ class UserController extends ControllerApi
         $this->chkMethod(array(self::$METHOD_POST));//Method Check
 
         if (!$this->request->hasPost('username')
-            || strlen($this->request->getPost('username', 'string'))<5
+            || strlen($this->request->getPost('username', 'string')) < 5
             || !preg_match("/^[a-zA-Z]{1,}[a-zA-Z0-9]{4,25}$/", $this->request->getPost('username', 'string'))
             || !$this->request->hasPost('password')
             || strlen($this->request->getPost('password')) != 32
@@ -120,35 +124,37 @@ class UserController extends ControllerApi
         $user->username = strtolower($this->request->getPost('username'));
         $user->password = uCrypt::uPassword($this->request->getPost('password'));
 
-        if($this->request->hasPost('mobile'))
-            $user->mobile   = $this->request->getPost('mobile', 'int', '');
+        if ($this->request->hasPost('mobile'))
+            $user->mobile = $this->request->getPost('mobile', 'int', '');
 
-        if($this->request->hasPost('email'))
-            $user->mobile   = $this->request->getPost('email', 'int', '');
+        if ($this->request->hasPost('email'))
+            $user->mobile = $this->request->getPost('email', 'int', '');
 
-        if($this->request->hasPost('nickname'))
-        $user->nickname = $this->request->getPost('nickname','string', '');
+        if ($this->request->hasPost('nickname'))
+            $user->nickname = $this->request->getPost('nickname', 'string', '');
 
-        if($this->request->hasPost('type'))
-            $user->type     = $this->request->getPost('type', 'int', '');
+        if ($this->request->hasPost('type'))
+            $user->type = $this->request->getPost('type', 'int', '');
 
-        if($this->request->hasPost('openid'))
-            $user->openid   = $this->request->getPost('openid', 'string', '');
+        if ($this->request->hasPost('openid'))
+            $user->openid = $this->request->getPost('openid', 'string', '');
 
-        if($this->request->hasPost('token'))
-            $user->token    = $this->request->getPost('token', 'string', '');
+        if ($this->request->hasPost('token'))
+            $user->token = $this->request->getPost('token', 'string', '');
 
-        if($this->request->hasPost('gender'))
-            $user->gender   = $this->request->getPost('gender', 'int', 2);
+        if ($this->request->hasPost('gender'))
+            $user->gender = $this->request->getPost('gender', 'int', 2);
 
-        if($this->request->hasPost('address'))
-            $user->address  = $this->request->getPost('address', 'string', '');
+        if ($this->request->hasPost('address'))
+            $user->address = $this->request->getPost('address', 'string', '');
 
-        $user->ctime    = SELF::$TIMESTAMP_MYSQL_FMT;
-        $user->ltime    = SELF::$TIMESTAMP_MYSQL_FMT;
-        $user->mtime    = SELF::$TIMESTAMP_MYSQL_FMT;
-        $user->valid    = 0;
-        $user->status   = 1;
+        $user->cents        = 10;
+        $user->ctime        = SELF::$TIMESTAMP_MYSQL_FMT;
+        $user->ltime        = SELF::$TIMESTAMP_MYSQL_FMT;
+        $user->mtime        = SELF::$TIMESTAMP_MYSQL_FMT;
+        $user->email_valid  = 0;
+        $user->mobile_valid = 0;
+        $user->status       = 1;
 
         if ($user->create()) {
             $DataCounter = DataCounter::findFirst("user");
@@ -202,8 +208,6 @@ class UserController extends ControllerApi
     private function _profile_post()
     {
     }//end
-
-
 
 
 }//end
