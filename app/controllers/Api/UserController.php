@@ -71,7 +71,7 @@ class UserController extends ControllerApi
             }
             if ($rsUser) {
                 //chk pwd
-                if (true == uCrypt::uPasswordCompare($pwd, $rsUser->password, false)) {
+                if (true == uCrypt::uPasswordCompare($pwd, $rsUser->password, true)) {
                     if (!$this->session->isStarted()) $this->session->start();
                     $uInfo = array_merge($rsUser->toArray(), array('token' => $this->session->getId()));
                     unset($uInfo['password']);
