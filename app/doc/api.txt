@@ -111,7 +111,7 @@
 
     [POST] 登录
         * username={string}
-        * password={md5(string):len32} 需要客户端使用md5加密一次后传过来
+        * password={DYHASH(string):len32} 需要客户端使用DYHASH加密后传过来,参看用户注册密码
         # type={string:username|mobile} 使用何种登录方式. 如果全是数字会自动使用手机登录, 字母使用username,email使用邮箱模式.
         [RESPOND]
             code=0 成功登录 msg:array token+userinfo
