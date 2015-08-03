@@ -35,7 +35,7 @@ class UserController extends ControllerApi
         } else {
             $this->DYRespond(1, 'TOKEN NOT FIND');
         }
-    }
+    }//end
 
     /**
      * 用户信息获取
@@ -145,11 +145,13 @@ class UserController extends ControllerApi
             /*用户注册*/
             if (!$this->request->hasPost('username')
                 || strlen($this->request->getPost('username', 'string')) < 5
-                || !preg_match("/^[a-zA-Z]{1,}[a-zA-Z0-9]{4,25}$/", $this->request->getPost('username', 'string'))
-                || !$this->request->hasPost('password')
-                || strlen($this->request->getPost('password')) != 40
-            ) {
-                $this->DYRespond(1, 'USERNAME OR PASSWORD EMPTY OR USERNAME TOO SHORT OR PASSWORD NOT ENCODE');
+                ||  !preg_match("/^[a-zA-Z]{1,}[a-zA-Z0-9]{4,25}$/", $this->request->getPost('username', 'string'))
+            ){
+                $this->DYRespond(1, 'USERNAME ERROR');
+            }
+
+            if(!$this->request->hasPost('password') || strlen($this->request->getPost('password', 'string')) != 40) {
+                $this->DYRespond(1, 'PASSWORD EMPTY OR PASSWORD NOT ENCODE ' . strlen($this->request->getPost('password', 'string')));
             }
 
             $rsUser = User::findFirst(sprintf("username='%s'", strtolower($this->request->getPost('username'))));
@@ -238,6 +240,32 @@ class UserController extends ControllerApi
             //发送邮件
             //未配置邮件服务器. 跳过发送
 /*
+public function send($to, $subject, $name, $params)
+    {
+        //Settings
+        $mailSettings = $this->config->mail;
+        $template = $this->getTemplate($name, $params);
+        // Create the message
+        $message = Swift_Message::newInstance()
+              ->setSubject($subject)
+                              ->setTo($to)
+              ->setFrom(array(
+                  $mailSettings->fromEmail => $mailSettings->fromName
+              ))
+              ->setBody($template, 'text/html');
+              if (!$this->_transport) {
+                $this->_transport = Swift_SmtpTransport::newInstance(
+                    $mailSettings->smtp->server,
+                    $mailSettings->smtp->port,
+                    $mailSettings->smtp->security
+                )
+                  ->setUsername($mailSettings->smtp->username)
+                  ->setPassword($mailSettings->smtp->password);
+              }
+              // Create the Mailer using your created Transport
+            $mailer = Swift_Mailer::newInstance($this->_transport);
+            return $mailer->send($message);
+        }
             require_once _DYP_DIR_LIB. '/swift/swift_required.php';
             function sendMail(){
                 $transport = Swift_SmtpTransport::newInstance('smtp.163.com', 25);
