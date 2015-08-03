@@ -147,7 +147,7 @@ class UserController extends ControllerApi
                 || strlen($this->request->getPost('username', 'string')) < 5
                 ||  !preg_match("/^[a-zA-Z]{1,}[a-zA-Z0-9]{4,25}$/", $this->request->getPost('username', 'string'))
             ){
-                $this->DYRespond(1, 'USERNAME ERROR '.$this->request->getPost('username', 'string') . serialize($_POST));
+                $this->DYRespond(1, 'USERNAME ERROR '.$this->request->getPost('username', 'string'));
             }
 
             if(!$this->request->hasPost('password') || strlen($this->request->getPost('password', 'string')) != 40) {
@@ -266,27 +266,6 @@ public function send($to, $subject, $name, $params)
             $mailer = Swift_Mailer::newInstance($this->_transport);
             return $mailer->send($message);
         }
-            require_once _DYP_DIR_LIB. '/swift/swift_required.php';
-            function sendMail(){
-                $transport = Swift_SmtpTransport::newInstance('smtp.163.com', 25);
-                $transport->setUsername('username@163.com');
-                $transport->setPassword('password');
-
-             $mailer = Swift_Mailer::newInstance($transport);
-
-             $message = Swift_Message::newInstance();
-             $message->setFrom(array('username@163.com' => 'name'));
-             $message->setTo(array(($user->email) => $user->username, 'whoever@qq.com' => 'Mr.Wrong'));
-             $message->setSubject("This is a subject");
-             $message->setBody('Here is the message', 'text/html', 'utf-8');
-             $message->attach(Swift_Attachment::fromPath('pic.jpg', 'image/jpeg')->setFilename('rename_pic.jpg'));
-             try{
-                 $mailer->send($message);
-             }
-             catch (Swift_ConnectionException $e){
-                 echo 'There was a problem communicating with SMTP: ' . $e->getMessage();
-             }
-            }
 */
 
             /*用户注册*/
