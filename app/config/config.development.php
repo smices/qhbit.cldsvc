@@ -42,5 +42,17 @@ return new \Phalcon\Config(array(
         'libraryDir'     => _DYP_DIR_LIB . DIR_SEP,
         'cacheDir'       => _DYP_DIR_TMP. DIR_SEP . 'cache' . DIR_SEP,
         'baseUri'        => '/',
-    )
+    ),
+
+    'mail' => array(
+        'fromName'=>'乐网管家',
+        'fromEmail'=>'lewangguanjia@gmail.com',
+        'smtp'=>array(
+            'server'=>'smtp.gmail.com',
+            'port'=>'465',
+            'security'=>'ssl',
+            'username'=>'lewangguanjia@gmail.com',
+            'password'=>''
+        )
+    ),
 ));

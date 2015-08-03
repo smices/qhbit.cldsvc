@@ -122,6 +122,7 @@
             code=2 USER NOT FIND
             code=3 PASSWORD ERROR
             code=4 EMAIL NOT VALID
+
 [PUBLIC][URI] http://ctr.datacld.com/api/user/register
     [POST] 用户注册
         * username={string:min5-max30($[A-Za-z][0-9]*)}因为使用自动登录模式判断, 所有用户名必须是数字和字母的组合,必须以字母开头,不区分大小写
@@ -132,7 +133,17 @@
             code=1 USERNAME OR PASSWORD EMPTY OR USERNAME TOO SHORT OR PASSWORD NOT ENCODE
             code=2 USER EXISTS
             code=3
-
+    [GET] 注册后验证
+        * type={string:[email|mobile]} 验证类型 电邮/手机号码
+        * valid={string:[sysmsg]} 验证内容 内容为系统生成 电邮类型为加密串, 手机短信类型为短信验证码,通常为4位数字
+        [RESPOND]
+            code=0 验证成功
+            code=1 FIELD / TYPE ERROR
+            code=2 DECRYPT VALID ERROR (type=email)
+            code=3 VALID ID ERROR
+            code=4 VALID RECORD NOT FIND
+            code=5
+            code=6 VALID FAIL
 
 
 ┌────────────────────────────────────────────────────────────┐
