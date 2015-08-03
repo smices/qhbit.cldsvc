@@ -73,11 +73,21 @@ class UserController extends ControllerApi
                 //chk pwd
                 if (true == uCrypt::uPasswordCompare($pwd, $rsUser->password, true)) {
                     if (!$this->session->isStarted()) $this->session->start();
-                    $uInfo = array_merge($rsUser->toArray(), array('token' => $this->session->getId()));
+                    $uInfo = $rsUser->toArray();
                     unset($uInfo['password']);
+                    unset($uInfo['openid']);
+                    unset($uInfo['token']);
+                    unset($uInfo['type']);
+                    $uInfo = array_merge($uInfo, array(
+                        'token' => $this->session->getId(),
+                        'touchTime'=>self::$TIMESTAMP_NOW)
+                    );
                     $this->session->set('uProfile', $uInfo);
                     $this->session->touchTime = self::$TIMESTAMP_NOW;
                     $this->session->entered = true;
+                    //更新mtime
+                    $rsUser->ltime = self::$TIMESTAMP_MYSQL_FMT;
+                    $rsUser->update();
                     $this->DYRespond(0, $uInfo);
                 } else {
                     $this->DYRespond(3, 'PASSWORD ERROR');
@@ -138,6 +148,8 @@ class UserController extends ControllerApi
             $user->address  = $this->request->getPost('address', 'string', '');
 
         $user->ctime    = SELF::$TIMESTAMP_MYSQL_FMT;
+        $user->ltime    = SELF::$TIMESTAMP_MYSQL_FMT;
+        $user->mtime    = SELF::$TIMESTAMP_MYSQL_FMT;
         $user->valid    = 0;
         $user->status   = 1;
 

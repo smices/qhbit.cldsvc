@@ -71,6 +71,18 @@ class User extends \Phalcon\Mvc\Model
 
     /**
      *
+     * @var datetime
+     */
+    public $ltime;
+
+    /**
+     *
+     * @var datetime
+     */
+    public $mtime;
+
+    /**
+     *
      * @var integer
      */
     public $valid;
