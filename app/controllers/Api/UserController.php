@@ -150,6 +150,13 @@ class UserController extends ControllerApi
                 $this->DYRespond(1, 'USERNAME ERROR '.$this->request->getPost('username', 'string'));
             }
 
+            if (!$this->request->hasPost('email')
+                || strlen($this->request->getPost('email', 'string')) < 5
+                ||  !preg_match("/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/", $this->request->getPost('email', 'string'))
+            ){
+                $this->DYRespond(1, 'EMAIL ERROR');
+            }
+
             if(!$this->request->hasPost('password') || strlen($this->request->getPost('password', 'string')) != 40) {
                 $this->DYRespond(1, 'PASSWORD EMPTY OR PASSWORD NOT ENCODE ' . strlen($this->request->getPost('password', 'string')));
             }
@@ -235,7 +242,6 @@ class UserController extends ControllerApi
             }
 
             $this->db->commit();
-            $this->DYRespond(0, 'SUCCESS');
 
             //发送邮件
             //未配置邮件服务器. 跳过发送
@@ -245,6 +251,8 @@ class UserController extends ControllerApi
             $htmlMsg = '';
             sendMail($GLOBALS['config']['mail'], $user->email, $subject, $user->username, array('text'=>$textMsg, 'html'=>$htmlMsg));
             */
+
+            $this->DYRespond(0, 'SUCCESS');
 
             /*用户注册*/
         }
