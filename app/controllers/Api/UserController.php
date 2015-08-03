@@ -4,8 +4,8 @@ namespace DYPA\Controllers\Api;
 use DYPA\Models\User as User,
     DYPA\Models\DataCounter as DataCounter,
     DYP\Response\Simple as Resp,
-    DYP\Security\Crypt as uCrypt;
-use DYPA\Models\UserValid;
+    DYP\Security\Crypt as uCrypt,
+    DYPA\Models\UserValid;
 
 
 class UserController extends ControllerApi
