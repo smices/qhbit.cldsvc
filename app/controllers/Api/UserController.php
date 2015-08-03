@@ -239,34 +239,12 @@ class UserController extends ControllerApi
 
             //发送邮件
             //未配置邮件服务器. 跳过发送
-/*
-public function send($to, $subject, $name, $params)
-    {
-        //Settings
-        $mailSettings = $this->config->mail;
-        $template = $this->getTemplate($name, $params);
-        // Create the message
-        $message = Swift_Message::newInstance()
-              ->setSubject($subject)
-                              ->setTo($to)
-              ->setFrom(array(
-                  $mailSettings->fromEmail => $mailSettings->fromName
-              ))
-              ->setBody($template, 'text/html');
-              if (!$this->_transport) {
-                $this->_transport = Swift_SmtpTransport::newInstance(
-                    $mailSettings->smtp->server,
-                    $mailSettings->smtp->port,
-                    $mailSettings->smtp->security
-                )
-                  ->setUsername($mailSettings->smtp->username)
-                  ->setPassword($mailSettings->smtp->password);
-              }
-              // Create the Mailer using your created Transport
-            $mailer = Swift_Mailer::newInstance($this->_transport);
-            return $mailer->send($message);
-        }
-*/
+
+            /*
+            $textMsg = '';
+            $htmlMsg = '';
+            sendMail($GLOBALS['config']['mail'], $user->email, $subject, $user->username, array('text'=>$textMsg, 'html'=>$htmlMsg));
+            */
 
             /*用户注册*/
         }
