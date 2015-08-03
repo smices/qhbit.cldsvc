@@ -147,7 +147,7 @@ class UserController extends ControllerApi
                 || strlen($this->request->getPost('username', 'string')) < 5
                 ||  !preg_match("/^[a-zA-Z]{1,}[a-zA-Z0-9]{4,25}$/", $this->request->getPost('username', 'string'))
             ){
-                $this->DYRespond(1, 'USERNAME ERROR');
+                $this->DYRespond(1, 'USERNAME ERROR'.$this->request->getPost('username', 'string'));
             }
 
             if(!$this->request->hasPost('password') || strlen($this->request->getPost('password', 'string')) != 40) {
