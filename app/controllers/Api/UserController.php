@@ -69,7 +69,12 @@ class UserController extends ControllerApi
             if ($rsUser) {
                 //chk pwd
                 if (true == uCrypt::uPasswordCompare($pwd, $rsUser->password, true)) {
-                    if (!$this->session->isStarted()) $this->session->start();
+
+                    if(0 == $rsUser->email_valid){
+                        //EMAIL NOT VALID
+                        $this->DYRespond(4, 'EMAIL NOT VALID');
+                    }
+
                     $uInfo = $rsUser->toArray();
                     unset($uInfo['password']);
                     unset($uInfo['openid']);

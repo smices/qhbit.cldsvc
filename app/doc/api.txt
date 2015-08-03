@@ -121,6 +121,7 @@
             code=1 USERNAME OR PASSWORD EMPTY OR PASSWORD NOT ENCODE
             code=2 USER NOT FIND
             code=3 PASSWORD ERROR
+            code=4 EMAIL NOT VALID
 [PUBLIC][URI] http://ctr.datacld.com/api/user/register
     [POST] 用户注册
         * username={string:min5-max30($[A-Za-z][0-9]*)}因为使用自动登录模式判断, 所有用户名必须是数字和字母的组合,必须以字母开头,不区分大小写
