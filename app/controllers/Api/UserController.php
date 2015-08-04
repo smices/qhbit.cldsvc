@@ -178,7 +178,7 @@ class UserController extends ControllerApi
                 $user->mobile = $this->request->getPost('mobile', 'int', '');
 
             if ($this->request->hasPost('email'))
-                $user->mobile = $this->request->getPost('email', 'int', '');
+                $user->mobile = $this->request->getPost('email', 'string', '');
 
             if ($this->request->hasPost('nickname'))
                 $user->nickname = $this->request->getPost('nickname', 'string', '');
