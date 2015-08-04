@@ -1,11 +1,13 @@
 <?php
 namespace DYPA\Controllers\Api;
 
-use DYPA\Models\User as User,
-    DYPA\Models\DataCounter as DataCounter,
+use DYPA\Models\User,
+    DYPA\Models\DataCounter,
     DYP\Response\Simple as Resp,
     DYP\Security\Crypt as uCrypt,
     DYPA\Models\UserValid;
+use Phalcon\Cache\Frontend\Data;
+use Phalcon\Exception;
 
 
 class UserController extends ControllerApi
@@ -166,93 +168,96 @@ class UserController extends ControllerApi
                 $this->DYRespond(2, 'USER EXISTS');
             }
 
-            $this->db->begin();
+            try {
+                $this->db->begin();
 
-            $user = new User();
+                $user = new User();
 
-            $user->id       = null;
-            $user->username = strtolower($this->request->getPost('username'));
-            $user->password = uCrypt::uPassword($this->request->getPost('password'));
+                $user->id       = null;
+                $user->username = strtolower($this->request->getPost('username'));
+                $user->password = uCrypt::uPassword($this->request->getPost('password'));
 
-            if ($this->request->hasPost('mobile'))
-                $user->mobile = $this->request->getPost('mobile', 'int', '');
+                if ($this->request->hasPost('mobile'))
+                    $user->mobile = $this->request->getPost('mobile', 'int', '');
 
-            if ($this->request->hasPost('email'))
-                $user->mobile = $this->request->getPost('email', 'string', '');
+                if ($this->request->hasPost('email'))
+                    $user->mobile = $this->request->getPost('email', 'string', '');
 
-            if ($this->request->hasPost('nickname'))
-                $user->nickname = $this->request->getPost('nickname', 'string', '');
+                if ($this->request->hasPost('nickname'))
+                    $user->nickname = $this->request->getPost('nickname', 'string', '');
 
-            if ($this->request->hasPost('type'))
-                $user->type = $this->request->getPost('type', 'int', '');
+                if ($this->request->hasPost('type'))
+                    $user->type = $this->request->getPost('type', 'int', '');
 
-            if ($this->request->hasPost('openid'))
-                $user->openid = $this->request->getPost('openid', 'string', '');
+                if ($this->request->hasPost('openid'))
+                    $user->openid = $this->request->getPost('openid', 'string', '');
 
-            if ($this->request->hasPost('token'))
-                $user->token = $this->request->getPost('token', 'string', '');
+                if ($this->request->hasPost('token'))
+                    $user->token = $this->request->getPost('token', 'string', '');
 
-            if ($this->request->hasPost('gender'))
-                $user->gender = $this->request->getPost('gender', 'int', 2);
+                if ($this->request->hasPost('gender'))
+                    $user->gender = $this->request->getPost('gender', 'int', 2);
 
-            if ($this->request->hasPost('address'))
-                $user->address = $this->request->getPost('address', 'string', '');
+                if ($this->request->hasPost('address'))
+                    $user->address = $this->request->getPost('address', 'string', '');
 
-            $user->cents        = 10;
-            $user->ctime        = SELF::$TIMESTAMP_MYSQL_FMT;
-            $user->ltime        = SELF::$TIMESTAMP_MYSQL_FMT;
-            $user->mtime        = SELF::$TIMESTAMP_MYSQL_FMT;
-            $user->email_valid  = 0;
-            $user->mobile_valid = 0;
-            $user->status       = 1;
+                $user->cents        = 10;
+                $user->ctime        = SELF::$TIMESTAMP_MYSQL_FMT;
+                $user->ltime        = SELF::$TIMESTAMP_MYSQL_FMT;
+                $user->mtime        = SELF::$TIMESTAMP_MYSQL_FMT;
+                $user->email_valid  = 0;
+                $user->mobile_valid = 0;
+                $user->status       = 1;
 
-            if(!$user->create()){
-                $this->db->rollback();
-                $err = array();
-                foreach ($user->getMessages() as $message) {
-                    $err[] = $message;
+                if (!$user->create()) {
+                    $this->db->rollback();
+                    $err = array();
+                    foreach ($user->getMessages() as $message) {
+                        $err[] = $message;
+                    }
+                    $this->DYRespond(1, 'USER TRANSACTIONS ERROR,' . join(",", $err));
                 }
-                $this->DYRespond(1, 'USER TRANSACTIONS ERROR,'.join(",", $err));
-            }
-/*
-            $uVaild = new UserValid();
-            $uVaild->id = null;
-            $uVaild->type = 0;
-            $uVaild->vaild = 0;
-            $uVaild->expire = date("Y-m-d H:i:s", self::$TIMESTAMP_NOW+86400);//1天后过期
+                /*
+                            $uVaild = new UserValid();
+                            $uVaild->id = null;
+                            $uVaild->type = 0;
+                            $uVaild->vaild = 0;
+                            $uVaild->expire = date("Y-m-d H:i:s", self::$TIMESTAMP_NOW+86400);//1天后过期
 
-            if (!$uVaild->create()) {
-                $this->db->rollback();
-                $err = array();
-                foreach ($uVaild->getMessages() as $message) {
-                    $err[] = $message;
+                            if (!$uVaild->create()) {
+                                $this->db->rollback();
+                                $err = array();
+                                foreach ($uVaild->getMessages() as $message) {
+                                    $err[] = $message;
+                                }
+                                $this->DYRespond(1, 'USER VALID TRANSACTIONS ERROR,'.join(",", $err));
+                            }
+                */
+                $DataCounter = DataCounter::findFirst("name='user'");
+                $DataCounter->num++;
+                if (!$DataCounter->update()) {
+                    $this->db->rollback();
+                    $err = array();
+                    foreach ($DataCounter->getMessages() as $message) {
+                        $err[] = $message;
+                    }
+                    $this->DYRespond(1, 'DATA COUNTER TRANSACTIONS ERROR,' . join(",", $err));
                 }
-                $this->DYRespond(1, 'USER VALID TRANSACTIONS ERROR,'.join(",", $err));
+                $this->db->commit();
+
+                //发送邮件
+                //未配置邮件服务器. 跳过发送
+
+                /*
+                $textMsg = '';
+                $htmlMsg = '';
+                sendMail($GLOBALS['config']['mail'], $user->email, $subject, $user->username, array('text'=>$textMsg, 'html'=>$htmlMsg));
+                */
+
+                $this->DYRespond(0, 'SUCCESS');
+            }catch (Exception $e){
+                $this->DYRespond(40, $e->getMessage());
             }
-*/
-            $DataCounter = DataCounter::findFirst("user");
-            $DataCounter->num++;
-            if (!$DataCounter->update()) {
-                $this->db->rollback();
-                $err = array();
-                foreach ($DataCounter->getMessages() as $message) {
-                    $err[] = $message;
-                }
-                $this->DYRespond(1, 'DATA COUNTER TRANSACTIONS ERROR,'.join(",", $err));
-            }
-
-            $this->db->commit();
-
-            //发送邮件
-            //未配置邮件服务器. 跳过发送
-
-            /*
-            $textMsg = '';
-            $htmlMsg = '';
-            sendMail($GLOBALS['config']['mail'], $user->email, $subject, $user->username, array('text'=>$textMsg, 'html'=>$htmlMsg));
-            */
-
-            $this->DYRespond(0, 'SUCCESS');
 
             /*用户注册*/
         }
