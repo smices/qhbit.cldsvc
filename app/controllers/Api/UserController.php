@@ -256,6 +256,7 @@ class UserController extends ControllerApi
 
                 $this->DYRespond(0, 'SUCCESS');
             }catch (Exception $e){
+                $this->db->rollback();
                 $this->DYRespond(40, $e->getMessage());
             }
 
