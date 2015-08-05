@@ -1,5 +1,6 @@
 <?php
 namespace DYPA\Models;
+use Phalcon\Mvc\Model\Validator\Uniqueness;
 class User extends \Phalcon\Mvc\Model
 {
 
@@ -112,5 +113,31 @@ class User extends \Phalcon\Mvc\Model
      * @var integer
      */
     public $status;
+
+    public function validation()
+    {
+        $this->validate(new Uniqueness(
+            array(
+                "field"   => "username",
+                "message" => "The username must be unique"
+            )
+        ));
+
+        $this->validate(new Uniqueness(
+            array(
+                "field"   => "email",
+                "message" => "The email must be unique"
+            )
+        ));
+
+        $this->validate(new Uniqueness(
+            array(
+                "field"   => "mobile",
+                "message" => "The mobile must be unique"
+            )
+        ));
+
+        return $this->validationHasFailed() != true;
+    }
 
 }

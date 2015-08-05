@@ -3,11 +3,11 @@ namespace DYPA\Controllers\Api;
 
 use DYPA\Models\User,
     DYPA\Models\DataCounter,
-    DYP\Response\Simple as Resp,
     DYP\Security\Crypt as uCrypt,
-    DYPA\Models\UserValid;
-use Phalcon\Cache\Frontend\Data;
-use Phalcon\Exception;
+    DYPA\Models\UserValid,
+    Phalcon\Exception,
+    Phalcon\Mvc\Model\Transaction\Manager as TxManager,
+    Phalcon\Mvc\Model\Transaction\Failed as TxFailed;
 
 
 class UserController extends ControllerApi
@@ -145,6 +145,7 @@ class UserController extends ControllerApi
             /*注册后验证处理*/
         } elseif ($this->request->isPost()) {
             /*用户注册*/
+
             if (!$this->request->hasPost('username')
                 || strlen($this->request->getPost('username', 'string')) < 5
                 ||  !preg_match("/^[a-zA-Z]{1,}[a-zA-Z0-9]{4,25}$/", $this->request->getPost('username', 'string'))
@@ -163,15 +164,25 @@ class UserController extends ControllerApi
                 $this->DYRespond(1, 'PASSWORD EMPTY OR PASSWORD NOT ENCODE ' . strlen($this->request->getPost('password', 'string')));
             }
 
-            $rsUser = User::findFirst(sprintf("username='%s'", strtolower($this->request->getPost('username'))));
+            $rsUser = User::findFirst(sprintf("username='%s'", strtolower($this->request->getPost('username', 'string'))));
             if ($rsUser) {
                 $this->DYRespond(2, 'USER EXISTS');
             }
 
+            $rsUserEmail = User::find(sprintf("email='%s'", strtolower($this->request->getPost('email', 'string'))));
+            sd($rsUserEmail);
+            if ($rsUserEmail) {
+                $rsUserEmail = null;
+                $this->DYRespond(2, 'EMAIL EXISTS');
+            }
+
             try {
-                $this->db->begin();
+                $manager = $this->di->get('transactions');
+                $transaction = $manager->get();
 
                 $user = new User();
+
+                $user->setTransaction($transaction);
 
                 $user->id       = null;
                 $user->username = strtolower($this->request->getPost('username'));
@@ -181,7 +192,7 @@ class UserController extends ControllerApi
                     $user->mobile = $this->request->getPost('mobile', 'int', '');
 
                 if ($this->request->hasPost('email'))
-                    $user->mobile = $this->request->getPost('email', 'string', '');
+                    $user->email = $this->request->getPost('email', 'string', '');
 
                 if ($this->request->hasPost('nickname'))
                     $user->nickname = $this->request->getPost('nickname', 'string', '');
@@ -209,41 +220,35 @@ class UserController extends ControllerApi
                 $user->mobile_valid = 0;
                 $user->status       = 1;
 
-                if (!$user->create()) {
-                    $this->db->rollback();
-                    $err = array();
-                    foreach ($user->getMessages() as $message) {
-                        $err[] = $message;
-                    }
-                    $this->DYRespond(1, 'USER TRANSACTIONS ERROR,' . join(",", $err));
+                if (false == $user->save()) {
+                    $transaction->rollback("CAN'T CREATE USER");
                 }
                 /*
-                            $uVaild = new UserValid();
-                            $uVaild->id = null;
-                            $uVaild->type = 0;
-                            $uVaild->vaild = 0;
-                            $uVaild->expire = date("Y-m-d H:i:s", self::$TIMESTAMP_NOW+86400);//1天后过期
+                $uVaild = new UserValid();
+                $uVaild->id = null;
+                $uVaild->type = 0;
+                $uVaild->vaild = 0;
+                $uVaild->expire = date("Y-m-d H:i:s", self::$TIMESTAMP_NOW+86400);//1天后过期
 
-                            if (!$uVaild->create()) {
-                                $this->db->rollback();
-                                $err = array();
-                                foreach ($uVaild->getMessages() as $message) {
-                                    $err[] = $message;
-                                }
-                                $this->DYRespond(1, 'USER VALID TRANSACTIONS ERROR,'.join(",", $err));
-                            }
-                */
-                $DataCounter = DataCounter::findFirst("name='user'");
-                $DataCounter->num++;
-                if (!$DataCounter->update()) {
+                if (!$uVaild->create()) {
                     $this->db->rollback();
                     $err = array();
-                    foreach ($DataCounter->getMessages() as $message) {
+                    foreach ($uVaild->getMessages() as $message) {
                         $err[] = $message;
                     }
-                    $this->DYRespond(1, 'DATA COUNTER TRANSACTIONS ERROR,' . join(",", $err));
+                    $this->DYRespond(1, 'USER VALID TRANSACTIONS ERROR,'.join(",", $err));
                 }
-                $this->db->commit();
+                */
+
+                $DataCounter = DataCounter::findFirst("name='user'");
+                $DataCounter->setTransaction($transaction);
+                $DataCounter->num++;
+                if (false == $DataCounter->update()) {
+                    $transaction->rollback("REFRESH COUNTER ERROR");
+                }
+
+                //Submit Transaction
+                $transaction->commit();
 
                 //发送邮件
                 //未配置邮件服务器. 跳过发送
@@ -255,11 +260,11 @@ class UserController extends ControllerApi
                 */
 
                 $this->DYRespond(0, 'SUCCESS');
-            }catch (Exception $e){
-                $this->db->rollback();
-                $this->DYRespond(40, $e->getMessage());
+            } catch(Phalcon\Mvc\Model\Transaction\Failed $e) {
+                $this->DYRespond(40, 'FAILED, REASON: '.$e->getMessage());
             }
 
+            $this->DYRespond(41, 'FAILED UNKNOW');
             /*用户注册*/
         }
     }//end

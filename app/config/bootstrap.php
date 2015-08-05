@@ -82,15 +82,34 @@ $di->set('view', function () use ($config) {
  * member MySQL
  */
 $di->set('db', function () use ($config) {
-    $db = new DbAdapter(array(
+    if ($GLOBALS['__DYRUNMODE__'] == 'development' || $GLOBALS['__DYRUNMODE__'] == 'testing') {
+        $eventsManager = new Phalcon\Events\Manager();
+        $logger        = new Phalcon\Logger\Adapter\File(_DYP_DIR_TMP . DIR_SEP . "db" . date('YMD') . ".log");
+    }
+
+    $connection = new DbAdapter(array(
         'host'     => $config->database->host,
         'username' => $config->database->username,
         'password' => $config->database->password,
         'dbname'   => $config->database->dbname
     ));
-    $db->query("SET NAMES UTF8");
 
-    return $db;
+    if ($GLOBALS['__DYRUNMODE__'] == 'development' || $GLOBALS['__DYRUNMODE__'] == 'testing') {
+        $eventsManager->attach('db', function ($event, $connection) use ($logger) {
+            if ($event->getType() == 'beforeQuery') {
+                // 检查是否有恶意关键词
+                if (preg_match('/DROP|ALTER/i', $connection->getSQLStatement())) {
+                    // DROP/ALTER 操作是不允许的, 这肯定是一个注入!
+                    // 返回false中断此操作
+                    return false;
+                }
+                $logger->log($connection->getSQLStatement(), \Phalcon\Logger::INFO);
+            }
+        });
+        $connection->setEventsManager($eventsManager);
+    }
+    //$connection->query("SET NAMES UTF8");
+    return $connection;
 });
 
 /**
@@ -206,6 +225,20 @@ $di->setShared('dispatcher', function () {
 
     return $dispatcher;
 });
+
+/**
+ * SQL Transactions
+ *
+ * e.g:
+ * $manager = $this->di->getTransactions();
+ * $transaction = $manager->get();
+ *
+ */
+$di->setShared('transactions', function(){
+    return new Phalcon\Mvc\Model\Transaction\Manager();
+});
+
+
 
 /**********************************************************************
  * Bootstrap
