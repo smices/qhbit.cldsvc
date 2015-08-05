@@ -169,8 +169,7 @@ class UserController extends ControllerApi
                 $this->DYRespond(2, 'USER EXISTS');
             }
 
-            $rsUserEmail = User::find(sprintf("email='%s'", strtolower($this->request->getPost('email', 'string'))));
-            sd($rsUserEmail);
+            $rsUserEmail = User::findFirst(sprintf("email='%s'", strtolower($this->request->getPost('email', 'string'))));
             if ($rsUserEmail) {
                 $rsUserEmail = null;
                 $this->DYRespond(2, 'EMAIL EXISTS');
