@@ -108,7 +108,7 @@ $di->set('db', function () use ($config) {
         });
         $connection->setEventsManager($eventsManager);
     }
-    //$connection->query("SET NAMES UTF8");
+    $connection->query("SET NAMES UTF8");
     return $connection;
 });
 
