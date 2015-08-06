@@ -46,7 +46,7 @@
             <table class="am-table am-table-bordered am-table-radius am-table-striped">
                 <? foreach($page->items as $key => $p): ?>
                     <tr>
-                        <td><img src="http://ctr.datacld.com/<?=$p->iconUrl?>" width="48" alt=""></td>
+                        <td><img src="<?=$p->iconUrl?>" width="48" alt=""></td>
                         <td>
                             <?=$p->name?>&nbsp;<span class="am-badge am-badge-secondary"><?=$p->arch?></span>
                             <br>
