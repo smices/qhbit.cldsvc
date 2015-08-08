@@ -68,10 +68,9 @@ class IndexController extends ControllerSecurity
     public function logoutAction()
     {
         $this->view->disable();
-        $_SERVER['PHP_AUTH_USER'] = null;
-        $_SERVER['PHP_AUTH_PW']   = null;
-        $this->response->redirect("cp/index");
-        exit(0);
+header('WWW-Authenticate: Basic realm="Security Area, Please Login."');
+header('HTTP/1.0 401 Unauthorized');
+exit;
     }//end
 
 }//end

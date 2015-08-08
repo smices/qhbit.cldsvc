@@ -48,7 +48,7 @@
                     <tr>
                         <td><img src="<?=$p->iconUrl?>" width="48" alt=""></td>
                         <td>
-                            <?=$p->name?>&nbsp;<span class="am-badge am-badge-secondary"><?=$p->arch?></span>
+                            <?=$p->name?>&nbsp;<span class="am-badge am-badge-secondary"><?=($p->arch==96)?'32/64':$p->arch?></span>
                             <br>
                             <small>SIZE:<?=DYP\Sys\Command::fmtDataSize($p->size)?>, &nbsp;VER:<?=$p->versionName?></small>
                         </td>
