@@ -123,6 +123,7 @@ class SwmgrController extends ControllerApi
     public function softwareRegistrationAction(){
         $pkgcode = $this->request->getPost('packageCode', 'string');
         $chk = SwmgrClientPackage::findFirst('packageCode="%s"', $pkgcode);
+        $successCounter = 0;
         if(!$chk) {
             $ws                    = new SwmgrClientPackage();
             $ws->id                = null;
@@ -132,8 +133,9 @@ class SwmgrController extends ControllerApi
             $ws->name              = null;
             $ws->packageCode       = null;
             $ws->packageName       = null;
+            $ws->installCount      = $ws->installCount++;
             if (!$ws->create()) {
-
+                $successCounter++;
             }
             $chk = $ws = NULL;
             unset($chk);
@@ -148,7 +150,22 @@ class SwmgrController extends ControllerApi
      */
     public function userInstallRegistrationAction(){
         $uid = $this->request->getPost('uid', 'string', null);
+        $data = json_decode($this->request->getPost('data', 'string', null));
         $uws = new SwmgrUserPackage();
+        $successCounter = 0;
+        foreach($data as $k=>$v) {
+            $uws->id              = null;
+            $uws->uid             = $uid;
+            $uws->pkgid           = $v->pkgid;
+            $uws->installDate     = $v->installDate;
+            $uws->installLocation = $v->installLocation;
+            $uws->installSource   = $v->installSource;
+            $uws->localPackage    = $v->localPackage;
+            $uws->packageCache    = $v->packageCache;
+            if($uws->create()){
+                $successCounter++;
+            }
+        }
     }//end
 
 }//end
