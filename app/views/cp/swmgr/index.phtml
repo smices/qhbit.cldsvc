@@ -50,7 +50,7 @@
                         <td>
                             <?=$p->name?>&nbsp;<span class="am-badge am-badge-secondary"><?=($p->arch==96)?'32/64':$p->arch?></span>
                             <br>
-                            <small>SIZE:<?=DYP\Sys\Command::fmtDataSize($p->size)?>, &nbsp;VER:<?=$p->versionName?></small>
+                            <small>SIZE:<?=$p->size?>, &nbsp;VER:<?=$p->versionName?></small>
                         </td>
                         <td><?=$p->brief?>&nbsp;<a href="javascript:$('#updateinfo_<?=$p->id?>').toggle()">更新信息&nbsp;<span class="am-icon-angle-double-down"></span></a>
                             <div style="display: none;" class="am-text-primary" id="updateinfo_<?=$p->id?>"><?=nl2br(htmlspecialchars($p->updateInfo))?></div>
