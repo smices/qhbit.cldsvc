@@ -2,8 +2,9 @@
 namespace DYPA\Controllers\Api;
 use DYPA\Models\SwmgrPackage as SwmgrPackage,
     DYPA\Models\SwmgrCategory as SwmgrCategory,
+    DYPA\Models\SwmgrUserPackage,
+    DYPA\Models\SwmgrClientPackage,
     DYP\Response\Simple as Resp;
-
 
 class SwmgrController extends ControllerApi
 {
@@ -111,6 +112,43 @@ class SwmgrController extends ControllerApi
             $this->DYRespond(1, 'PLEASE READ API DOCUMENT');
             /*HTTP GET METHOD END*/
         }
+    }//end
+
+
+    /**
+     * 上报用户已经安装过的软件信息
+     * 操作windows software table,这个接口不分注册用户, 都可以添加软件信息
+     * 无论如何, 接口都会返回正确操作.
+     */
+    public function softwareRegistrationAction(){
+        $pkgcode = $this->request->getPost('packageCode', 'string');
+        $chk = SwmgrClientPackage::findFirst('packageCode="%s"', $pkgcode);
+        if(!$chk) {
+            $ws                    = new SwmgrClientPackage();
+            $ws->id                = null;
+            $ws->caption           = null;
+            $ws->description       = null;
+            $ws->identifyingNumber = null;
+            $ws->name              = null;
+            $ws->packageCode       = null;
+            $ws->packageName       = null;
+            if (!$ws->create()) {
+
+            }
+            $chk = $ws = NULL;
+            unset($chk);
+            unset($ws);
+        }
+        $this->DYRespond(0, 'ACCEPT DONE');
+    }//end
+
+    /**
+     * 上报用户安装软件清单
+     * 必须已经处理过 安装软件上报行为后才能使用. 并且必须为注册用户使用接口
+     */
+    public function userInstallRegistrationAction(){
+        $uid = $this->request->getPost('uid', 'string', null);
+        $uws = new SwmgrUserPackage();
     }//end
 
 }//end
