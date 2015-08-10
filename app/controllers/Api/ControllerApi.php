@@ -10,12 +10,12 @@ class ControllerApi extends Controller
     public static $TIMESTAMP_MYSQL_FMT;
     public static $OUTPUT_FMT = Resp::JSON;
 
-    public static $METHOD_GET     = 'GET';
-    public static $METHOD_POST    = 'POST';
-    public static $METHOD_DELETE  = 'DELETE';
-    public static $METHOD_PUT     = 'PUT';
+    public static $METHOD_GET = 'GET';
+    public static $METHOD_POST = 'POST';
+    public static $METHOD_DELETE = 'DELETE';
+    public static $METHOD_PUT = 'PUT';
     public static $METHOD_OPTIONS = 'OPTIONS';
-    public static $METHOD_HEAD    = 'HEAD';
+    public static $METHOD_HEAD = 'HEAD';
 
     public function initialize()
     {
@@ -49,6 +49,7 @@ class ControllerApi extends Controller
 
     }//end
 
+
     /**
      * Response Message formater
      *
@@ -79,5 +80,26 @@ class ControllerApi extends Controller
             return true;
         }
     }//end
+
+
+    /**
+     * 必须要登录后才可使用的接品, 需要检查令牌
+     * 如果检查令牌失败, 直接抛出错误返回
+     */
+    protected function chkToken()
+    {
+        if ($this->request->hasQuery('token')) {
+            if ($this->session->has('entered') && true == $this->session->get('entered')) {
+                $this->session->touchTime = self::$TIMESTAMP_NOW;
+
+                return true;
+            } else {
+                $this->DYRespond(1, 'PLEASE LOGIN FIRST');
+            }
+        } else {
+            $this->DYRespond(1, 'TOKEN NOT FIND');
+        }
+    }//end
+
 
 }//end class

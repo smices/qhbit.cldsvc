@@ -47,6 +47,12 @@ class SwmgrClientPackage extends \Phalcon\Mvc\Model
 
     /**
      *
+     * @var string
+     */
+    public $vendor;
+
+    /**
+     *
      * @var integer
      */
     public $installCount;

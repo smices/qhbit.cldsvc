@@ -3,13 +3,6 @@ use Phalcon\Mvc\Router;
 
 $router = new Phalcon\Mvc\Router(false);
 
-// Setting a specific default
-/*$router->setDefaultModule('DYPA\Models');
-$router->setDefaultNamespace('DYPA');
-$router->setDefaultController('index');
-$router->setDefaultAction('index');*/
-
-
 $router->add('/', array(
     'namespace'  => 'DYPA\Controllers',
     'controller' => 'index',

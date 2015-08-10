@@ -52,4 +52,10 @@ class SwmgrUserPackage extends \Phalcon\Mvc\Model
      */
     public $packageCache;
 
+    /**
+     *
+     * @var integer
+     */
+    public $installCount;
+
 }

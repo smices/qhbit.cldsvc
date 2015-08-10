@@ -96,7 +96,7 @@
     [RESPONSE]:
         请参考实际配置文件
 
-[POST][PUBILC] http://ctr.datacld.com/api/swmgr/softwareRegistration
+[POST][PUBILC] http://ctr.datacld.com/api/swmgr/clientPackage
     [DESC] 上报客户机系统安装的所有软件
     [POST] 参数(参数名前带*号的为必须要的字段, #为可选):
         * caption={string:255}
@@ -108,10 +108,11 @@
     [RESPONSE]:
         请参考实际配置文件
 
-[POST][PUBILC] http://ctr.datacld.com/api/swmgr/userInstallRegistration
+[POST][PUBILC] http://ctr.datacld.com/api/swmgr/userPackage?token={token}
+    [GET]
+        * token={string:len32) 登录后可以获取到这个token
     [DESC] 上传用户安装的软件清单, 在上传前必须先完成用户系统安装的软件上报
     [POST] 参数(参数名前带*号的为必须要的字段, #为可选):
-        * uid={int:8}
         * caption={string:255}
         * description={string:255}
         * identifyingNumber={string:38}

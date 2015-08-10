@@ -49,6 +49,33 @@ $loader->registerDirs(array(
 $di = new FactoryDefault();
 
 /**
+ * logger
+ */
+$di->set('logger', function () use ($config) {
+    if ('database' == strtolower($config->logger->adapter)) {
+        $connection = new \Phalcon\Db\Adapter\Pdo\Mysql(array(
+            "host" => $config->logger->host,
+            "username" => $config->logger->username,
+            "password" => $config->logger->password,
+            "dbname" => $config->logger->name
+        ));
+        $logger = new Phalcon\Logger\Adapter\Database('errors', array(
+            'db' => $connection,
+            'table' => $config->logger->table
+        ));
+        //$logger->info("initialize database logger successfully.");
+    } else {
+
+        $logger = new \Phalcon\Logger\Adapter\File($config->logger->path . date("Ymd") . '.log',
+            array('mode' => 'a'));
+        //$logger->info("initialize file logger successfully.");
+    }
+
+    return $logger;
+});
+
+
+/**
  * Router Configuration
  */
 $di->set('router', function () {
@@ -78,13 +105,16 @@ $di->set('view', function () use ($config) {
     return $view;
 }, true);
 
+
+
 /**
  * member MySQL
  */
-$di->set('db', function () use ($config) {
+$di->set('db', function () use ($config, $di) {
     if ($GLOBALS['__DYRUNMODE__'] == 'development' || $GLOBALS['__DYRUNMODE__'] == 'testing') {
         $eventsManager = new Phalcon\Events\Manager();
-        $logger        = new Phalcon\Logger\Adapter\File(_DYP_DIR_TMP . DIR_SEP . "db" . date('YMD') . ".log");
+        //$logger        = new Phalcon\Logger\Adapter\File(_DYP_DIR_TMP . DIR_SEP . "db" . date('YMD') . ".log");
+        $logger        = $di['logger'];
     }
 
     $connection = new DbAdapter(array(
@@ -215,6 +245,7 @@ $di->set('fileCache', function () use ($config) {
 
     return $cache;
 });
+
 
 /**
  * Dispatcher Configuration
