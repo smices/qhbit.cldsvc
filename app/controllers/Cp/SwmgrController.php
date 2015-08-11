@@ -21,61 +21,25 @@ class SwmgrController extends ControllerSecurity
     public function indexAction()
     {
         if($this->request->isGet()){
-            /**
-             * Show manager and list
-             * Get method or other method , show operation page.
-             */
-            if($this->request->hasQuery('mode')){
-                /**
-                 * 带模式的处理块
-                 */
+            $currPage = $this->request->getQuery('page', 'int', 1);
+            $svc = TaskVersion::findFirst(sprintf('name="%s"', 'swmgr'));
+            $task = SwmgrPackage::find(array('order'=>'dlcount DESC'));
 
-                if('create' == $this->request->getQuery('mode', 'string')){
-                    /**
-                     * CREATE SWMGRPACKAGE
-                     **/
-                    $this->view->templeName = 'create';
-                    $this->view->task       = SwmgrPackage::findFirst(1);
-                    /*CREATE SWMGRPACKAGE*/
-                }elseif('edit' == $this->request->getQuery('mode', 'string')){
-                    /**
-                     * EDIT SWMGRPACKAGE
-                     */
-                    $this->view->templeName = 'edit';
-                    $this->view->error = false;
-
-                    if(!$this->request->hasQuery('id') || !is_numeric($this->request->getQuery('id'))){
-                        $this->view->error = true;
-                        $this->view->msg = 'ID NOT FIND';
-                    }else{
-
-                        $this->view->task       = SwmgrPackage::findFirst($this->request->getQuery('id', 'int'));
-                    }
-                    /*EDIT SWMGRPACKAGE*/
-                }
-            }else {
-                /**
-                 * MAIN PAGE
-                 */
-                $currPage = $this->request->getQuery('page', 'int', 1);
-                $svc = TaskVersion::findFirst(sprintf('name="%s"', 'swmgr'));
-                $task = SwmgrPackage::find(array('order'=>'id DESC'));
-
-                if (count($task) == 0) {
-                    $this->view->title="QUERY FAIL";
-                    $this->view->msg="NOT FOUND ANY USERS";
-                    return $this->dispatcher->forward(array("controller" => "cp","action" => "error"));
-                }
-
-                $paginator = new Paginator(array(
-                    "data" => $task, // Data to paginate
-                    "limit" => 20, // Rows per page
-                    "page" => $currPage // Active page
-                ));
-                $this->view->svc  = $svc;
-                $this->view->page = $paginator->getPaginate();
+            if (count($task) == 0) {
+                $this->view->title="QUERY FAIL";
+                $this->view->msg="NOT FOUND ANY USERS";
+                return $this->dispatcher->forward(array("controller" => "cp","action" => "error"));
             }
+
+            $paginator = new Paginator(array(
+                "data" => $task, // Data to paginate
+                "limit" => 20, // Rows per page
+                "page" => $currPage // Active page
+            ));
+            $this->view->svc  = $svc;
+            $this->view->page = $paginator->getPaginate();
         }
+
 
     }//end
 
