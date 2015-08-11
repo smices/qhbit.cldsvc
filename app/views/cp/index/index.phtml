@@ -75,41 +75,27 @@
 
 
             <div class="am-panel am-panel-warning">
-                <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-2'}">Browser Statistics<span
+                <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-2'}">Browser Top<span
                         class="am-icon-chevron-down am-fr"></span></div>
                 <div id="collapse-panel-2" class="am-in">
                     <table class="am-table am-table-bd am-table-bdrs am-table-striped am-table-hover">
                         <tbody>
+                        
                         <tr>
                             <th class="am-text-center">#</th>
-                            <th>Browser</th>
-                            <th>Visitors</th>
+                            <th>BROWSER</th>
+                            <th>NAME</th>
+                            <th>DOWNLOADS</th>
                         </tr>
-                        <tr>
-                            <td class="am-text-center"><img src="/assets/i/cp/chrome.png" alt=""></td>
-                            <td>Google Chrome</td>
-                            <td>3,005</td>
-                        </tr>
-                        <tr>
-                            <td class="am-text-center"><img src="/assets/i/cp/firefox.png" alt=""></td>
-                            <td>Mozilla Firefox</td>
-                            <td>2,505</td>
-                        </tr>
-                        <tr>
-                            <td class="am-text-center"><img src="/assets/i/cp/ie.png" alt=""></td>
-                            <td>Internet Explorer</td>
-                            <td>1,405</td>
-                        </tr>
-                        <tr>
-                            <td class="am-text-center"><img src="/assets/i/cp/opera.png" alt=""></td>
-                            <td>Opera</td>
-                            <td>4,005</td>
-                        </tr>
-                        <tr>
-                            <td class="am-text-center"><img src="/assets/i/cp/safari.png" alt=""></td>
-                            <td>Safari</td>
-                            <td>505</td>
-                        </tr>
+                        <? foreach ($swmgrBrowserTop as $k=>$v):?>
+                            <tr>
+                                <td class="am-text-center"><?=$v->baiduid?></td>
+                                <td class="am-text-center"><img src="<?=$v->iconUrl?>" alt="" title="<?=$v->developer?>"></td>
+                                <td><?=$v->name?>-<?=$v->versionName?>-<?=$v->versionType?></td>
+                                <td><?=$v->dlcount?></td>
+                            </tr>
+                        <?endforeach?>
+
                         </tbody>
                     </table>
                 </div>
@@ -124,40 +110,34 @@
 
 
             <div class="am-panel am-panel-secondary">
-                <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-3'}">Hardware Statistics<span
+                <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-3'}">XB::Software Manager<span
                         class="am-icon-chevron-down am-fr"></span></div>
                 <div id="collapse-panel-3" class="am-in">
                     <table class="am-table am-table-bd am-table-bdrs am-table-striped am-table-hover">
                         <tbody>
                         <tr>
                             <th class="am-text-center">#</th>
-                            <th>Browser</th>
-                            <th>Visitors</th>
+                            <th class="am-text-center">SERVICE</th>
+                            <th class="am-text-center">TOTAL</th>
+                            <th class="am-text-center">TODAY</th>
                         </tr>
                         <tr>
-                            <td class="am-text-center"><img src="/assets/i/cp/chrome.png" alt=""></td>
-                            <td>Google Chrome</td>
-                            <td>3,005</td>
+                            <td class="am-text-center">1</td>
+                            <td class="am-text-center">Installation Source</td>
+                            <td class="am-text-center"><?=$pkgSrcTotal?></td>
+                            <td class="am-text-center">Unknown</td>
                         </tr>
                         <tr>
-                            <td class="am-text-center"><img src="/assets/i/cp/firefox.png" alt=""></td>
-                            <td>Mozilla Firefox</td>
-                            <td>2,505</td>
+                            <td class="am-text-center">2</td>
+                            <td class="am-text-center">Collect Package</td>
+                            <td class="am-text-center"><?=$pkgClientTotal?></td>
+                            <td class="am-text-center">Unknown</td>
                         </tr>
                         <tr>
-                            <td class="am-text-center"><img src="/assets/i/cp/ie.png" alt=""></td>
-                            <td>Internet Explorer</td>
-                            <td>1,405</td>
-                        </tr>
-                        <tr>
-                            <td class="am-text-center"><img src="/assets/i/cp/opera.png" alt=""></td>
-                            <td>Opera</td>
-                            <td>4,005</td>
-                        </tr>
-                        <tr>
-                            <td class="am-text-center"><img src="/assets/i/cp/safari.png" alt=""></td>
-                            <td>Safari</td>
-                            <td>505</td>
+                            <td class="am-text-center">3</td>
+                            <td class="am-text-center">Users installed</td>
+                            <td class="am-text-center"><?=$pkgUserTotal?></td>
+                            <td class="am-text-center">Unknown</td>
                         </tr>
                         </tbody>
                     </table>
@@ -168,41 +148,25 @@
 
 
             <div class="am-panel am-panel-success">
-                <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-4'}">Software Top Statistics<span
+                <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-4'}">Software Top 10<span
                         class="am-icon-chevron-down am-fr"></span></div>
                 <div id="collapse-panel-4" class="am-in">
                     <table class="am-table am-table-bd am-table-bdrs am-table-striped am-table-hover">
                         <tbody>
                         <tr>
                             <th class="am-text-center">#</th>
-                            <th>Browser</th>
-                            <th>Visitors</th>
+                            <th>ICON</th>
+                            <th>NAME</th>
+                            <th>DOWNLOADS</th>
                         </tr>
-                        <tr>
-                            <td class="am-text-center"><img src="/assets/i/cp/chrome.png" alt=""></td>
-                            <td>Google Chrome</td>
-                            <td>3,005</td>
-                        </tr>
-                        <tr>
-                            <td class="am-text-center"><img src="/assets/i/cp/firefox.png" alt=""></td>
-                            <td>Mozilla Firefox</td>
-                            <td>2,505</td>
-                        </tr>
-                        <tr>
-                            <td class="am-text-center"><img src="/assets/i/cp/ie.png" alt=""></td>
-                            <td>Internet Explorer</td>
-                            <td>1,405</td>
-                        </tr>
-                        <tr>
-                            <td class="am-text-center"><img src="/assets/i/cp/opera.png" alt=""></td>
-                            <td>Opera</td>
-                            <td>4,005</td>
-                        </tr>
-                        <tr>
-                            <td class="am-text-center"><img src="/assets/i/cp/safari.png" alt=""></td>
-                            <td>Safari</td>
-                            <td>505</td>
-                        </tr>
+                        <? foreach ($swmgrSwTop as $k=>$v):?>
+                            <tr>
+                                <td class="am-text-center"><?=$v->baiduid?></td>
+                                <td class="am-text-center"><img src="<?=$v->iconUrl?>" alt="" title="<?=$v->developer?>"></td>
+                                <td><?=$v->name?>-<?=$v->versionName?>-<?=$v->versionType?></td>
+                                <td><?=$v->dlcount?></td>
+                            </tr>
+                        <?endforeach?>
                         </tbody>
                     </table>
                 </div>

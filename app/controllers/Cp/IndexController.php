@@ -6,6 +6,9 @@ use DYP\Response\Simple as Resp,
     DYPA\Models\Service as Service,
     DYPA\Models\Counter as Counter,
     Phalcon\Paginator\Adapter\Model as Paginator;
+use DYPA\Models\SwmgrClientPackage;
+use DYPA\Models\SwmgrPackage;
+use DYPA\Models\SwmgrUserPackage;
 
 class IndexController extends ControllerSecurity
 {
@@ -42,7 +45,7 @@ class IndexController extends ControllerSecurity
         if (strtolower(PHP_OS) == 'linux') {
             $awstatsFile = "/DYFS/storage/awstats/awstats" . date("mY") . ".ctr.datacld.com.txt";
         } else {//for test
-            $awstatsFile = "D:/usr/local/Apache64/temp/awstats" . date("mY") . ".ctr.datacld.com.txt";//Test
+            $awstatsFile = "D:/usr/local/AP5.6/temp/awstats.ctr.datacld.com.txt";//Test
         }
 
         if (is_file($awstatsFile)) {
@@ -60,6 +63,16 @@ class IndexController extends ControllerSecurity
             }
         }
 
+        //软件管理部分内容
+        $this->view->pkgSrcTotal = SwmgrPackage::count();
+        $this->view->pkgClientTotal = SwmgrClientPackage::count();
+        $this->view->pkgUserTotal = SwmgrUserPackage::count();
+
+        //软件小计
+        $this->view->swmgrSwTop = SwmgrPackage::find(array('', 'order'=>'dlcount DESC', 'limit'=>10));
+
+        //浏览器下载排行
+        $this->view->swmgrBrowserTop = SwmgrPackage::find(array('category=3', 'order'=>'dlcount DESC', 'limit'=>10));
     }//end
 
     /**

@@ -26,13 +26,11 @@ define("_DYP_APPVER", _DYP_APPVER_JOURNAL . '.' . _DYP_APPVER_REVISE);
 $loader = new \Phalcon\Loader();
 
 $loader->registerNamespaces(array(
-//    'modelsDir'        => $config->application->modelsDir,
-//    'controllersDir'   => $config->application->controllersDir,
-    //    'DYPA'             => _DYP_DIR_APP,
+    'Phalcon'          => $config->application->libraryDir . '/Phalcon/',
     'DYPA\Controllers' => $config->application->controllersDir,
     'DYPA\Models'      => $config->application->modelsDir,
     'DYP'              => $config->application->libraryDir . '/DYP/'
-    //    'Phalcon'          => $config->application->libraryDir . '/Phalcon/',
+
 ));
 
 $loader->registerDirs(array(
@@ -105,6 +103,14 @@ $di->set('view', function () use ($config) {
     return $view;
 }, true);
 
+
+/**
+ * member MongoDB
+ */
+$di->set('mongo', function () {
+    $mongo = new MongoClient();
+    return $mongo->selectDB("datacld_ctr");
+}, true);
 
 
 /**

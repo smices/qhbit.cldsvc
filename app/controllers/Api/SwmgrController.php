@@ -185,9 +185,9 @@ class SwmgrController extends ControllerApi
                 $ws->id                = null;
                 $ws->caption           = $v->caption;
                 $ws->description       = $v->description;
-                $ws->identifyingNumber = $v->identifyingNumber;
+                $ws->identifyingNumber = str_replace(array('{','}'), '', $v->identifyingNumber);
                 $ws->name              = $v->name;
-                $ws->packageCode       = $v->packageCode;
+                $ws->packageCode       = str_replace(array('{','}'), '', $v->packageCode);
                 $ws->packageName       = $v->packageName;
                 $ws->vendor            = $v->vendor;
                 $ws->installCount      = 1;
