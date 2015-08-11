@@ -90,6 +90,12 @@ class SwmgrPackage extends \Phalcon\Mvc\Model
 
     /**
      *
+     * @var string
+     */
+    public $versionType;
+
+    /**
+     *
      * @var integer
      */
 	public $versionCode;
@@ -176,5 +182,21 @@ class SwmgrPackage extends \Phalcon\Mvc\Model
      */
     public $status;
 
-}
+    /**
+     *
+     * @var string
+     */
+    public $ptdownloadUrl;
+    /**
+     *
+     * @var integer
+     */
+    public $baiduid;
 
+    /**
+     *
+     * @var integer
+     */
+    public $dlcount;
+
+}

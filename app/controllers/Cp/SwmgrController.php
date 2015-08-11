@@ -87,7 +87,7 @@ class SwmgrController extends ControllerSecurity
     {
         if($this->request->isGet()) {
             /*SHOW PAGE*/
-            $this->view->task = SwmgrPackage::findFirst(1);
+            $this->view->task = SwmgrPackage::findFirst();
             /*SHOW PAGE*/
         }elseif($this->request->isPost()) {
             $this->view->disable();
@@ -122,6 +122,7 @@ class SwmgrController extends ControllerSecurity
             $pkg->incomeShare    = $this->request->getPost('incomeShare', 'int');
             $pkg->rating         = $this->request->getPost('rating', 'int');
             $pkg->versionName    = $this->request->getPost('versionName', 'string');
+            $pkg->versionType    = $this->request->getPost('versionType', 'string', '正式版');
             $pkg->versionCode    = $this->request->getPost('versionCode', 'int');
             $pkg->priceInfo      = $this->request->getPost('priceInfo', 'string');
             $pkg->tag            = $this->request->getPost('tag', 'string');
@@ -136,15 +137,21 @@ class SwmgrController extends ControllerSecurity
             $pkg->brief          = $this->request->getPost('brief', 'string');
             $pkg->isAd           = $this->request->getPost('isAd', 'int');
             $pkg->status         = $this->request->getPost('status', 'int');
+            $pkg->ptdownloadUrl  = $this->request->getPost('ptdownloadUrl', 'string', '');
+            $pkg->baiduid        = $this->request->getPost('baiduid', 'int', 0);
+            $pkg->dlcount        = $this->request->getPost('dlcount', 'int', 1);
 
             if ($pkg->create()) {
                 $SwmgrCategory        = SwmgrCategory::findFirst($pkg->category);
                 $SwmgrCategory->total = $SwmgrCategory->total + 1;
                 if ($SwmgrCategory->update()) {
                     Resp::outJsonMsg(0, 'SUCCESS');
+                }else{
+                    $this->logger->error('UPDATE ERROR,'. join(',', $SwmgrCategory->getMessages()));
                 }
                 Resp::outJsonMsg(0, 'SUCCESS');
             } else {
+                $this->logger->error('CREATE ERROR,'. join(',', $pkg->getMessages()));
                 $err = array();
                 foreach ($pkg->getMessages() as $message) {
                     $err[] = $message;
