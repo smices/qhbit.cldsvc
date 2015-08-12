@@ -81,9 +81,9 @@ class IndexController extends ControllerSecurity
     public function logoutAction()
     {
         $this->view->disable();
-header('WWW-Authenticate: Basic realm="Security Area, Please Login."');
-header('HTTP/1.0 401 Unauthorized');
-exit;
+        header('WWW-Authenticate: Basic realm="Security Area, Please Login."');
+        header('HTTP/1.0 401 Unauthorized');
+        exit;
     }//end
 
 }//end

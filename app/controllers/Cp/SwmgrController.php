@@ -227,5 +227,21 @@ class SwmgrController extends ControllerSecurity
 
     }//end
 
+    /**
+     * 刷新分类统计计数
+     */
+    public function categoryFlushTotalAction(){
+        $this->view->disable();
+        $this->chkMethod([self::$METHOD_GET]);
+        $counter = 0;
+        $cat = SwmgrCategory::find();
+        foreach($cat as $k=>$v){
+            $num = SwmgrPackage::count(sprintf("category=%d", $v->id));
+            if($num && SwmgrCategory::findFirst($v->id)->update(array('total'=>$num))){
+                $counter++;
+            }
+        }
+        $this->DYRespond(0, sprintf('UPDATE %d SUCCESS', $counter));
+    }//end
 
 }//end

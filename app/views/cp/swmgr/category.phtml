@@ -24,6 +24,8 @@
             <a href="<?=$apiUrl?>?type=category" target="_blank" class="am-badge am-badge-secondary">API:CATEGORY</a>
             <a href="<?=$apiUrl?>?type=top" target="_blank" class="am-badge am-badge-secondary">API:TOP</a>
             <a href="<?=$apiUrl?>?type=hot" target="_blank" class="am-badge am-badge-secondary">API:HOT</a>
+            &nbsp;
+            <button id="categoryFlushTotal" class="am-btn am-btn-xs am-btn-warning">FLUSH TOTAL</button>
         </div>
 
     </div>
@@ -176,6 +178,25 @@ $(function(){
             }
         }, 'JSON');
     });//create
+
+    /**
+     * Flush Category Total
+     */
+    $('#categoryFlushTotal').click(function(){
+        layer.confirm('Are you sure?', {icon: 3}, function(index) {
+            layer.close(index);
+            layer.load();
+            $.getJSON('/cp/swmgr/categoryFlushTotal', function(resp){
+                layer.closeAll('loading');
+                if(resp.code == 0){
+                    layer.alert(resp.msg, {icon: 6});
+                }else{
+                    layer.alert(resp.msg, {icon: 5});
+                    console.log(resp);
+                }
+            });
+        });
+    });
 
 });
 </script>
