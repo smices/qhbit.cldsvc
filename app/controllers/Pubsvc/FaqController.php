@@ -19,15 +19,4 @@ class FaqController extends ControllerPubsvc
 
     }//end
 
-    /**
-     * Save feedback record
-     */
-    public function saveAction(){
-        $this->chkMethod(array(self::$METHOD_POST));//Method Check
-    }//end
-
-    public function thanksAction(){
-
-    }
-
 }//end
