@@ -63,6 +63,26 @@ $router->add('/user', array(
     'action'     => 'index',
 ));
 
+/********************************************************************************
+ * Public Service Router Configuration
+ ********************************************************************************/
+$router->add('/pubsvc/:controller/:action/:params', array(
+    'namespace'  => 'DYPA\Controllers\Pubsvc',
+    'controller' => 1,
+    'action'     => 2,
+    'params'     => 3,
+));
+
+$router->add('/pubsvc/:controller', array(
+    'namespace'  => 'DYPA\Controllers\Pubsvc',
+    'controller' => 1
+));
+
+$router->add('/pubsvc', array(
+    'namespace'  => 'DYPA\Controllers\Pubsvc',
+    'controller' => 'index',
+    'action'     => 'index',
+));
 
 /********************************************************************************
  * API Router Configuration
