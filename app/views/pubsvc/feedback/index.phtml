@@ -1,184 +1,95 @@
-<? $title = "管理首页" ?>
-<? //=$this->tag->stylesheetLink("assets/am/css/admin.css");?>
-<? //=$this->tag->javascriptInclude("javascript/jquery.min.js");?>
-
-
+<? $title = "意见反馈" ?>
 
 <!-- content start -->
-<div class="admin-content">
-
-    <div class="am-cf am-padding">
-        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">Home</strong> /
-            <small>Summary</small>
-        </div>
-    </div>
-
-    <ul class="am-avg-sm-1 am-avg-md-5 am-margin am-padding am-text-center admin-content-list ">
-        <li><a href="#" class="am-text-primary">
-                <span class="am-icon-btn am-primary am-icon-group"></span><br/>用户总量<br/>
-                <strong><?=number_format($userTotal)?></strong></a>
-        </li>
-
-        <li><a href="#" class="am-text-success">
-                <span class="am-icon-btn am-success am-icon-user-plus"></span><br/>今日用户新增<br/>
-                <strong><?=number_format($todayUserTotal)?></strong></a>
-        </li>
-
-        <li><a href="#" class="am-text-secondary">
-                <span class="am-icon-btn am-secondary am-icon-user-md"></span><br/>在线用户<br/>
-                <strong><?=is_numeric($OnlineUser)?number_format($OnlineUser):$OnlineUser;?></strong></a>
-        </li>
-
-        <li><a href="#" class="am-text-danger">
-                <span class="am-icon-btn am-danger am-icon-area-chart"></span><br/>历史访客<br/>
-                <strong><?=is_numeric($HistoryVisitors)?number_format($HistoryVisitors):$HistoryVisitors;?></strong></a>
-        </li>
-
-        <li><a href="#" class="am-text-warning">
-                <span class="am-icon-btn am-warning am-icon-clock-o"></span><br/>今日独立访客<br/>
-                <strong><?=is_numeric($TotalUnique)?number_format($TotalUnique):$TotalUnique;?></strong></a>
-        </li>
-
-    </ul>
-
-
-    <div class="am-g">
-        <div class="am-u-md-6">
-
-            <div class="am-panel am-panel-default">
-                <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-1'}">Service Statistics<span
-                        class="am-icon-chevron-down am-fr"></span></div>
-                <div id="collapse-panel-1" class="am-in">
-                    <table class="am-table am-table-bd am-table-bdrs am-table-striped am-table-hover">
-                        <tbody>
-
-                        <tr>
-                            <th class="am-text-center">#</th>
-                            <th class="am-text-center">Service</th>
-                            <th class="am-text-center">Request</th>
-                            <th class="am-text-center">Installed</th>
-                        </tr>
-
-                        <?foreach ($svc as $item):?>
-                        <tr>
-                            <td class="am-text-center"><?=$item->svc->id?></td>
-                            <td class="am-text-center" data-am-popover="{content: '<?=$item->svc->description?>', trigger: 'hover focus'}"><?=$item->svc->name?></td>
-                            <td class="am-text-center"><?=number_format($item->ct->request)?></td>
-                            <td class="am-text-center"><?=number_format($item->ct->download)?></td>
-                        </tr>
-                        <?endforeach?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+<div class="am-g">
+    <div class="am-u-sm-12">
 
 
 
-            <div class="am-panel am-panel-warning">
-                <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-2'}">Browser Top<span
-                        class="am-icon-chevron-down am-fr"></span></div>
-                <div id="collapse-panel-2" class="am-in">
-                    <table class="am-table am-table-bd am-table-bdrs am-table-striped am-table-hover">
-                        <tbody>
+        <div class="am-tabs" data-am-tabs="{noSwipe: 1}" id="doc-tab-demo-1">
+            <ul class="am-tabs-nav am-nav am-nav-tabs">
+                <li class="am-active"><a href="javascript: void(0)">问题反馈</a></li>
+                <li><a href="javascript: void(0)">功能建议</a></li>
+                <li><a href="javascript: void(0)">举报可疑网站</a></li>
+                <li><a href="javascript: void(0)">举报病毒</a></li>
+            </ul>
 
-                        <tr>
-                            <th class="am-text-center">#</th>
-                            <th>BROWSER</th>
-                            <th>NAME</th>
-                            <th>DOWNLOADS</th>
-                        </tr>
-                        <? foreach ($swmgrBrowserTop as $k=>$v):?>
-                            <tr>
-                                <td class="am-text-center"><?=$v->baiduid?></td>
-                                <td class="am-text-center"><img src="<?=$v->iconUrl?>" alt="" title="<?=$v->developer?>"></td>
-                                <td><?=$v->name?>-<?=$v->versionName?>-<?=$v->versionType?></td>
-                                <td><?=$v->dlcount?></td>
-                            </tr>
-                        <?endforeach?>
+            <div class="am-tabs-bd">
 
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                <!--问题反馈-->
+                <div class="am-tab-panel am-active">
 
+                    <form action="" method="get">
+                        <div class="tab-pane fade in active mshe" id="Feedback">
+                            <div class="form-group">
+                                <label for="name">问题名称</label>
+                                <input type="text" class="form-control" id="name" placeholder="填写反馈名称">
+                            </div>
+                            <div class="form-group">
+                                <label for="name" style="float:left;">反馈内容</label>
+                                <textarea class="form-control" rows="3"></textarea>
+                            </div>
+                            <button type="submit" data-loading-text="Loading..." class="btn btn-primary" autocomplete="off">提交</button>
+                    </form>
 
+                </div><!--问题反馈-->
 
-        </div>
+                <!--功能建议-->
+                <div class="am-tab-panel">
 
-        <div class="am-u-md-6">
+                    <form action="" method="get">
+                        <div class="form-group">
+                            <label for="name">建议名称</label>
+                            <input type="text" class="form-control" id="name" placeholder="填写建议名称">
+                        </div>
+                        <div class="form-group">
+                            <label for="name" style="float:left;">建议内容</label>
+                            <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                        <button type="submit" data-loading-text="Loading..." class="btn btn-primary" autocomplete="off">提交</button>
+                    </form>
 
+                </div><!--功能建议-->
 
+                <!--举报可疑网站-->
+                <div class="am-tab-panel">
 
-            <div class="am-panel am-panel-secondary">
-                <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-3'}">XB::Software Manager<span
-                        class="am-icon-chevron-down am-fr"></span></div>
-                <div id="collapse-panel-3" class="am-in">
-                    <table class="am-table am-table-bd am-table-bdrs am-table-striped am-table-hover">
-                        <tbody>
-                        <tr>
-                            <th class="am-text-center">#</th>
-                            <th class="am-text-center">SERVICE</th>
-                            <th class="am-text-center">TOTAL</th>
-                            <th class="am-text-center">TODAY</th>
-                        </tr>
-                        <tr>
-                            <td class="am-text-center">1</td>
-                            <td class="am-text-center">Installation Source</td>
-                            <td class="am-text-center"><?=$pkgSrcTotal?></td>
-                            <td class="am-text-center">Unknown</td>
-                        </tr>
-                        <tr>
-                            <td class="am-text-center">2</td>
-                            <td class="am-text-center">Collect Package</td>
-                            <td class="am-text-center"><?=$pkgClientTotal?></td>
-                            <td class="am-text-center">Unknown</td>
-                        </tr>
-                        <tr>
-                            <td class="am-text-center">3</td>
-                            <td class="am-text-center">Users installed</td>
-                            <td class="am-text-center"><?=$pkgUserTotal?></td>
-                            <td class="am-text-center">Unknown</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                    <form action="" method="get">
+                        <div class="form-group">
+                            <label for="name">举报可疑网站</label>
+                            <input type="text" class="form-control" id="name" placeholder="请输入网址">
+                        </div>
+                        <div class="form-group">
+                            <label for="name" style="float:left;">反馈建议</label>
+                            <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                        <button type="submit" data-loading-text="Loading..." class="btn btn-primary" autocomplete="off">提交</button>
+                    </form>
 
+                </div><!--举报可疑网站-->
 
+                <!--举报病毒-->
+                <div class="am-tab-panel">
 
+                    <form action="" method="get">
+                        <div class="form-group">
+                            <label for="name">举报名称</label>
+                            <input type="text" class="form-control" id="name" placeholder="请输入举报名称">
+                        </div>
+                        <div class="form-group">
+                            <label for="name" style="float:left;">举报内容</label>
+                            <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                        <button type="submit" data-loading-text="Loading..." class="btn btn-primary" autocomplete="off">提交</button>
+                    </form>
 
-            <div class="am-panel am-panel-success">
-                <div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-4'}">Software Top 10<span
-                        class="am-icon-chevron-down am-fr"></span></div>
-                <div id="collapse-panel-4" class="am-in">
-                    <table class="am-table am-table-bd am-table-bdrs am-table-striped am-table-hover">
-                        <tbody>
-                        <tr>
-                            <th class="am-text-center">#</th>
-                            <th>ICON</th>
-                            <th>NAME</th>
-                            <th>DOWNLOADS</th>
-                        </tr>
-                        <? foreach ($swmgrSwTop as $k=>$v):?>
-                            <tr>
-                                <td class="am-text-center"><?=$v->baiduid?></td>
-                                <td class="am-text-center"><img src="<?=$v->iconUrl?>" alt="" title="<?=$v->developer?>"></td>
-                                <td><?=$v->name?>-<?=$v->versionName?>-<?=$v->versionType?></td>
-                                <td><?=$v->dlcount?></td>
-                            </tr>
-                        <?endforeach?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                </div><!--举报病毒-->
 
-
-        </div>
-
+            </div><!--am-tabs-bd-->
+        </div><!--am-tabs-->
 
 
 
     </div>
-
 </div>
 <!-- content end -->

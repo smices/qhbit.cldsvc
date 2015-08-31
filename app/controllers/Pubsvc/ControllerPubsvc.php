@@ -28,6 +28,7 @@ class ControllerPubsvc extends Controller
 
         //$this->response->setHeader('Cache-Control', 'private, max-age=0, must-revalidate');
 
+        $this->view->setViewsDir(_DYP_DIR_VIEW.DIR_SEP.'pubsvc/');
     }//end
 
 

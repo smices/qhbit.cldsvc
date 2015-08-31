@@ -2,7 +2,7 @@
 namespace DYPA\Controllers\Pubsvc;
 
 
-class FeedbackController extends ControllerPubsvc
+class FaqController extends ControllerPubsvc
 {
 
     public function initialize()
