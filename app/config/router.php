@@ -43,6 +43,28 @@ $router->add('/cp', array(
 ));
 
 /********************************************************************************
+ * User Router Configuration
+ ********************************************************************************/
+$router->add('/user/:controller/:action/:params', array(
+    'namespace'  => 'DYPA\Controllers\User',
+    'controller' => 1,
+    'action'     => 2,
+    'params'     => 3,
+));
+
+$router->add('/user/:controller', array(
+    'namespace'  => 'DYPA\Controllers\User',
+    'controller' => 1
+));
+
+$router->add('/user', array(
+    'namespace'  => 'DYPA\Controllers\User',
+    'controller' => 'index',
+    'action'     => 'index',
+));
+
+
+/********************************************************************************
  * API Router Configuration
  ********************************************************************************/
 $router->add('/api/:controller/:action/:params', array(
